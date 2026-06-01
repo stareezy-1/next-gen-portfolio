@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a14"/>
+      <stop offset="100%" stop-color="#050508"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00ff88"/>
+      <stop offset="100%" stop-color="#00cc6a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#4f46e5"/>
+    </linearGradient>
+    <linearGradient id="barGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#00ff88" stop-opacity="0.9"/>
+      <stop offset="70%" stop-color="#00ff88" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="round">
+      <rect width="192" height="192" rx="44"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="192" height="192" rx="44" fill="url(#bg)"/>
+
+  <!-- Grid pattern -->
+  <g clip-path="url(#round)" opacity="0.08">
+    <line x1="0" y1="32" x2="192" y2="32" stroke="#00ff88" stroke-width="0.8"/>
+    <line x1="0" y1="64" x2="192" y2="64" stroke="#00ff88" stroke-width="0.8"/>
+    <line x1="0" y1="96" x2="192" y2="96" stroke="#00ff88" stroke-width="0.8"/>
+    <line x1="0" y1="128" x2="192" y2="128" stroke="#00ff88" stroke-width="0.8"/>
+    <line x1="0" y1="160" x2="192" y2="160" stroke="#00ff88" stroke-width="0.8"/>
+    <line x1="32" y1="0" x2="32" y2="192" stroke="#00ff88" stroke-width="0.8"/>
+    <line x1="64" y1="0" x2="64" y2="192" stroke="#00ff88" stroke-width="0.8"/>
+    <line x1="96" y1="0" x2="96" y2="192" stroke="#00ff88" stroke-width="0.8"/>
+    <line x1="128" y1="0" x2="128" y2="192" stroke="#00ff88" stroke-width="0.8"/>
+    <line x1="160" y1="0" x2="160" y2="192" stroke="#00ff88" stroke-width="0.8"/>
+  </g>
+
+  <!-- Glow blob -->
+  <ellipse cx="96" cy="90" rx="72" ry="68" fill="url(#glow)"/>
+
+  <!-- Border -->
+  <rect width="192" height="192" rx="44" fill="none" stroke="url(#brand)" stroke-width="2" stroke-opacity="0.35"/>
+
+  <!-- Corner accents -->
+  <path d="M 0 44 L 0 12 Q 0 0 12 0 L 44 0" fill="none" stroke="url(#brand)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 192 148 L 192 180 Q 192 192 180 192 L 148 192" fill="none" stroke="url(#accent)" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Star dots -->
+  <circle cx="28" cy="28" r="3" fill="#00ff88" opacity="0.6"/>
+  <circle cx="164" cy="28" r="2" fill="#00ff88" opacity="0.35"/>
+  <circle cx="164" cy="164" r="3" fill="#7c3aed" opacity="0.5"/>
+  <circle cx="28" cy="164" r="2" fill="#7c3aed" opacity="0.3"/>
+
+  <!-- Letter B -->
+  <text
+    x="96" y="128"
+    font-family="'SF Pro Display','Inter','Helvetica Neue',Arial,sans-serif"
+    font-size="108"
+    font-weight="900"
+    fill="url(#brand)"
+    text-anchor="middle"
+    filter="url(#softGlow)"
+    letter-spacing="-4"
+  >B</text>
+
+  <!-- Underline bar -->
+  <rect x="52" y="144" width="88" height="3.5" rx="1.75" fill="url(#barGrad)"/>
+
+  <!-- Three dots -->
+  <circle cx="72" cy="160" r="2.5" fill="#00ff88" opacity="0.4"/>
+  <circle cx="96" cy="160" r="3" fill="#00ff88" opacity="0.75"/>
+  <circle cx="120" cy="160" r="2.5" fill="#00ff88" opacity="0.4"/>
+</svg>

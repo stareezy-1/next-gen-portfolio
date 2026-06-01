@@ -1,0 +1,67 @@
+---
+slug: "getting-started-with-nextjs"
+title: "Getting Started with Next.js 16"
+description: "A comprehensive guide to building server-first applications with Next.js 16 and React 19, covering the App Router, Server Components, and performance optimization."
+heroImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80"
+author: "Stareezy"
+publishDate: "2024-06-01"
+tags:
+  - "Next.js"
+  - "React"
+  - "TypeScript"
+  - "Performance"
+category: "Tutorial"
+published: true
+---
+
+# Getting Started with Next.js 16
+
+Next.js 16 introduces significant improvements to the App Router and React Server Components, making it easier than ever to build fast, server-rendered applications.
+
+## What's New in Next.js 16
+
+The latest version brings enhanced performance, better developer experience, and improved TypeScript support. Key highlights include:
+
+- Improved streaming SSR with React 19 concurrent features
+- Enhanced static generation with `generateStaticParams`
+- Better error boundaries and loading states
+- Improved image optimization with the `next/image` component
+
+## Setting Up Your Project
+
+Start by creating a new Next.js project:
+
+```bash
+npx create-next-app@latest my-app --typescript --app
+```
+
+## Understanding Server Components
+
+React Server Components are the foundation of Next.js 16's performance story. By default, every component in the `app/` directory is a Server Component, which means it renders on the server and sends only HTML to the client.
+
+```tsx
+// This is a Server Component by default
+export default async function Page() {
+  const data = await fetchData(); // runs on the server
+  return <div>{data.title}</div>;
+}
+```
+
+## When to Use Client Components
+
+Use the `'use client'` directive only when you need browser-specific APIs, event handlers, or React state:
+
+```tsx
+"use client";
+
+import { useState } from "react";
+
+export function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount((c) => c + 1)}>{count}</button>;
+}
+```
+
+## Conclusion
+
+Next.js 16 with React 19 represents a major step forward for web development. The server-first model delivers excellent performance while keeping the developer experience smooth and productive.

@@ -1,0 +1,557 @@
+/**
+ * Global styles — semantic CSS variable aliases + accessibility baseline.
+ *
+ * The theme.generated.css file defines palette-specific token names like
+ * --color-aurora-green, --color-deep-space, etc. Components use semantic
+ * names like --color-brand, --color-surface, --color-background, etc.
+ *
+ * This file maps the semantic names to the correct palette-specific tokens
+ * for each palette × theme combination, so all components work correctly
+ * regardless of the active palette.
+ *
+ * @see Requirements 3.1, 3.2, 4.10, 23.1, 23.2, 23.4, 26.2, 26.3
+ */
+
+/* ---------------------------------------------------------------------------
+ * Aurora palette — dark
+ * --------------------------------------------------------------------------- */
+:root[data-palette="aurora"][data-theme="dark"] {
+  --color-background: var(--color-deep-space);
+  --color-surface: var(--color-cosmic-gray);
+  --color-surface-elevated: var(--color-surface-dark);
+  --color-brand: var(--color-aurora-green);
+  --color-accent: var(--color-nebula-purple);
+  --color-text-primary: var(--color-star-white);
+  --color-text-secondary: #aaaaaa;
+  --color-text-muted: #888888;
+  --color-border: var(--color-border-subtle);
+  --color-error: var(--color-error-red);
+  --color-warning: var(--color-warning-amber);
+}
+
+/* ---------------------------------------------------------------------------
+ * Aurora palette — light
+ * --------------------------------------------------------------------------- */
+:root[data-palette="aurora"][data-theme="light"] {
+  --color-background: var(--color-deep-space);
+  --color-surface: var(--color-cosmic-gray);
+  --color-surface-elevated: var(--color-surface-dark);
+  --color-brand: var(--color-aurora-green);
+  --color-accent: var(--color-nebula-purple);
+  --color-text-primary: var(--color-star-white);
+  --color-text-secondary: #444444;
+  --color-text-muted: #666666;
+  --color-border: var(--color-border-subtle);
+  --color-error: var(--color-error-red);
+  --color-warning: var(--color-warning-amber);
+}
+
+/* ---------------------------------------------------------------------------
+ * Dark palette — dark
+ * --------------------------------------------------------------------------- */
+:root[data-palette="dark"][data-theme="dark"] {
+  --color-background: var(--color-background-primary-black);
+  --color-surface: var(--color-background-secondary);
+  --color-surface-elevated: #222324;
+  --color-brand: var(--color-background-primary);
+  --color-accent: var(--color-border-primary-brand);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-disable);
+  --color-border: var(--color-border-default);
+  --color-error: var(--color-text-danger);
+  --color-warning: var(--color-text-warning-primary);
+}
+
+/* ---------------------------------------------------------------------------
+ * Dark palette — light
+ * --------------------------------------------------------------------------- */
+:root[data-palette="dark"][data-theme="light"] {
+  --color-background: var(--color-background-secondary);
+  --color-surface: #ffffff;
+  --color-surface-elevated: #f0f4f8;
+  --color-brand: var(--color-background-primary);
+  --color-accent: var(--color-border-primary-brand);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-disable);
+  --color-border: var(--color-border-default);
+  --color-error: var(--color-text-danger);
+  --color-warning: var(--color-text-warning-primary);
+}
+
+/* ---------------------------------------------------------------------------
+ * Light palette — dark
+ * --------------------------------------------------------------------------- */
+:root[data-palette="light"][data-theme="dark"] {
+  --color-background: var(--color-background-primary-black);
+  --color-surface: var(--color-background-secondary);
+  --color-surface-elevated: #222324;
+  --color-brand: var(--color-background-primary);
+  --color-accent: var(--color-border-primary-brand);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-disable);
+  --color-border: var(--color-border-default);
+  --color-error: var(--color-text-danger);
+  --color-warning: var(--color-text-warning-primary);
+}
+
+/* ---------------------------------------------------------------------------
+ * Light palette — light
+ * --------------------------------------------------------------------------- */
+:root[data-palette="light"][data-theme="light"] {
+  --color-background: var(--color-background-secondary);
+  --color-surface: #ffffff;
+  --color-surface-elevated: #f0f4f8;
+  --color-brand: var(--color-background-primary);
+  --color-accent: var(--color-border-primary-brand);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-disable);
+  --color-border: var(--color-border-default);
+  --color-error: var(--color-text-danger);
+  --color-warning: var(--color-text-warning-primary);
+}
+
+/* ---------------------------------------------------------------------------
+ * Steins-Gate palette — dark
+ * --------------------------------------------------------------------------- */
+:root[data-palette="steins-gate"][data-theme="dark"] {
+  --color-background: var(--color-lab-night);
+  --color-surface: var(--color-midnight-navy);
+  --color-surface-elevated: var(--color-surface-navy);
+  --color-brand: var(--color-ibm-blue);
+  --color-accent: var(--color-lab-teal);
+  --color-text-primary: var(--color-ivory-text);
+  --color-text-secondary: var(--color-ivory-dim);
+  --color-text-muted: var(--color-text-muted);
+  --color-border: var(--color-border-navy);
+  --color-error: var(--color-steiner-red);
+  --color-warning: var(--color-divergence-red);
+}
+
+/* ---------------------------------------------------------------------------
+ * Steins-Gate palette — light
+ * --------------------------------------------------------------------------- */
+:root[data-palette="steins-gate"][data-theme="light"] {
+  --color-background: var(--color-lab-night);
+  --color-surface: var(--color-midnight-navy);
+  --color-surface-elevated: var(--color-surface-navy);
+  --color-brand: var(--color-ibm-blue);
+  --color-accent: var(--color-lab-teal);
+  --color-text-primary: var(--color-ivory-text);
+  --color-text-secondary: var(--color-ivory-dim);
+  --color-text-muted: var(--color-text-muted);
+  --color-border: var(--color-border-navy);
+  --color-error: var(--color-steiner-red);
+  --color-warning: var(--color-divergence-red);
+}
+
+/* ---------------------------------------------------------------------------
+ * Fallback defaults (no data-palette/data-theme set yet — before pre-paint script)
+ * Matches Aurora dark, the default palette+mode.
+ * --------------------------------------------------------------------------- */
+:root {
+  --color-background: #050505;
+  --color-surface: #1a1a2e;
+  --color-surface-elevated: #0a0a1a;
+  --color-brand: #00ff88;
+  --color-accent: #7c3aed;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #aaaaaa;
+  --color-text-muted: #888888;
+  --color-border: #2a2a3e;
+  --color-error: #ff4444;
+  --color-warning: #f59e0b;
+}
+
+/* ---------------------------------------------------------------------------
+ * Visible focus indicators (Requirement 23.2)
+ * --------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Box-sizing reset
+ * --------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ---------------------------------------------------------------------------
+ * Base body styles
+ * --------------------------------------------------------------------------- */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+/* ---------------------------------------------------------------------------
+ * Typography scale
+ * --------------------------------------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+}
+h3 {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+}
+h4 {
+  font-size: 1.125rem;
+}
+
+p {
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * Smooth scrolling
+ * --------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ---------------------------------------------------------------------------
+ * Selection color
+ * --------------------------------------------------------------------------- */
+::selection {
+  background-color: var(--color-brand);
+  color: var(--color-background);
+}
+
+/* ---------------------------------------------------------------------------
+ * Skip-to-main-content link (keyboard accessibility)
+ * --------------------------------------------------------------------------- */
+.skip-to-main {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-brand);
+  color: var(--color-background);
+  font-weight: 700;
+  text-decoration: none;
+  transition: top 0.1s;
+}
+
+.skip-to-main:focus {
+  top: 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * Utility: visually hidden (screen-reader only)
+ * --------------------------------------------------------------------------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * List reset — used by nav and other unstyled lists
+ * --------------------------------------------------------------------------- */
+ol[role="list"],
+ul[role="list"] {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * Anchor reset — links inherit color by default
+ * --------------------------------------------------------------------------- */
+a {
+  color: inherit;
+}
+
+/* ---------------------------------------------------------------------------
+ * Form element base styles
+ * --------------------------------------------------------------------------- */
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  color: var(--color-text-primary);
+  font-size: 0.9375rem;
+  font-family: inherit;
+  line-height: 1.5;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand) 20%, transparent);
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  border-color: var(--color-error);
+}
+
+label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.375rem;
+}
+
+/* ---------------------------------------------------------------------------
+ * Card hover effect via CSS (no JS needed for basic hover)
+ * --------------------------------------------------------------------------- */
+a[aria-label]:hover article,
+a:hover article {
+  border-color: color-mix(in srgb, var(--color-brand) 40%, transparent);
+}
+
+/* ---------------------------------------------------------------------------
+ * Responsive grid helpers
+ * --------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  /* Stack two-column contact layout on mobile */
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Nav responsive — desktop links hidden on mobile, hamburger shown
+ * --------------------------------------------------------------------------- */
+.nav-desktop-links {
+  display: flex;
+}
+
+.nav-hamburger {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .nav-desktop-links {
+    display: none !important;
+  }
+
+  .nav-hamburger {
+    display: flex !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Prose styles for blog post body
+ * --------------------------------------------------------------------------- */
+.prose {
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+  font-size: 1.0625rem;
+  max-width: 72ch;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: var(--color-text-primary);
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+}
+
+.prose p {
+  margin-bottom: 1.25em;
+}
+
+.prose a {
+  color: var(--color-brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose code {
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 0.25rem;
+  padding: 0.125em 0.375em;
+  font-size: 0.875em;
+  color: var(--color-brand);
+}
+
+.prose pre {
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  margin: 1.5em 0;
+}
+
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.25em;
+}
+
+.prose li {
+  margin-bottom: 0.375em;
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--color-brand);
+  padding-left: 1.25rem;
+  margin: 1.5em 0;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 2em 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * Hero animations
+ * --------------------------------------------------------------------------- */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.hero-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.hero-pulse {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* ---------------------------------------------------------------------------
+ * Project / blog card hover lift
+ * --------------------------------------------------------------------------- */
+.card-hover {
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(
+    in srgb,
+    var(--color-brand) 40%,
+    transparent
+  ) !important;
+  box-shadow: 0 8px 32px color-mix(in srgb, var(--color-brand) 8%, transparent);
+}
+
+/* ---------------------------------------------------------------------------
+ * Responsive two-column layouts
+ * --------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .two-col-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .sidebar-sticky {
+    position: static !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-cta-row {
+    flex-direction: column;
+  }
+
+  .hero-cta-row a,
+  .hero-cta-row button {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "next-gen-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Next-Gen Portfolio Platform — Next.js 16 / React 19, token-driven, server-first",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest --run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@lottiefiles/dotlottie-react": "0.19.4",
+    "@stareezy-ui/tokens": "0.2.6",
+    "next": "16.2.6",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "yaml": "2.9.0",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "10.4.1",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@types/node": "20.19.41",
+    "@types/react": "19.2.15",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "4.7.0",
+    "fast-check": "3.23.2",
+    "jsdom": "25.0.1",
+    "typescript": "5.9.3",
+    "vitest": "3.2.6"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}

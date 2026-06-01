@@ -1,0 +1,1 @@
+# Property-based tests (Vitest + fast-check), named *.property.test.ts. numRuns >= 100.

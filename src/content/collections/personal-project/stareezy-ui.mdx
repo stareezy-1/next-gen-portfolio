@@ -1,0 +1,42 @@
+---
+kind: "personal"
+slug: "stareezy-ui"
+title: "Stareezy UI"
+description: "A fully typed, object-based design token system and cross-platform component library for React Native and web. Authored custom Babel and Vite compiler extensions to extract tokens at build-time into atomic CSS variables, delivering flat O(1) runtime evaluation metrics."
+image: "https://res.cloudinary.com/diwktkaxv/image/upload/v1778913417/stareezy-ui_h48hys.png"
+technologies:
+  - "React"
+  - "React Native"
+  - "TypeScript"
+  - "Babel"
+  - "Vite"
+  - "Storybook"
+  - "Next.js"
+  - "Vitest"
+  - "tsup"
+  - "pnpm workspaces"
+featured: true
+startDate: "2024-01-01"
+githubUrl: "https://github.com/stareezy/stareezy-ui"
+liveUrl: "https://ui.stareezy.tech"
+overview: "A fully typed cross-platform design token component library for React Native and Web environments. Developed as the design system powering all Stareezy products."
+problem: "Maintaining consistent design across React Native and web requires duplicating styles and tokens, leading to drift and inconsistency across platforms."
+solution: "Built a zero-dependency token package consumed by both platforms, with an O(1) style registry and a build-time compiler for atomic CSS extraction."
+architecture: "Monorepo with pnpm workspaces: tokens → core/stylesheet → runtime → compiler → components. Each package is built with tsup and published independently."
+results:
+  - "O(1) runtime style evaluation via flat atomic CSS registry"
+  - "Single token source of truth across React Native and web"
+  - "Custom Babel and Vite compiler extensions for build-time extraction"
+  - "70+ cross-platform components shipped"
+---
+
+Stareezy UI is a design system built for cross-platform consistency. Lead Architect & Maintainer.
+
+## Packages
+
+- `@stareezy-ui/tokens` — zero-dependency token definitions
+- `@stareezy-ui/components` — 70+ cross-platform UI components
+- `@stareezy-ui/runtime` — O(1) style registry with web and RN adapters
+- `@stareezy-ui/compiler` — Babel/Vite build-time transform for atomic CSS
+- `@stareezy-ui/core` — utilities, hooks, platform helpers
+- `@stareezy-ui/stylesheet` — atomic CSS sheet management

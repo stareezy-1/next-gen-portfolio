@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a14"/>
+      <stop offset="100%" stop-color="#050508"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00ff88"/>
+      <stop offset="100%" stop-color="#00cc6a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#4f46e5"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="round">
+      <rect width="32" height="32" rx="8"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="32" height="32" rx="8" fill="url(#bg)"/>
+
+  <!-- Subtle grid -->
+  <g clip-path="url(#round)" opacity="0.15">
+    <line x1="0" y1="8" x2="32" y2="8" stroke="#00ff88" stroke-width="0.3"/>
+    <line x1="0" y1="16" x2="32" y2="16" stroke="#00ff88" stroke-width="0.3"/>
+    <line x1="0" y1="24" x2="32" y2="24" stroke="#00ff88" stroke-width="0.3"/>
+    <line x1="8" y1="0" x2="8" y2="32" stroke="#00ff88" stroke-width="0.3"/>
+    <line x1="16" y1="0" x2="16" y2="32" stroke="#00ff88" stroke-width="0.3"/>
+    <line x1="24" y1="0" x2="24" y2="32" stroke="#00ff88" stroke-width="0.3"/>
+  </g>
+
+  <!-- Glow blob behind letter -->
+  <ellipse cx="16" cy="16" rx="10" ry="10" fill="#00ff88" opacity="0.06"/>
+
+  <!-- Border ring -->
+  <rect width="32" height="32" rx="8" fill="none" stroke="url(#brand)" stroke-width="0.75" stroke-opacity="0.5"/>
+
+  <!-- Top-left accent corner -->
+  <path d="M 0 8 L 0 2 Q 0 0 2 0 L 8 0" fill="none" stroke="url(#brand)" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Bottom-right accent corner -->
+  <path d="M 32 24 L 32 30 Q 32 32 30 32 L 24 32" fill="none" stroke="url(#accent)" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Letter B — bold, centered -->
+  <text
+    x="16" y="22"
+    font-family="'SF Pro Display','Inter','Helvetica Neue',Arial,sans-serif"
+    font-size="17"
+    font-weight="900"
+    fill="url(#brand)"
+    text-anchor="middle"
+    filter="url(#glow)"
+    letter-spacing="-0.5"
+  >B</text>
+
+  <!-- Micro dot accent -->
+  <circle cx="26" cy="6" r="1.2" fill="#00ff88" opacity="0.7"/>
+  <circle cx="6" cy="26" r="0.8" fill="#7c3aed" opacity="0.6"/>
+</svg>
