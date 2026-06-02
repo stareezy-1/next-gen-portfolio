@@ -109,6 +109,16 @@ export function Footer() {
                     Aurora PDF ↗
                   </a>
                 </li>
+                <li>
+                  <a
+                    href="https://quasar.stareezy.tech"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={footerNavLinkStyles}
+                  >
+                    Quasar ↗
+                  </a>
+                </li>
               </ul>
             </nav>
           </div>
