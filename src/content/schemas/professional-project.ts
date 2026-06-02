@@ -56,6 +56,7 @@ const professionalProjectFields = z
     gallery: z.array(z.string()).optional(),
     playStoreUrl: z.string().optional(),
     appStoreUrl: z.string().optional(),
+    liveUrl: z.string().optional(),
   })
   .strict();
 

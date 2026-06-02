@@ -103,6 +103,7 @@ export interface ProfessionalProject {
   gallery?: string[];
   playStoreUrl?: string;
   appStoreUrl?: string;
+  liveUrl?: string;
 }
 
 /** Discriminated union of project content, keyed on `kind`. */

@@ -59,6 +59,7 @@ export function ProfessionalProjectRenderer({
     technologies,
     achievements,
     featured,
+    liveUrl,
     // NOTE: githubUrl and repository links are intentionally absent from
     // ProfessionalProject — the type and schema both forbid them (Req 11.5, 11.6).
   } = project;
@@ -132,6 +133,27 @@ export function ProfessionalProjectRenderer({
          * here. This is a hard requirement (Requirement 11.5). Do not add any
          * link to source code, repositories, or internal documentation.
          */}
+
+        {/* Live website link */}
+        {liveUrl && (
+          <a
+            href={liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.375rem",
+              marginTop: "0.5rem",
+              fontSize: "0.9375rem",
+              color: "var(--color-brand)",
+              textDecoration: "none",
+              fontWeight: 500,
+            }}
+          >
+            Visit Website ↗
+          </a>
+        )}
       </div>
     </article>
   );
