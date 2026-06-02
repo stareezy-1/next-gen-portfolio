@@ -1,0 +1,40 @@
+---
+kind: "personal"
+slug: "quasar"
+title: "Quasar"
+description: "An all-in-one, privacy-first developer tools suite with 120+ data and code utilities that run entirely client-side. Built on a registry-driven architecture where a single source of truth powers routing, navigation, fuzzy search, and SEO — adding a tool is one entry plus a pure, fully tested engine function."
+image: "https://res.cloudinary.com/diwktkaxv/image/upload/q_auto/f_auto/v1780419340/Screenshot_2026-06-02_at_23.54.16_pgjuhb.png"
+technologies:
+  - "Next.js"
+  - "React"
+  - "TypeScript"
+  - "Vitest"
+  - "fast-check"
+  - "Serwist"
+  - "PWA"
+  - "pnpm"
+featured: true
+startDate: "2025-01-01"
+githubUrl: "https://github.com/stareezy-1/quasar"
+liveUrl: "https://quasar.stareezy.tech"
+overview: "A large multi-tool web app — JSON/XML/CSV/SQL converters, color and unit converters, string utilities, diffs, and more — all running in the browser with zero uploads. A central tool registry drives the entire app so the surface scales to 120+ tools without per-tool boilerplate."
+problem: "Online code and data tools scatter functionality across dozens of ad-heavy sites, often uploading sensitive input to remote servers and breaking when offline."
+solution: "Consolidated 120+ tools into one offline-capable PWA. Every tool is a registry entry pointing to a thin React component backed by a pure engine function, so the framework handles routing, SEO, search, and sessions automatically."
+architecture: "Next.js 15 App Router with static export. A single dynamic route /tools/[id] renders any tool from the registry, with generateStaticParams pre-rendering all pages. Pure, framework-free engines (color, data, string, unit, diff, html, sql) are unit and property tested with Vitest + fast-check. Serwist provides the offline service worker."
+results:
+  - "120+ tools driven by a single registry — adding a tool is one entry"
+  - "Fully client-side and offline-capable as an installable PWA"
+  - "Static export with every tool page pre-rendered at build time"
+  - "Pure engines covered by property-based tests (Vitest + fast-check)"
+---
+
+Quasar is an all-in-one, privacy-first data and code tools suite, part of the Stareezy ecosystem. Core Developer.
+
+## Features
+
+- JSON, XML, CSV, and SQL formatting, validation, and conversion
+- 23 color converters (HEX, RGB, HSL, HSV, CMYK, Colortone) and unit converters
+- String utilities: case conversion, word counting, encoding, transforms
+- Semantic JSON diff and line-by-line text diff
+- localStorage sessions with auto-save and named saves
+- Registry-driven routing, fuzzy search, and SEO — zero server, zero uploads
