@@ -40,18 +40,15 @@ export function MaxContentWidth({
   as: Tag = "div",
 }: ContainerProps) {
   return (
-    <Tag style={{ ...maxContentWidthStyles, ...style }} className={className}>
+    <Tag
+      style={{ ...maxContentWidthStyles, ...style }}
+      className={`container-pad${className ? ` ${className}` : ""}`}
+    >
       {children}
     </Tag>
   );
 }
 
-/**
- * Standard content container constrained to {@link CONTENT_WIDTH} (1280 px).
- *
- * Use this for primary page content sections — navigation, cards, grids
- * (Requirement 5.2).
- */
 export function ContentWidth({
   children,
   className,
@@ -59,18 +56,15 @@ export function ContentWidth({
   as: Tag = "div",
 }: ContainerProps) {
   return (
-    <Tag style={{ ...contentWidthStyles, ...style }} className={className}>
+    <Tag
+      style={{ ...contentWidthStyles, ...style }}
+      className={`container-pad${className ? ` ${className}` : ""}`}
+    >
       {children}
     </Tag>
   );
 }
 
-/**
- * Long-form reading container constrained to {@link READING_WIDTH} (720 px).
- *
- * Use this for blog post bodies, the About page narrative, and any other
- * long-form prose (Requirement 5.3).
- */
 export function ReadingWidth({
   children,
   className,
@@ -78,7 +72,10 @@ export function ReadingWidth({
   as: Tag = "div",
 }: ContainerProps) {
   return (
-    <Tag style={{ ...readingWidthStyles, ...style }} className={className}>
+    <Tag
+      style={{ ...readingWidthStyles, ...style }}
+      className={`container-pad${className ? ` ${className}` : ""}`}
+    >
       {children}
     </Tag>
   );

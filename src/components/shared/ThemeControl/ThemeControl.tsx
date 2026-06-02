@@ -18,6 +18,7 @@ import {
 } from "./ThemeControl.types";
 import type { ThemeControlProps } from "./ThemeControl.types";
 import type { ThemePalette } from "@/types";
+import { useEffect, useState } from "react";
 
 /** Visual accent color shown in the palette dot. */
 const PALETTE_COLORS: Record<ThemePalette, string> = {
@@ -38,6 +39,10 @@ const PALETTE_LABELS: Record<ThemePalette, string> = {
 export function ThemeControl({ className }: ThemeControlProps) {
   const { mode, palette } = useTheme();
   const { setMode, setPalette } = useThemeControl();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   function handleModeClick() {
     const currentIndex = THEME_MODE_CYCLE.indexOf(mode);
@@ -56,48 +61,52 @@ export function ThemeControl({ className }: ThemeControlProps) {
       style={{ ...themeControlWrapperStyles, gap: "0.5rem" }}
       className={className}
     >
-      {/* Palette dots */}
-      <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
-        {THEME_PALETTES.map((p) => {
-          const active = palette === p;
-          return (
-            <button
-              key={p}
-              type="button"
-              onClick={() => setPalette(p)}
-              aria-label={`Switch to ${PALETTE_LABELS[p]} palette`}
-              title={PALETTE_LABELS[p]}
-              style={{
-                width: active ? "20px" : "12px",
-                height: "12px",
-                borderRadius: "9999px",
-                backgroundColor: PALETTE_COLORS[p],
-                border: active
-                  ? `2px solid ${PALETTE_COLORS[p]}`
-                  : "2px solid transparent",
-                outline: active ? `2px solid ${PALETTE_COLORS[p]}` : "none",
-                outlineOffset: "2px",
-                cursor: "pointer",
-                padding: 0,
-                transition: "width 0.2s ease, outline 0.15s ease",
-                opacity: active ? 1 : 0.45,
-                flexShrink: 0,
-              }}
-            />
-          );
-        })}
-      </div>
-
-      {/* Divider */}
-      <span
-        style={{
-          width: "1px",
-          height: "16px",
-          backgroundColor: "var(--color-border)",
-          flexShrink: 0,
-        }}
-        aria-hidden="true"
-      />
+      {/* Palette dots — only after hydration to avoid SSR mismatch */}
+      {mounted && (
+        <>
+          <div
+            style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}
+          >
+            {THEME_PALETTES.map((p) => {
+              const active = palette === p;
+              return (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => setPalette(p)}
+                  aria-label={`Switch to ${PALETTE_LABELS[p]} palette`}
+                  title={PALETTE_LABELS[p]}
+                  style={{
+                    width: active ? "20px" : "12px",
+                    height: "12px",
+                    borderRadius: "9999px",
+                    backgroundColor: PALETTE_COLORS[p],
+                    border: active
+                      ? `2px solid ${PALETTE_COLORS[p]}`
+                      : "2px solid transparent",
+                    outline: active ? `2px solid ${PALETTE_COLORS[p]}` : "none",
+                    outlineOffset: "2px",
+                    cursor: "pointer",
+                    padding: 0,
+                    transition: "width 0.2s ease, outline 0.15s ease",
+                    opacity: active ? 1 : 0.45,
+                    flexShrink: 0,
+                  }}
+                />
+              );
+            })}
+          </div>
+          <span
+            style={{
+              width: "1px",
+              height: "16px",
+              backgroundColor: "var(--color-border)",
+              flexShrink: 0,
+            }}
+            aria-hidden="true"
+          />
+        </>
+      )}
 
       {/* Mode cycle button */}
       <button

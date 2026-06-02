@@ -23,8 +23,8 @@ const base: CSSProperties = {
   marginRight: "auto",
   overflowX: "hidden",
   boxSizing: "border-box",
-  paddingLeft: "1.5rem",
-  paddingRight: "1.5rem",
+  paddingLeft: "clamp(0.75rem, 4vw, 1.5rem)",
+  paddingRight: "clamp(0.75rem, 4vw, 1.5rem)",
 };
 
 /**

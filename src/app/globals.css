@@ -727,12 +727,25 @@ a:hover article {
     gap: 1.25rem !important;
   }
 
-  /* Hide the floating code card — it overflows and adds no value on small screens */
+  /* Scale down the floating code card on mobile instead of hiding it */
   .hero-code-card {
-    display: none !important;
+    transform: scale(0.72);
+    transform-origin: top right;
+    margin-bottom: -5rem;
+  }
+
+  /* Tighten container gutters on mobile */
+  nav,
+  [class*="ContentWidth"],
+  [class*="MaxContentWidth"] {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
   }
 }
 
+/* ---------------------------------------------------------------------------
+ * Responsive container padding — tighter gutters on mobile
+ * --------------------------------------------------------------------------- */
 @media (max-width: 640px) {
   .hero-cta-row {
     flex-direction: column;
