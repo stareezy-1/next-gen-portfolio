@@ -727,11 +727,9 @@ a:hover article {
     gap: 1.25rem !important;
   }
 
-  /* Scale down the floating code card on mobile instead of hiding it */
+  /* Hide the floating code card — it overflows and adds no value on small screens */
   .hero-code-card {
-    transform: scale(0.72);
-    transform-origin: top right;
-    margin-bottom: -5rem;
+    display: none !important;
   }
 
   /* Tighten container gutters on mobile */
