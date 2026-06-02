@@ -37,9 +37,6 @@ import type { BlogPost } from "@/types/content";
  *   - For any other path, return `SITE_URL + path` (no trailing slash added).
  *   - Never produce double slashes.
  *
- * @example
- *   canonicalUrl("/")              → "https://rekosistem.com"
- *   canonicalUrl("/blog/my-post")  → "https://rekosistem.com/blog/my-post"
  *
  * @see Requirements 17.4
  */

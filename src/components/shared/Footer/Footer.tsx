@@ -32,7 +32,7 @@ const SOCIAL_LINKS = [
     icon: "in",
   },
   { label: "WhatsApp", href: "https://wa.me/8282260820643", icon: "◈" },
-  { label: "Email", href: "mailto:hello@rekosistem.com", icon: "✉" },
+  { label: "Email", href: "mailto:bintangmuhammad12@gmail.com", icon: "✉" },
 ];
 
 export function Footer() {
