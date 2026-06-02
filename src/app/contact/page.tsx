@@ -29,9 +29,9 @@ const DIRECT_LINKS = [
   },
   {
     label: "GitHub",
-    href: "https://github.com/stareezy",
+    href: "https://github.com/stareezy-1",
     icon: "⌥",
-    description: "github.com/stareezy",
+    description: "github.com/stareezy-1",
     color: "var(--color-brand)",
   },
   {

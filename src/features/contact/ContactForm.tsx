@@ -16,9 +16,11 @@
  */
 
 import { useState } from "react";
-import { validate, submit } from "@/services/contact";
+import { validate } from "@/services/contact";
+import { apiTransport } from "@/services/contact/apiTransport";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import { ANALYTICS_EVENTS } from "@/constants/analytics";
+import { AssetPlayer } from "@/components/shared/AssetPlayer";
 import type { ContactInput } from "@/types";
 
 /** Initial empty form state. */
@@ -72,7 +74,7 @@ export function ContactForm() {
     setStatus("submitting");
     setGeneralError("");
 
-    const result = await submit(input);
+    const result = await apiTransport(input);
 
     if (result.ok) {
       setStatus("success");
@@ -89,14 +91,116 @@ export function ContactForm() {
     }
   }
 
-  // Success state — replace the form with a confirmation message.
+  // Success state — beautiful confirmation UI
   if (status === "success") {
     return (
-      <div role="status" aria-live="polite">
-        <h2>Message sent!</h2>
-        <p>
-          Thanks for reaching out. I will get back to you as soon as possible.
-        </p>
+      <div
+        role="status"
+        aria-live="polite"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+          padding: "2rem 1rem",
+          gap: "1.25rem",
+          animation: "fadeInUp 0.5s cubic-bezier(0.16,1,0.3,1) both",
+        }}
+      >
+        {/* Lottie send animation */}
+        <div style={{ width: "140px", height: "140px" }}>
+          <AssetPlayer
+            src="/lottie/send-message.json"
+            name="Message sent animation"
+            trigger="auto"
+            width={140}
+            height={140}
+          />
+        </div>
+
+        {/* Checkmark badge */}
+        <div
+          style={{
+            width: "56px",
+            height: "56px",
+            borderRadius: "50%",
+            backgroundColor:
+              "color-mix(in srgb, var(--color-brand) 15%, transparent)",
+            border: "2px solid var(--color-brand)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "1.5rem",
+            boxShadow:
+              "0 0 24px color-mix(in srgb, var(--color-brand) 30%, transparent)",
+          }}
+        >
+          ✓
+        </div>
+
+        <div
+          style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
+        >
+          <h3
+            style={{
+              margin: 0,
+              fontSize: "1.375rem",
+              fontWeight: 800,
+              color: "var(--color-text-primary)",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Message sent!
+          </h3>
+          <p
+            style={{
+              margin: 0,
+              fontSize: "0.9375rem",
+              color: "var(--color-text-secondary)",
+              lineHeight: 1.6,
+              maxWidth: "320px",
+            }}
+          >
+            Thanks for reaching out. I&apos;ll get back to you within{" "}
+            <strong style={{ color: "var(--color-brand)" }}>24 hours</strong>.
+          </p>
+        </div>
+
+        {/* Response time indicators */}
+        <div
+          style={{
+            display: "flex",
+            gap: "0.75rem",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
+          {[
+            { icon: "📧", text: "Email confirmed" },
+            { icon: "⚡", text: "Quick response" },
+          ].map((item) => (
+            <div
+              key={item.text}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.375rem",
+                padding: "0.3rem 0.75rem",
+                borderRadius: "9999px",
+                backgroundColor:
+                  "color-mix(in srgb, var(--color-brand) 8%, transparent)",
+                border:
+                  "1px solid color-mix(in srgb, var(--color-brand) 20%, transparent)",
+                fontSize: "0.8125rem",
+                color: "var(--color-text-secondary)",
+              }}
+            >
+              <span>{item.icon}</span>
+              <span>{item.text}</span>
+            </div>
+          ))}
+        </div>
+
         <button
           type="button"
           onClick={() => {
@@ -104,6 +208,18 @@ export function ContactForm() {
             setFieldErrors({});
             setGeneralError("");
             setStatus("idle");
+          }}
+          style={{
+            marginTop: "0.5rem",
+            padding: "0.625rem 1.5rem",
+            borderRadius: "0.5rem",
+            border: "1px solid var(--color-border)",
+            backgroundColor: "var(--color-surface-elevated)",
+            color: "var(--color-text-secondary)",
+            fontSize: "0.875rem",
+            fontWeight: 600,
+            cursor: "pointer",
+            transition: "border-color 0.2s ease, color 0.2s ease",
           }}
         >
           Send another message

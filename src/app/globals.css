@@ -876,6 +876,17 @@ a:hover article {
 /* ---------------------------------------------------------------------------
  * Named animation utility classes
  * --------------------------------------------------------------------------- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .hero-float {
   animation: float 7s ease-in-out infinite;
 }
