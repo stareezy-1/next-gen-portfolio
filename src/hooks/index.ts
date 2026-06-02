@@ -16,3 +16,8 @@ export {
 } from "@/providers/ThemeProvider";
 
 export { useReducedMotion } from "./useReducedMotion";
+export { useScrollReveal } from "./useScrollReveal";
+export type {
+  UseScrollRevealOptions,
+  UseScrollRevealReturn,
+} from "./useScrollReveal";

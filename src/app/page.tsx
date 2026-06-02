@@ -15,14 +15,15 @@ import {
   getRecentBlogPosts,
 } from "@/features/home/selectors";
 import { ContentWidth, MaxContentWidth } from "@/components/layouts";
-import { MotionWrapper } from "@/components/shared/MotionWrapper";
+import { ScrollReveal } from "@/components/shared/ScrollReveal";
+import { AssetPlayer } from "@/components/shared/AssetPlayer";
 import { ROUTES, BLOG_PREVIEW_COUNT } from "@/constants";
 import { personJsonLd, websiteJsonLd } from "@/services/seo/structured-data";
 
 export const metadata: Metadata = {
-  title: "Bintang — Senior Front-End & Mobile Engineer",
+  title: "M Bintang Al Akbar — Senior Front-End & Mobile Engineer",
   description:
-    "Performance-driven Senior Front-End and Mobile Engineer with 3+ years building cross-platform enterprise products. WSA Global Winner.",
+    "Performance-driven Senior Front-End and Mobile Engineer with 3+ years building cross-platform enterprise products. WSA Global Winner 2025.",
   alternates: { canonical: "https://stareezy.tech" },
   openGraph: {
     url: "https://stareezy.tech",
@@ -147,7 +148,7 @@ export default function HomePage() {
           paddingBottom: "4rem",
         }}
       >
-        {/* Animated background orbs */}
+        {/* Animated background */}
         <div
           aria-hidden="true"
           style={{
@@ -184,7 +185,6 @@ export default function HomePage() {
               animationDelay: "1.5s",
             }}
           />
-          {/* Grid pattern */}
           <div
             style={{
               position: "absolute",
@@ -197,18 +197,185 @@ export default function HomePage() {
                 "radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%)",
             }}
           />
+          {/* Lottie orbit — right side, desktop only */}
+          <div
+            className="lottie-section-deco"
+            style={{
+              right: "1%",
+              bottom: "8%",
+              width: "240px",
+              height: "240px",
+              opacity: 0.15,
+            }}
+          >
+            <AssetPlayer
+              src="/lottie/orbit-rings.json"
+              decorative
+              trigger="visible"
+              width={240}
+              height={240}
+            />
+          </div>
+          {/* Floating shapes — left side */}
+          <div
+            className="lottie-section-deco"
+            style={{
+              left: "1%",
+              top: "10%",
+              width: "200px",
+              height: "200px",
+              opacity: 0.12,
+            }}
+          >
+            <AssetPlayer
+              src="/lottie/floating-shapes.json"
+              decorative
+              trigger="visible"
+              width={200}
+              height={200}
+            />
+          </div>
+          {/* Stars sparkle — center top */}
+          <div
+            className="lottie-section-deco"
+            style={{
+              left: "28%",
+              top: "2%",
+              width: "380px",
+              height: "380px",
+              opacity: 0.18,
+            }}
+          >
+            <AssetPlayer
+              src="/lottie/stars-sparkle.json"
+              decorative
+              trigger="visible"
+              width={380}
+              height={380}
+            />
+          </div>{" "}
         </div>
 
         <ContentWidth>
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "4rem",
+              gridTemplateColumns: "auto 1fr auto",
+              gap: "3rem",
               alignItems: "center",
             }}
-            className="two-col-layout"
+            className="hero-three-col"
           >
+            {/* Photo column */}
+            <ScrollReveal variant="fade-right">
+              <div
+                className="hero-photo-col"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "1rem",
+                }}
+              >
+                {/* Outer container — size driven inline so CSS overrides are reliable */}
+                <div
+                  className="hero-photo-size"
+                  style={{
+                    position: "relative",
+                    width: "220px",
+                    height: "220px",
+                    flexShrink: 0,
+                    marginTop: "8px",
+                  }}
+                >
+                  {/* Spinning conic glow ring */}
+                  <div
+                    aria-hidden="true"
+                    style={{
+                      position: "absolute",
+                      inset: "-3px",
+                      borderRadius: "50%",
+                      background:
+                        "conic-gradient(from 0deg, var(--color-brand), var(--color-accent), var(--color-brand))",
+                      animation: "spin-slow 8s linear infinite",
+                      zIndex: 0,
+                    }}
+                  />
+                  {/* Background gap so glow ring looks separated */}
+                  <div
+                    aria-hidden="true"
+                    style={{
+                      position: "absolute",
+                      inset: "3px",
+                      borderRadius: "50%",
+                      backgroundColor: "var(--color-background)",
+                      zIndex: 1,
+                    }}
+                  />
+                  {/* Photo circle */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: "7px",
+                      borderRadius: "50%",
+                      overflow: "hidden",
+                      zIndex: 2,
+                    }}
+                  >
+                    <Image
+                      src="https://res.cloudinary.com/diwktkaxv/image/upload/v1780403660/my-photo_h9nqyh.png"
+                      alt="Muhammad Bintang Al Akbar — Senior Front-End & Mobile Engineer"
+                      fill
+                      style={{
+                        objectFit: "cover",
+                        objectPosition: "center 15%",
+                      }}
+                      priority
+                      sizes="(max-width: 768px) 88px, (max-width: 1024px) 160px, 220px"
+                    />
+                  </div>
+                  {/* Online status dot */}
+                  <div
+                    className="breathe"
+                    style={{
+                      position: "absolute",
+                      bottom: "12px",
+                      right: "12px",
+                      zIndex: 3,
+                      width: "18px",
+                      height: "18px",
+                      borderRadius: "50%",
+                      backgroundColor: "#22c55e",
+                      border: "3px solid var(--color-background)",
+                      boxShadow: "0 0 8px #22c55e",
+                    }}
+                  />
+                </div>
+                {/* WSA badge */}
+                <div
+                  className="hero-wsa-badge"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.375rem",
+                    padding: "0.375rem 0.875rem",
+                    borderRadius: "9999px",
+                    backgroundColor:
+                      "color-mix(in srgb, var(--color-brand) 12%, transparent)",
+                    border:
+                      "1px solid color-mix(in srgb, var(--color-brand) 30%, transparent)",
+                    fontSize: "0.6875rem",
+                    fontWeight: 700,
+                    color: "var(--color-brand)",
+                    letterSpacing: "0.04em",
+                    textTransform: "uppercase",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  🏆 WSA Global Winner 2025
+                </div>
+              </div>
+            </ScrollReveal>
             {/* Left: text */}
             <div
               className="hero-text-col"
@@ -218,7 +385,7 @@ export default function HomePage() {
                 gap: "1.75rem",
               }}
             >
-              <MotionWrapper variant="heroWordReveal">
+              <ScrollReveal variant="fade-down" delay={1}>
                 <div
                   style={{
                     display: "flex",
@@ -249,9 +416,9 @@ export default function HomePage() {
                     Available for new projects
                   </span>
                 </div>
-              </MotionWrapper>
+              </ScrollReveal>
 
-              <MotionWrapper variant="heroWordReveal">
+              <ScrollReveal variant="fade-up" delay={2}>
                 <h1
                   id="hero-heading"
                   style={{
@@ -283,9 +450,9 @@ export default function HomePage() {
                     Senior Front-End &amp; Mobile Engineer
                   </span>
                 </h1>
-              </MotionWrapper>
+              </ScrollReveal>
 
-              <MotionWrapper variant="sectionReveal">
+              <ScrollReveal variant="fade-up" delay={3}>
                 <p
                   style={{
                     fontSize: "clamp(0.9375rem, 1.5vw, 1.125rem)",
@@ -313,9 +480,9 @@ export default function HomePage() {
                   </strong>
                   .
                 </p>
-              </MotionWrapper>
+              </ScrollReveal>
 
-              <MotionWrapper variant="sectionReveal">
+              <ScrollReveal variant="fade-up" delay={4}>
                 <div
                   style={{ display: "flex", flexWrap: "wrap", gap: "0.875rem" }}
                   className="hero-cta-row"
@@ -361,10 +528,10 @@ export default function HomePage() {
                     Get in Touch
                   </Link>
                 </div>
-              </MotionWrapper>
+              </ScrollReveal>
 
               {/* Stats */}
-              <MotionWrapper variant="sectionReveal">
+              <ScrollReveal variant="fade-up" delay={5}>
                 <div
                   className="hero-stats"
                   style={{
@@ -412,11 +579,11 @@ export default function HomePage() {
                     </div>
                   ))}
                 </div>
-              </MotionWrapper>
+              </ScrollReveal>
             </div>
 
             {/* Right: floating code card */}
-            <MotionWrapper variant="sectionReveal">
+            <ScrollReveal variant="tilt">
               <div
                 className="hero-float hero-code-card"
                 style={{ position: "relative" }}
@@ -492,7 +659,7 @@ export default function HomePage() {
                           :
                         </span>{" "}
                         <span style={{ color: "#34d399" }}>
-                          &quot;Bintang&quot;
+                          &quot;M Bintang Al Akbar&quot;
                         </span>
                         <span style={{ color: "var(--color-text-muted)" }}>
                           ,
@@ -506,7 +673,7 @@ export default function HomePage() {
                           :
                         </span>{" "}
                         <span style={{ color: "#34d399" }}>
-                          &quot;Full-Stack Engineer&quot;
+                          &quot;Front End Engineer&quot;
                         </span>
                         <span style={{ color: "var(--color-text-muted)" }}>
                           ,
@@ -624,7 +791,7 @@ export default function HomePage() {
                   </span>
                 </div>
               </div>
-            </MotionWrapper>
+            </ScrollReveal>
           </div>
         </ContentWidth>
       </section>
@@ -636,10 +803,31 @@ export default function HomePage() {
           paddingTop: "6rem",
           paddingBottom: "6rem",
           backgroundColor: "var(--color-surface)",
+          position: "relative",
+          overflow: "hidden",
         }}
       >
+        {/* Stars decoration — below the fold, lazy loads */}
+        <div
+          className="lottie-section-deco"
+          style={{
+            right: "0%",
+            top: "0%",
+            width: "280px",
+            height: "280px",
+            opacity: 0.2,
+          }}
+        >
+          <AssetPlayer
+            src="/lottie/stars-sparkle.json"
+            decorative
+            trigger="visible"
+            width={280}
+            height={280}
+          />
+        </div>
         <ContentWidth>
-          <MotionWrapper variant="sectionReveal">
+          <ScrollReveal variant="fade-up">
             <div
               style={{
                 display: "flex",
@@ -679,7 +867,7 @@ export default function HomePage() {
                 View all →
               </Link>
             </div>
-          </MotionWrapper>
+          </ScrollReveal>
 
           {featuredProjects.length === 0 ? (
             <p style={{ color: "var(--color-text-muted)" }}>
@@ -693,8 +881,12 @@ export default function HomePage() {
                 gap: "1.5rem",
               }}
             >
-              {featuredProjects.map((project) => (
-                <MotionWrapper key={project.slug} variant="sectionReveal">
+              {featuredProjects.map((project, i) => (
+                <ScrollReveal
+                  key={project.slug}
+                  variant="zoom"
+                  delay={((i % 3) + 1) as 1 | 2 | 3}
+                >
                   <Link
                     href={`${ROUTES.PROJECTS}/${project.slug}`}
                     aria-label={`View ${project.title}`}
@@ -723,6 +915,7 @@ export default function HomePage() {
                           width: "100%",
                           aspectRatio: "16/9",
                           backgroundColor: "var(--color-surface)",
+                          overflow: "hidden",
                         }}
                       >
                         {project.image ? (
@@ -826,7 +1019,7 @@ export default function HomePage() {
                       </div>
                     </article>
                   </Link>
-                </MotionWrapper>
+                </ScrollReveal>
               ))}
             </div>
           )}
@@ -836,10 +1029,34 @@ export default function HomePage() {
       {/* ── Experience Snapshot ───────────────────────────────────────────── */}
       <section
         aria-labelledby="experience-heading"
-        style={{ paddingTop: "6rem", paddingBottom: "6rem" }}
+        style={{
+          paddingTop: "6rem",
+          paddingBottom: "6rem",
+          position: "relative",
+          overflow: "hidden",
+        }}
       >
+        {/* Wave lines decoration */}
+        <div
+          className="lottie-section-deco"
+          style={{
+            right: "2%",
+            bottom: "10%",
+            width: "300px",
+            height: "150px",
+            opacity: 0.3,
+          }}
+        >
+          <AssetPlayer
+            src="/lottie/wave-lines.json"
+            decorative
+            trigger="visible"
+            width={300}
+            height={150}
+          />
+        </div>
         <ContentWidth>
-          <MotionWrapper variant="sectionReveal">
+          <ScrollReveal variant="fade-up">
             <div
               style={{
                 display: "flex",
@@ -879,17 +1096,19 @@ export default function HomePage() {
                 Full timeline →
               </Link>
             </div>
-          </MotionWrapper>
+          </ScrollReveal>
 
           <div
             style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
           >
             {recentExperience.map((entry, i) => (
-              <MotionWrapper
+              <ScrollReveal
                 key={`${entry.company}-${i}`}
-                variant="sectionReveal"
+                variant="fade-left"
+                delay={((i % 3) + 1) as 1 | 2 | 3}
               >
                 <div
+                  className="card-hover"
                   style={{
                     display: "flex",
                     gap: "1.25rem",
@@ -898,7 +1117,6 @@ export default function HomePage() {
                     backgroundColor: "var(--color-surface)",
                     border: "1px solid var(--color-border)",
                     borderRadius: "0.875rem",
-                    transition: "border-color 0.2s ease",
                   }}
                 >
                   <div
@@ -984,7 +1202,7 @@ export default function HomePage() {
                     </p>
                   </div>
                 </div>
-              </MotionWrapper>
+              </ScrollReveal>
             ))}
           </div>
         </ContentWidth>
@@ -994,14 +1212,54 @@ export default function HomePage() {
       <section
         aria-labelledby="skills-heading"
         style={{
-          paddingTop: "6rem",
-          paddingBottom: "6rem",
+          paddingTop: "8rem",
+          paddingBottom: "8rem",
           backgroundColor: "var(--color-surface)",
+          position: "relative",
+          overflow: "hidden",
         }}
       >
+        {/* Lottie left decoration */}
+        <div
+          className="lottie-section-deco"
+          style={{
+            left: "-60px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            width: "320px",
+            height: "320px",
+          }}
+        >
+          <AssetPlayer
+            src="/lottie/orbit-rings.json"
+            decorative
+            trigger="visible"
+            width={320}
+            height={320}
+          />
+        </div>
+        {/* Lottie right decoration */}
+        <div
+          className="lottie-section-deco"
+          style={{
+            right: "-60px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            width: "300px",
+            height: "300px",
+          }}
+        >
+          <AssetPlayer
+            src="/lottie/code-typing.json"
+            decorative
+            trigger="visible"
+            width={300}
+            height={300}
+          />
+        </div>
         <ContentWidth>
-          <MotionWrapper variant="sectionReveal">
-            <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
+          <ScrollReveal variant="fade-up">
+            <div style={{ textAlign: "center", marginBottom: "4rem" }}>
               <p
                 style={{
                   fontSize: "0.75rem",
@@ -1009,7 +1267,7 @@ export default function HomePage() {
                   textTransform: "uppercase",
                   letterSpacing: "0.12em",
                   color: "var(--color-brand)",
-                  marginBottom: "0.5rem",
+                  marginBottom: "0.75rem",
                 }}
               >
                 Expertise
@@ -1018,7 +1276,7 @@ export default function HomePage() {
                 Skills &amp; Technologies
               </h2>
             </div>
-          </MotionWrapper>
+          </ScrollReveal>
 
           <div
             style={{
@@ -1027,13 +1285,18 @@ export default function HomePage() {
               gap: "1.25rem",
             }}
           >
-            {Object.keys(SKILLS_BY_GROUP).map((key) => {
+            {Object.keys(SKILLS_BY_GROUP).map((key, i) => {
               const color = SKILL_COLORS[key] ?? "var(--color-brand)";
               const skills = SKILLS_BY_GROUP[key] ?? [];
               const label = SKILL_LABELS[key] ?? key;
               return (
-                <MotionWrapper key={key} variant="sectionReveal">
+                <ScrollReveal
+                  key={key}
+                  variant="flip"
+                  delay={((i % 3) + 1) as 1 | 2 | 3}
+                >
                   <div
+                    className="card-hover"
                     style={{
                       padding: "1.5rem",
                       backgroundColor: "var(--color-surface-elevated)",
@@ -1042,7 +1305,7 @@ export default function HomePage() {
                       display: "flex",
                       flexDirection: "column",
                       gap: "1.25rem",
-                      transition: "border-color 0.2s ease",
+                      height: "100%",
                     }}
                   >
                     <div
@@ -1134,7 +1397,7 @@ export default function HomePage() {
                       ))}
                     </div>
                   </div>
-                </MotionWrapper>
+                </ScrollReveal>
               );
             })}
           </div>
@@ -1145,10 +1408,34 @@ export default function HomePage() {
       {recentPosts.length > 0 && (
         <section
           aria-labelledby="blog-preview-heading"
-          style={{ paddingTop: "6rem", paddingBottom: "6rem" }}
+          style={{
+            paddingTop: "6rem",
+            paddingBottom: "6rem",
+            position: "relative",
+            overflow: "hidden",
+          }}
         >
+          {/* Stars sparkle decoration */}
+          <div
+            className="lottie-section-deco"
+            style={{
+              right: "0%",
+              top: "0%",
+              width: "300px",
+              height: "300px",
+              opacity: 0.25,
+            }}
+          >
+            <AssetPlayer
+              src="/lottie/stars-sparkle.json"
+              decorative
+              trigger="visible"
+              width={300}
+              height={300}
+            />
+          </div>
           <ContentWidth>
-            <MotionWrapper variant="sectionReveal">
+            <ScrollReveal variant="fade-up">
               <div
                 style={{
                   display: "flex",
@@ -1188,7 +1475,7 @@ export default function HomePage() {
                   All posts →
                 </Link>
               </div>
-            </MotionWrapper>
+            </ScrollReveal>
 
             <div
               style={{
@@ -1197,8 +1484,12 @@ export default function HomePage() {
                 gap: "1.5rem",
               }}
             >
-              {recentPosts.map((post) => (
-                <MotionWrapper key={post.slug} variant="sectionReveal">
+              {recentPosts.map((post, i) => (
+                <ScrollReveal
+                  key={post.slug}
+                  variant="fade-up"
+                  delay={((i % 3) + 1) as 1 | 2 | 3}
+                >
                   <Link
                     href={`${ROUTES.BLOG}/${post.slug}`}
                     aria-label={`Read ${post.title}`}
@@ -1228,6 +1519,7 @@ export default function HomePage() {
                             width: "100%",
                             aspectRatio: "16/9",
                             backgroundColor: "var(--color-surface-elevated)",
+                            overflow: "hidden",
                           }}
                         >
                           <Image
@@ -1303,7 +1595,7 @@ export default function HomePage() {
                       </div>
                     </article>
                   </Link>
-                </MotionWrapper>
+                </ScrollReveal>
               ))}
             </div>
           </ContentWidth>
@@ -1314,13 +1606,14 @@ export default function HomePage() {
       <section
         aria-labelledby="contact-cta-heading"
         style={{
-          paddingTop: "6rem",
-          paddingBottom: "6rem",
+          paddingTop: "9rem",
+          paddingBottom: "9rem",
           position: "relative",
           overflow: "hidden",
           backgroundColor: "var(--color-surface)",
         }}
       >
+        {/* Deep glow */}
         <div
           aria-hidden="true"
           style={{
@@ -1328,11 +1621,51 @@ export default function HomePage() {
             inset: 0,
             pointerEvents: "none",
             background:
-              "radial-gradient(ellipse 60% 80% at 50% 50%, color-mix(in srgb, var(--color-brand) 6%, transparent), transparent)",
+              "radial-gradient(ellipse 70% 70% at 50% 50%, color-mix(in srgb, var(--color-brand) 8%, transparent), transparent)",
           }}
         />
+        {/* Lottie left */}
+        <div
+          className="lottie-section-deco"
+          style={{
+            left: "3%",
+            top: "50%",
+            transform: "translateY(-50%)",
+            width: "280px",
+            height: "280px",
+            opacity: 0.5,
+          }}
+        >
+          <AssetPlayer
+            src="/lottie/orbit-rings.json"
+            decorative
+            trigger="visible"
+            width={280}
+            height={280}
+          />
+        </div>
+        {/* Lottie right */}
+        <div
+          className="lottie-section-deco"
+          style={{
+            right: "3%",
+            top: "50%",
+            transform: "translateY(-50%)",
+            width: "240px",
+            height: "240px",
+            opacity: 0.5,
+          }}
+        >
+          <AssetPlayer
+            src="/lottie/send-message.json"
+            decorative
+            trigger="visible"
+            width={240}
+            height={240}
+          />
+        </div>
         <ContentWidth>
-          <MotionWrapper variant="sectionReveal">
+          <ScrollReveal variant="zoom">
             <div
               style={{
                 textAlign: "center",
@@ -1419,7 +1752,7 @@ export default function HomePage() {
                 </Link>
               </div>
             </div>
-          </MotionWrapper>
+          </ScrollReveal>
         </ContentWidth>
       </section>
     </MaxContentWidth>

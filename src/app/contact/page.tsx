@@ -6,6 +6,7 @@
 import type { Metadata } from "next";
 import { ContentWidth } from "@/components/layouts";
 import { MotionWrapper } from "@/components/shared/MotionWrapper";
+import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { ContactForm } from "@/features/contact/ContactForm";
 import { canonicalUrl } from "@/services/seo";
 import { breadcrumbListJsonLd } from "@/services/seo/structured-data";
@@ -70,7 +71,7 @@ export default function ContactPage() {
           borderBottom: "1px solid var(--color-border)",
         }}
       >
-        <MotionWrapper variant="heroWordReveal">
+        <ScrollReveal variant="fade-up">
           <p
             style={{
               fontSize: "0.75rem",
@@ -96,7 +97,7 @@ export default function ContactPage() {
             Have a project in mind or just want to say hello? I&apos;d love to
             hear from you. I typically respond within 24 hours.
           </p>
-        </MotionWrapper>
+        </ScrollReveal>
       </div>
 
       {/* Two-column layout — stacks on mobile */}
@@ -112,7 +113,7 @@ export default function ContactPage() {
         className="two-col-layout"
       >
         {/* Left: direct links */}
-        <MotionWrapper variant="sectionReveal">
+        <ScrollReveal variant="fade-left" delay={1}>
           <div
             style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
           >
@@ -268,10 +269,10 @@ export default function ContactPage() {
               </div>
             </div>
           </div>
-        </MotionWrapper>
+        </ScrollReveal>
 
         {/* Right: contact form */}
-        <MotionWrapper variant="sectionReveal">
+        <ScrollReveal variant="fade-right" delay={2}>
           <div
             style={{
               backgroundColor: "var(--color-surface)",
@@ -297,7 +298,7 @@ export default function ContactPage() {
             </p>
             <ContactForm />
           </div>
-        </MotionWrapper>
+        </ScrollReveal>
       </div>
     </ContentWidth>
   );

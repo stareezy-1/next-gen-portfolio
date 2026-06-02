@@ -59,6 +59,7 @@ export function BlogPostRenderer({
           src={heroImage}
           alt={`Hero image for ${title}`}
           fill
+          loading="eager"
           style={blogPostHeroImageStyles}
           sizes="(max-width: 768px) 100vw, 50vw"
           priority={false}

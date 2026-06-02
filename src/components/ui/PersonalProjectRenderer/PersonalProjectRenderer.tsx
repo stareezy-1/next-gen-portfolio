@@ -75,6 +75,7 @@ export function PersonalProjectRenderer({
           src={image}
           alt={title}
           fill
+          loading="eager"
           style={projectImageStyles}
           sizes="(max-width: 768px) 100vw, 50vw"
         />

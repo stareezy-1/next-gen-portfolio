@@ -9,6 +9,7 @@ import { loadAll } from "@/content/loader";
 import { partitionProjects } from "@/features/projects/partition";
 import { ContentWidth } from "@/components/layouts";
 import { MotionWrapper } from "@/components/shared/MotionWrapper";
+import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { TrackedProjectCard } from "@/components/shared/TrackedProjectCard";
 import { canonicalUrl } from "@/services/seo";
 import { breadcrumbListJsonLd } from "@/services/seo/structured-data";
@@ -49,7 +50,7 @@ export default async function ProjectsPage() {
           borderBottom: "1px solid var(--color-border)",
         }}
       >
-        <MotionWrapper variant="heroWordReveal">
+        <ScrollReveal variant="fade">
           <p
             style={{
               fontSize: "0.8125rem",
@@ -74,7 +75,7 @@ export default async function ProjectsPage() {
             Open-source work, client builds, and personal experiments. Each
             project is a story.
           </p>
-        </MotionWrapper>
+        </ScrollReveal>
       </div>
 
       {/* Personal Projects */}
@@ -82,14 +83,14 @@ export default async function ProjectsPage() {
         aria-labelledby="personal-projects-heading"
         style={{ paddingTop: "3rem", paddingBottom: "3rem" }}
       >
-        <MotionWrapper variant="sectionReveal">
+        <ScrollReveal variant="fade-up">
           <h2
             id="personal-projects-heading"
             style={{ marginBottom: "2rem", fontSize: "1.375rem" }}
           >
             Personal &amp; Open Source
           </h2>
-        </MotionWrapper>
+        </ScrollReveal>
 
         {personal.length === 0 ? (
           <p style={{ color: "var(--color-text-muted)" }}>
@@ -103,8 +104,12 @@ export default async function ProjectsPage() {
               gap: "1.5rem",
             }}
           >
-            {personal.map((project) => (
-              <MotionWrapper key={project.slug} variant="sectionReveal">
+            {personal.map((project, i) => (
+              <ScrollReveal
+                key={project.slug}
+                variant="zoom"
+                delay={((i % 3) + 1) as 1 | 2 | 3}
+              >
                 <TrackedProjectCard
                   href={`${ROUTES.PROJECTS}/${project.slug}`}
                   slug={project.slug}
@@ -267,7 +272,7 @@ export default async function ProjectsPage() {
                     </div>
                   </article>
                 </TrackedProjectCard>
-              </MotionWrapper>
+              </ScrollReveal>
             ))}
           </div>
         )}
@@ -283,7 +288,7 @@ export default async function ProjectsPage() {
             borderTop: "1px solid var(--color-border)",
           }}
         >
-          <MotionWrapper variant="sectionReveal">
+          <ScrollReveal variant="fade-up">
             <div style={{ marginBottom: "2rem", marginTop: "2rem" }}>
               <h2
                 id="professional-projects-heading"
@@ -302,7 +307,7 @@ export default async function ProjectsPage() {
                 available.
               </p>
             </div>
-          </MotionWrapper>
+          </ScrollReveal>
 
           <div
             style={{
@@ -311,8 +316,12 @@ export default async function ProjectsPage() {
               gap: "1.5rem",
             }}
           >
-            {professional.map((project) => (
-              <MotionWrapper key={project.slug} variant="sectionReveal">
+            {professional.map((project, i) => (
+              <ScrollReveal
+                key={project.slug}
+                variant="flip"
+                delay={((i % 3) + 1) as 1 | 2 | 3}
+              >
                 <TrackedProjectCard
                   href={`${ROUTES.PROJECTS}/${project.slug}`}
                   slug={project.slug}
@@ -434,8 +443,9 @@ export default async function ProjectsPage() {
                       </div>
                     </div>
                   </article>
+                  {/* Last remaining professional project closes here */}
                 </TrackedProjectCard>
-              </MotionWrapper>
+              </ScrollReveal>
             ))}
           </div>
         </section>

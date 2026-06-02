@@ -72,6 +72,7 @@ export function ProfessionalProjectRenderer({
           src={image}
           alt={title}
           fill
+          loading="eager"
           style={professionalProjectImageStyles}
           sizes="(max-width: 768px) 100vw, 50vw"
         />

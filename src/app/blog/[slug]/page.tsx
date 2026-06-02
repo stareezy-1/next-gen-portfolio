@@ -14,7 +14,7 @@ import { publishedOnly } from "@/lib/blog/query";
 import { readingTime } from "@/lib/blog/reading-time";
 import { tableOfContents } from "@/lib/blog/toc";
 import { ContentWidth } from "@/components/layouts";
-import { MotionWrapper } from "@/components/shared/MotionWrapper";
+import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { canonicalUrl } from "@/services/seo";
 import {
   blogPostingJsonLd,
@@ -69,7 +69,10 @@ export default async function BlogDetailPage({
   const minutes = readingTime(post.body);
   const toc = tableOfContents(post.body);
   const related = getRelatedPosts(slug);
-  const bodyHtml = await marked(post.body, { gfm: true, breaks: false });
+  const bodyHtml = marked.parse(post.body, {
+    gfm: true,
+    breaks: false,
+  }) as string;
 
   const postUrl = canonicalUrl(`${ROUTES.BLOG}/${post.slug}`);
   const blogPostingLd = blogPostingJsonLd(post, postUrl);
@@ -115,6 +118,7 @@ export default async function BlogDetailPage({
         }}
       >
         <Image
+          loading="eager"
           src={post.heroImage}
           alt={"Hero image for " + post.title}
           fill
@@ -153,7 +157,7 @@ export default async function BlogDetailPage({
       </div>
 
       <ContentWidth as="main">
-        <MotionWrapper variant="heroWordReveal">
+        <ScrollReveal variant="fade-up">
           <div
             style={{
               paddingTop: "2.5rem",
@@ -258,7 +262,7 @@ export default async function BlogDetailPage({
               <span>{minutes} min read</span>
             </div>
           </div>
-        </MotionWrapper>
+        </ScrollReveal>
 
         <div
           style={{
@@ -269,9 +273,12 @@ export default async function BlogDetailPage({
             paddingBottom: "5rem",
             alignItems: "start",
           }}
-          className="two-col-layout"
+          className="two-col-layout blog-body-layout"
         >
-          <MotionWrapper variant="sectionReveal">
+          <ScrollReveal
+            variant="fade-left"
+            style={{ minWidth: 0, overflow: "hidden" }}
+          >
             <article
               aria-label={post.title}
               className="prose"
@@ -343,7 +350,7 @@ export default async function BlogDetailPage({
                 </a>
               </div>
             </div>
-          </MotionWrapper>
+          </ScrollReveal>
 
           {toc.length > 0 && (
             <aside style={{ position: "sticky", top: "88px" }}>
@@ -404,14 +411,14 @@ export default async function BlogDetailPage({
               paddingTop: "3rem",
             }}
           >
-            <MotionWrapper variant="sectionReveal">
+            <ScrollReveal variant="fade-up">
               <h2
                 id="related-posts-heading"
                 style={{ marginBottom: "2rem", fontSize: "1.375rem" }}
               >
                 More Posts
               </h2>
-            </MotionWrapper>
+            </ScrollReveal>
             <div
               style={{
                 display: "grid",
@@ -419,8 +426,12 @@ export default async function BlogDetailPage({
                 gap: "1.25rem",
               }}
             >
-              {related.map((rel) => (
-                <MotionWrapper key={rel.slug} variant="sectionReveal">
+              {related.map((rel, i) => (
+                <ScrollReveal
+                  key={rel.slug}
+                  variant="zoom"
+                  delay={((i % 3) + 1) as 1 | 2 | 3}
+                >
                   <Link
                     href={ROUTES.BLOG + "/" + rel.slug}
                     aria-label={"Read " + rel.title}
@@ -447,6 +458,7 @@ export default async function BlogDetailPage({
                           }}
                         >
                           <Image
+                            loading="eager"
                             src={rel.heroImage}
                             alt={"Hero image for " + rel.title}
                             fill
@@ -496,7 +508,7 @@ export default async function BlogDetailPage({
                       </div>
                     </article>
                   </Link>
-                </MotionWrapper>
+                </ScrollReveal>
               ))}
             </div>
           </section>

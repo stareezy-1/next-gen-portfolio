@@ -136,7 +136,7 @@ export default function OgImage() {
             fontWeight: 500,
           }}
         >
-          Senior Front-End &amp; Mobile Engineer · WSA Global Winner
+          Senior Front-End &amp; Mobile Engineer
         </span>
 
         {/* Tech pills */}

@@ -8,6 +8,8 @@ import { loadAll } from "@/content/loader";
 import { orderByStartDateDesc } from "@/lib/timeline";
 import { ContentWidth } from "@/components/layouts";
 import { MotionWrapper } from "@/components/shared/MotionWrapper";
+import { ScrollReveal } from "@/components/shared/ScrollReveal";
+import { AssetPlayer } from "@/components/shared/AssetPlayer";
 import { canonicalUrl } from "@/services/seo";
 import { breadcrumbListJsonLd } from "@/services/seo/structured-data";
 import { ROUTES, NAV_LABELS } from "@/constants/routes";
@@ -15,7 +17,7 @@ import { ROUTES, NAV_LABELS } from "@/constants/routes";
 export const metadata: Metadata = {
   title: "Experience",
   description:
-    "Professional experience of Muhammad Bintang Al Akbar — Senior Front-End & Mobile Engineer. WSA Global Winner at Rekosistem. 3+ years across React Native, Expo, TypeScript, and AWS Amplify.",
+    "Professional experience of Muhammad Bintang Al Akbar — Senior Front-End & Mobile Engineer. WSA Global Winner 2025 at Rekosistem. 3+ years across React Native, Expo, TypeScript, and AWS Amplify.",
   alternates: { canonical: "https://stareezy.tech/experience" },
 };
 
@@ -38,14 +40,51 @@ export default function ExperiencePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
 
-      {/* Page header */}
+      {/* ── Page header ──────────────────────────────────────────────────── */}
       <div
         style={{
           paddingTop: "4rem",
           paddingBottom: "3rem",
           borderBottom: "1px solid var(--color-border)",
+          position: "relative",
+          overflow: "hidden",
         }}
       >
+        <div
+          aria-hidden="true"
+          className="hero-pulse"
+          style={{
+            position: "absolute",
+            top: "-60%",
+            left: "-5%",
+            width: "350px",
+            height: "350px",
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, color-mix(in srgb, var(--color-accent) 8%, transparent) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }}
+        />
+        {/* Lottie pulse decoration */}
+        <div
+          className="lottie-section-deco"
+          style={{
+            right: "4%",
+            top: "50%",
+            transform: "translateY(-50%)",
+            width: "180px",
+            height: "180px",
+            opacity: 0.5,
+          }}
+        >
+          <AssetPlayer
+            src="/lottie/pulse-dot.json"
+            decorative
+            trigger="visible"
+            width={180}
+            height={180}
+          />
+        </div>
         <MotionWrapper variant="heroWordReveal">
           <p
             style={{
@@ -73,19 +112,19 @@ export default function ExperiencePage() {
         </MotionWrapper>
       </div>
 
-      {/* Experience timeline */}
+      {/* ── Work Experience ───────────────────────────────────────────────── */}
       <section
         aria-labelledby="experience-heading"
         style={{ paddingTop: "3rem", paddingBottom: "3rem" }}
       >
-        <MotionWrapper variant="sectionReveal">
+        <ScrollReveal variant="fade-up">
           <h2
             id="experience-heading"
             style={{ marginBottom: "2rem", fontSize: "1.5rem" }}
           >
             Work Experience
           </h2>
-        </MotionWrapper>
+        </ScrollReveal>
 
         {experience.length === 0 ? (
           <p style={{ color: "var(--color-text-muted)" }}>
@@ -104,9 +143,10 @@ export default function ExperiencePage() {
             }}
           >
             {experience.map((entry, index) => (
-              <MotionWrapper
+              <ScrollReveal
                 key={`${entry.company}-${entry.startDate}-${index}`}
-                variant="sectionReveal"
+                variant="fade-left"
+                delay={Math.min(index + 1, 6) as 1 | 2 | 3 | 4 | 5 | 6}
               >
                 <li
                   style={{
@@ -115,7 +155,7 @@ export default function ExperiencePage() {
                     position: "relative",
                   }}
                 >
-                  {/* Timeline line */}
+                  {/* Timeline spine */}
                   <div
                     style={{
                       display: "flex",
@@ -125,6 +165,7 @@ export default function ExperiencePage() {
                     }}
                   >
                     <div
+                      className="breathe"
                       style={{
                         width: "44px",
                         height: "44px",
@@ -151,14 +192,15 @@ export default function ExperiencePage() {
                           width: "2px",
                           flex: 1,
                           minHeight: "2rem",
-                          backgroundColor: "var(--color-border)",
+                          background:
+                            "linear-gradient(to bottom, color-mix(in srgb, var(--color-brand) 40%, transparent), var(--color-border))",
                           margin: "0.5rem 0",
                         }}
                       />
                     )}
                   </div>
 
-                  {/* Content */}
+                  {/* Card */}
                   <div
                     style={{
                       flex: 1,
@@ -168,6 +210,7 @@ export default function ExperiencePage() {
                     }}
                   >
                     <div
+                      className="card-hover"
                       style={{
                         backgroundColor: "var(--color-surface)",
                         border: "1px solid var(--color-border)",
@@ -178,7 +221,6 @@ export default function ExperiencePage() {
                         gap: "1rem",
                       }}
                     >
-                      {/* Header */}
                       <div
                         style={{
                           display: "flex",
@@ -261,7 +303,6 @@ export default function ExperiencePage() {
                         {entry.location}
                       </p>
 
-                      {/* Achievements */}
                       {entry.achievements.length > 0 && (
                         <div>
                           <p
@@ -301,7 +342,6 @@ export default function ExperiencePage() {
                         </div>
                       )}
 
-                      {/* Technologies */}
                       {entry.technologies.length > 0 && (
                         <div
                           style={{
@@ -331,13 +371,13 @@ export default function ExperiencePage() {
                     </div>
                   </div>
                 </li>
-              </MotionWrapper>
+              </ScrollReveal>
             ))}
           </ol>
         )}
       </section>
 
-      {/* Education timeline */}
+      {/* ── Education ────────────────────────────────────────────────────── */}
       <section
         aria-labelledby="education-heading"
         style={{
@@ -346,7 +386,7 @@ export default function ExperiencePage() {
           borderTop: "1px solid var(--color-border)",
         }}
       >
-        <MotionWrapper variant="sectionReveal">
+        <ScrollReveal variant="fade-up">
           <h2
             id="education-heading"
             style={{
@@ -357,7 +397,7 @@ export default function ExperiencePage() {
           >
             Education
           </h2>
-        </MotionWrapper>
+        </ScrollReveal>
 
         {education.length === 0 ? (
           <p style={{ color: "var(--color-text-muted)" }}>
@@ -368,11 +408,13 @@ export default function ExperiencePage() {
             style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
           >
             {education.map((entry, index) => (
-              <MotionWrapper
+              <ScrollReveal
                 key={`${entry.school}-${entry.startDate}-${index}`}
-                variant="sectionReveal"
+                variant="tilt"
+                delay={Math.min(index + 1, 4) as 1 | 2 | 3 | 4}
               >
                 <div
+                  className="card-hover"
                   style={{
                     backgroundColor: "var(--color-surface)",
                     border: "1px solid var(--color-border)",
@@ -412,7 +454,11 @@ export default function ExperiencePage() {
                       }}
                     >
                       <h3
-                        style={{ margin: 0, fontSize: "1rem", fontWeight: 700 }}
+                        style={{
+                          margin: 0,
+                          fontSize: "1rem",
+                          fontWeight: 700,
+                        }}
                       >
                         {entry.degree} in {entry.major}
                       </h3>
@@ -472,7 +518,7 @@ export default function ExperiencePage() {
                     )}
                   </div>
                 </div>
-              </MotionWrapper>
+              </ScrollReveal>
             ))}
           </div>
         )}

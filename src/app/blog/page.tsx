@@ -18,6 +18,7 @@ import {
 import { readingTime } from "@/lib/blog/reading-time";
 import { ContentWidth } from "@/components/layouts";
 import { MotionWrapper } from "@/components/shared/MotionWrapper";
+import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { BlogSearch } from "@/features/blog/BlogSearch";
 import { canonicalUrl } from "@/services/seo";
 import { breadcrumbListJsonLd } from "@/services/seo/structured-data";
@@ -97,7 +98,7 @@ export default async function BlogPage({
           borderBottom: "1px solid var(--color-border)",
         }}
       >
-        <MotionWrapper variant="heroWordReveal">
+        <ScrollReveal variant="fade-up">
           <p
             style={{
               fontSize: "0.8125rem",
@@ -122,7 +123,7 @@ export default async function BlogPage({
             Technical articles, tutorials, and thoughts on software engineering,
             design systems, and developer experience.
           </p>
-        </MotionWrapper>
+        </ScrollReveal>
       </div>
 
       {/* Search / filter */}
@@ -134,7 +135,7 @@ export default async function BlogPage({
 
       {/* Empty state */}
       {isEmpty ? (
-        <MotionWrapper variant="sectionReveal">
+        <ScrollReveal variant="zoom">
           <div
             style={{
               textAlign: "center",
@@ -155,7 +156,7 @@ export default async function BlogPage({
                 : "Check back soon."}
             </p>
           </div>
-        </MotionWrapper>
+        </ScrollReveal>
       ) : (
         <>
           <section aria-label="Blog posts" style={{ paddingBottom: "3rem" }}>
@@ -166,8 +167,12 @@ export default async function BlogPage({
                 gap: "1.5rem",
               }}
             >
-              {posts.map((post) => (
-                <MotionWrapper key={post.slug} variant="sectionReveal">
+              {posts.map((post, i) => (
+                <ScrollReveal
+                  key={post.slug}
+                  variant="fade-up"
+                  delay={((i % 3) + 1) as 1 | 2 | 3}
+                >
                   <Link
                     href={`${ROUTES.BLOG}/${post.slug}`}
                     aria-label={`Read ${post.title}`}
@@ -201,6 +206,7 @@ export default async function BlogPage({
                           }}
                         >
                           <Image
+                            loading="eager"
                             src={post.heroImage}
                             alt={`Hero image for ${post.title}`}
                             fill
@@ -321,7 +327,7 @@ export default async function BlogPage({
                       </div>
                     </article>
                   </Link>
-                </MotionWrapper>
+                </ScrollReveal>
               ))}
             </div>
           </section>

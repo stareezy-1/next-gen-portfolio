@@ -67,7 +67,20 @@ export function ThemeControl({ className }: ThemeControlProps) {
           <div
             style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}
           >
-            {THEME_PALETTES.map((p) => {
+            {THEME_PALETTES.filter((p) => {
+              // Remove: dark palette in dark mode, light palette in dark mode, light palette in light mode
+              const resolvedMode =
+                mode === "system"
+                  ? typeof window !== "undefined" &&
+                    window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "dark"
+                    : "light"
+                  : mode;
+              if (resolvedMode === "dark" && (p === "dark" || p === "light"))
+                return false;
+              if (resolvedMode === "light" && p === "light") return false;
+              return true;
+            }).map((p) => {
               const active = palette === p;
               return (
                 <button

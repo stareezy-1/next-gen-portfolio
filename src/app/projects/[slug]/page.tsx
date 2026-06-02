@@ -126,6 +126,7 @@ export default async function ProjectDetailPage({
       >
         {project.image ? (
           <Image
+            loading="eager"
             src={project.image}
             alt={project.title}
             fill
@@ -551,6 +552,7 @@ export default async function ProjectDetailPage({
                         }}
                       >
                         <Image
+                          loading="eager"
                           src={src}
                           alt={`${project.title} screenshot ${i + 1}`}
                           fill
@@ -833,6 +835,7 @@ export default async function ProjectDetailPage({
                             src={rel.image}
                             alt={rel.title}
                             fill
+                            loading="eager"
                             style={{ objectFit: "cover" }}
                             sizes="320px"
                           />

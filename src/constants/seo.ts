@@ -12,7 +12,7 @@ export const SITE_TITLE_DEFAULT =
 export const SITE_TITLE_TEMPLATE = "%s | Bintang Al Akbar";
 
 export const SITE_DESCRIPTION =
-  "Senior Front-End & Mobile Engineer with 3+ years building cross-platform enterprise products. WSA Global Winner. Specializing in React, React Native, TypeScript, and design token systems.";
+  "Senior Front-End & Mobile Engineer with 3+ years building cross-platform enterprise products. WSA Global Winner 2025. Specializing in React, React Native, TypeScript, and design token systems.";
 
 export const SITE_KEYWORDS = [
   "Muhammad Bintang Al Akbar",
@@ -24,7 +24,7 @@ export const SITE_KEYWORDS = [
   "Expo Developer",
   "Next.js Developer",
   "Jakarta Indonesia",
-  "WSA Global Winner",
+  "WSA Global Winner 2025",
   "Design Token Systems",
   "Cross-platform Engineer",
   "stareezy",
