@@ -1,0 +1,82 @@
+---
+slug: "wsa-global-winner-rekosistem"
+title: "How We Won the World Summit Award: Building Tech That Actually Matters"
+description: "The story behind Rekosistem winning the WSA Global Award — how IoT, mobile apps, and ESG reporting came together to turn urban waste into opportunity for 90,000+ people across Indonesia."
+heroImage: "https://res.cloudinary.com/diwktkaxv/image/upload/v1780373308/page-0001_lrkj71.png"
+author: "Stareezy"
+publishDate: "2025-02-10"
+tags:
+  - "Open Source"
+  - "Awards"
+  - "Impact"
+  - "React Native"
+  - "IoT"
+category: "Case Study"
+published: true
+---
+
+# How We Won the World Summit Award: Building Tech That Actually Matters
+
+The [World Summit Awards (WSA)](https://wsa-global.org) is one of the most respected international recognitions for digital innovation with real social impact. Since 2003, it has been organized under the United Nations World Summit on the Information Society framework, celebrating solutions from over 180 countries that use technology to move the needle on sustainable development.
+
+When the Rekosistem platform was named a WSA Global Winner, it wasn't just a trophy moment. It was validation of a thesis we had been building toward for years: **that software built with the right architecture, deployed on the right infrastructure, and designed for the right users can directly drive environmental and economic change at scale**.
+
+Here's the full story.
+
+## The Problem We Were Solving
+
+Indonesia generates over 70 million tonnes of municipal solid waste annually. Around 61% of that ends up unmanaged — in rivers, open fields, or informal dumps. The informal waste sector, made up of waste pickers known locally as _pemulung_, handles a significant share of recyclable recovery, but without technology, traceability, or fair economic inclusion.
+
+The gap wasn't a lack of effort. It was a lack of infrastructure connecting the physical waste chain to digital accountability.
+
+## What Rekosistem Built
+
+Rekosistem is a tech-enabled circular economy platform. At its core, it integrates three layers:
+
+**1. IoT-connected waste stations (Reko Stations)**
+
+Physical drop points equipped with sensors that track volume, type, and weight of deposited waste in real time. The hardware layer feeds into a centralized dashboard giving city governments, corporate ESG teams, and logistics coordinators live operational data.
+
+**2. Consumer and enterprise mobile apps**
+
+The consumer app lets individuals schedule waste pickups, locate the nearest Reko Station, earn rewards for responsible disposal, and track their personal environmental impact. The enterprise app gives corporate clients (Danone, Nestlé, L'Oréal, Toyota Astra Motor) access to verified ESG reporting dashboards — waste handled, CO₂ offset, and circular economy metrics — all tied to audit-ready data.
+
+**3. ESG reporting and traceability engine**
+
+Every waste transaction — pickup, drop-off, segregation, processing — is recorded and linked to a carbon accounting model. This turns operational data into internationally recognized ESG metrics, which is increasingly essential as Indonesian corporations face mandatory sustainability reporting requirements.
+
+## The Numbers That Won the Award
+
+By the time of the WSA nomination, Rekosistem had:
+
+- Recovered over **72,800 tonnes** of waste
+- Reduced more than **125,000 tonnes** of CO₂ emissions
+- Generated over **USD 20 million** in income for informal waste workers and communities
+- Reached over **90,000 individuals** and **200+ corporate clients**
+- Achieved **USD 32.9 million** in annualized revenue with a **442% CAGR** from 2021 to 2024
+
+These aren't vanity metrics. They represent the WSA's core evaluation criteria: measurable local impact aligned with the UN Sustainable Development Goals — specifically SDGs 8 (Decent Work), 11 (Sustainable Cities), 12 (Responsible Consumption), and 13 (Climate Action).
+
+## What This Taught Me About Building Software
+
+Working on the engineering side of Rekosistem shaped how I think about building products. A few things stand out:
+
+**Offline-first is non-negotiable at the edge.** Waste stations in outer Jakarta aren't guaranteed LTE. The mobile app had to function fully offline and sync when connectivity resumed. React Native's architecture made this tractable — but it required deliberate state management with a sync queue backed by SQLite before the data hit the API.
+
+**Reliability beats features every time for field workers.** The informal waste worker using our app in the sun on a cracked Android device doesn't care about animations. They care that the pickup request registers, that the QR scan works, and that their payout reflects accurately. Stripping the UI to its functional core was a product discipline we had to enforce repeatedly.
+
+**ESG data is only as good as its chain of custody.** We learned early that corporate clients don't just want a dashboard — they want an audit trail. Every event in the system needed a timestamp, a geofence, a user ID, and a station ID. Designing the data model for verifiability from day one prevented years of painful retrofits.
+
+**Internationalization matters earlier than you think.** With the WSA attracting attention from WWF, Google Play, Forbes, and Fortune, the platform had to present to audiences who don't speak Bahasa Indonesia. Investing in i18n architecture early meant we weren't scrambling when international visibility arrived.
+
+## What the WSA Recognition Changed
+
+Winning the WSA opened doors that would have taken years to open otherwise. The network of 550+ WSA winners across 180+ countries is a genuine community of practitioners solving hard problems with technology. The congress in Vienna connected us with climate tech founders, policy makers, and institutional investors who had been watching the circular economy space for years.
+
+More than anything, the award crystallized something I believe deeply: **the most impactful software is often not the most technically impressive — it's the software that reaches the people who need it most, works reliably under real-world conditions, and measures its own impact with integrity**.
+
+That's the standard I bring to every project I build.
+
+---
+
+_Rekosistem is recognized by the World Summit Awards (WSA), WWF, Google Play, Forbes, and Fortune. Learn more at [wsa-global.org](https://wsa-global.org/winner/reko-waste-recovery-platform-from-waste-to-worth-building-sustainable-cities-through-empowerment-and-technology/)._

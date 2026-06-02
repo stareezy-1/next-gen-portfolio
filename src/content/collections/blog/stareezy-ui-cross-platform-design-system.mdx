@@ -1,0 +1,246 @@
+---
+slug: "stareezy-ui-cross-platform-design-system"
+title: "stareezy-ui: How I Built a Cross-Platform Design System from First Principles"
+description: "A deep dive into stareezy-ui — a fully typed, object-based design token system and component library for React Native and web. How the token architecture, O(1) style registry, and Babel compiler work together."
+heroImage: "https://res.cloudinary.com/diwktkaxv/image/upload/v1780373749/stareezy-ui-blog_nmuwzl.png"
+author: "Stareezy"
+publishDate: "2025-04-05"
+tags:
+  - "Design Systems"
+  - "React Native"
+  - "TypeScript"
+  - "Open Source"
+  - "Architecture"
+  - "CSS"
+category: "Architecture"
+published: true
+---
+
+# stareezy-ui: How I Built a Cross-Platform Design System from First Principles
+
+Most design systems start with components. I started with tokens.
+
+That single architectural decision — putting the token system first and treating everything else as downstream — is what made `stareezy-ui` scale across React Native and web without the usual divergence that kills cross-platform codebases.
+
+Here's the full technical story.
+
+## Why Another Design System?
+
+The honest answer: I couldn't find one that did exactly what I needed without a significant trade-off.
+
+**Existing options had one of these problems:**
+
+- Web-only, with no path to React Native
+- React Native-first, with a web adapter that felt bolted on
+- Token support that was a JSON file and a script, rather than a typed TypeScript system
+- Style registries that were O(n) — every component lookup scanned the stylesheet
+- No compile-time transform, so every runtime style decision added overhead
+
+I wanted a system that was:
+
+1. Fully typed in TypeScript — tokens as objects with `.value` accessors, not string maps
+2. Cross-platform by default — the same component tree running on web and React Native
+3. Runtime-fast — O(1) style lookups regardless of stylesheet size
+4. Build-time optimizable — a Babel/Vite transform that extracts atomic CSS at compile time
+
+`stareezy-ui` is the result.
+
+## The Token Architecture
+
+The foundation is `@stareezy-ui/tokens`, a zero-dependency package that defines every design decision as a typed `Token<T>` object.
+
+```typescript
+interface Token<T> {
+  value: T;
+  description?: string;
+}
+
+// Token definitions
+export const colors = {
+  celurenBlue: {
+    100: { value: "#e8f0fe" } satisfies Token<string>,
+    300: { value: "#8ab4f8" } satisfies Token<string>,
+    500: { value: "#1a73e8" } satisfies Token<string>,
+    700: { value: "#1557b0" } satisfies Token<string>,
+    900: { value: "#0d3472" } satisfies Token<string>,
+  },
+  // ... full palette
+} as const;
+
+export const spacing = {
+  1: { value: 4 } satisfies Token<number>,
+  2: { value: 8 } satisfies Token<number>,
+  4: { value: 16 } satisfies Token<number>,
+  8: { value: 32 } satisfies Token<number>,
+  // ...
+} as const;
+```
+
+The `as const` assertion combined with the `Token<T>` type gives TypeScript full knowledge of every token value at compile time. You get autocomplete, type checking on `.value` access, and a compile error if you try to use a token that doesn't exist.
+
+**Usage is always via `.value`:**
+
+```typescript
+import { colors, spacing, radius } from "@stareezy-ui/tokens";
+
+const buttonStyle = {
+  backgroundColor: colors.celurenBlue[500].value, // "#1a73e8"
+  padding: spacing[4].value, // 16
+  borderRadius: radius.md.value, // 8
+};
+```
+
+This indirection is intentional. It means you can change a token's underlying value once and it propagates everywhere — no find-and-replace across stylesheets.
+
+## The O(1) Style Registry
+
+`@stareezy-ui/runtime` is the most technically interesting package. It provides the style registry that powers runtime styling on both web and React Native.
+
+The naive approach to a style registry is an array: add styles to the array, look them up by iterating. That's O(n) for every lookup, and it degrades as the stylesheet grows.
+
+The `stareezy-ui` runtime uses a hash-based registry where the style object's canonical hash is the key:
+
+```typescript
+class StyleRegistry {
+  private registry = new Map<string, RegisteredStyle>();
+  private webSheet: CSSStyleSheet | null = null;
+
+  register(style: StyleDefinition): string {
+    const hash = hashStyle(style);
+
+    if (this.registry.has(hash)) {
+      return hash; // O(1) hit
+    }
+
+    const registered = this.processStyle(style, hash);
+    this.registry.set(hash, registered);
+    this.injectToSheet(registered); // inject once, reuse forever
+    return hash;
+  }
+
+  resolve(hash: string): RegisteredStyle {
+    return this.registry.get(hash)!; // O(1)
+  }
+}
+```
+
+Every component gets a hash at registration time. Subsequent renders just resolve the hash — no reprocessing, no re-injection. The stylesheet grows monotonically as new styles are encountered, but lookups stay constant time.
+
+**Web adapter** injects an atomic CSS class per style property into a `CSSStyleSheet`. Components receive a `className` string.
+
+**React Native adapter** returns a `StyleSheet.create()` compatible object. The API surface is identical — the platform adapter handles the difference.
+
+This means component authors write one style definition and get correct output on both platforms:
+
+```typescript
+// Works identically on web (→ CSS class) and React Native (→ StyleSheet)
+const buttonStyles = registry.register({
+  backgroundColor: colors.celurenBlue[500].value,
+  paddingVertical: spacing[3].value,
+  paddingHorizontal: spacing[6].value,
+  borderRadius: radius.md.value,
+});
+```
+
+## The Babel/Vite Compiler Transform
+
+The runtime registry works well, but runtime style registration has a cost: JavaScript executes, hashes are computed, and CSS is injected at runtime. For hot paths — components that render thousands of times — this adds up.
+
+`@stareezy-ui/compiler` is a Babel plugin (with a Vite integration) that analyzes component style definitions at build time and extracts them to static CSS.
+
+Given this source:
+
+```typescript
+const buttonStyles = registry.register({
+  backgroundColor: colors.celurenBlue[500].value,
+  padding: spacing[4].value,
+});
+```
+
+The compiler outputs:
+
+```css
+/* extracted to styles.css */
+.s-a3f9b2 {
+  background-color: #1a73e8;
+}
+.s-c7d1e4 {
+  padding: 16px;
+}
+```
+
+```typescript
+// transformed source
+const buttonStyles = "s-a3f9b2 s-c7d1e4"; // static string, no runtime
+```
+
+The component gets a static className string at zero runtime cost. The CSS is bundled and cached as a static asset. This is the same pattern that Tailwind uses, but driven by your token system rather than utility class names.
+
+The compiler handles:
+
+- Static token value resolution (`.value` access replaced with the literal)
+- Atomic class extraction (one class per property)
+- Deduplication across components (same style = same class)
+- Source map preservation
+
+Styles that can't be statically analyzed (dynamic values, runtime conditions) fall through to the runtime registry gracefully.
+
+## The Component Layer
+
+`@stareezy-ui/components` builds 17+ cross-platform components on top of the token system. The file convention is strict:
+
+```
+Button/
+├── Button.tsx         # Logic only — zero inline styles
+├── Button.style.ts    # All styles using token values
+└── Button.types.ts    # Enums and prop types
+```
+
+Separating types into their own file eliminates circular import issues that arise when a style file imports a type that imports the component. It's a small discipline with a big payoff.
+
+**No hardcoded colors.** Ever. Theme colors are injected via a theme hook at render time:
+
+```typescript
+// Button.style.ts
+import { spacing, radius } from "@stareezy-ui/tokens";
+
+export function getButtonStyles(theme: Theme) {
+  return {
+    container: {
+      backgroundColor: theme.colors.brand, // injected at render
+      paddingVertical: spacing[3].value,
+      paddingHorizontal: spacing[6].value,
+      borderRadius: radius.md.value,
+    },
+  };
+}
+```
+
+This makes theming a first-class feature rather than an afterthought.
+
+## The Monorepo Structure
+
+`stareezy-ui` is a pnpm workspaces monorepo. The build order matters because of the dependency chain:
+
+```
+tokens → core / stylesheet → runtime → compiler → components
+```
+
+Packages are built with `tsup`, which produces both ESM and CJS outputs with TypeScript declaration files. Changesets manages versioning and publishing.
+
+```bash
+pnpm --filter @stareezy-ui/tokens build  # always first
+pnpm run build                           # builds all in dependency order
+```
+
+## Lessons from Building in the Open
+
+**Type safety on tokens is worth the verbosity.** The `Token<T>` wrapper with `.value` access feels ceremonial at first. After six months of working with it, I wouldn't remove it. The compile-time guarantee that a token exists and has the right type has prevented more bugs than I can count.
+
+**The compiler transform is a multiplier, not a requirement.** You can use `stareezy-ui` with just the runtime registry and get correct, working styles. The compiler is an optimization. This layered approach made adoption easier — teams could start without the Babel transform and add it later.
+
+**Cross-platform discipline is social as much as technical.** The rule "web styles use `display: 'flex'`, never `flex: 1`" is enforced in code review, not just documentation. Tooling can guide, but team conventions are what actually maintain cross-platform consistency at scale.
+
+---
+
+`stareezy-ui` is available on npm as `@stareezy-ui/tokens`, `@stareezy-ui/runtime`, `@stareezy-ui/components`, and the rest of the packages. The source is open — contributions, issues, and ideas are welcome.

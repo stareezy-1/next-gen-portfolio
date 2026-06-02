@@ -1,0 +1,30 @@
+---
+kind: professional
+slug: rekohub
+title: "RekoHub — Enterprise Waste Management ERP Platform"
+company: "Rekosistem"
+role: "Frontend Engineer"
+description: "Enterprise-grade ERP platform powering operational workflows across Rekosistem's sustainability ecosystem — unifying logistics, approvals, warehouse coordination, inventory management, and ESG reporting into a single cross-platform experience."
+image: "https://res.cloudinary.com/diwktkaxv/image/upload/v1780375331/rekohub_mxunul.png"
+technologies:
+  - "React Native Web"
+  - "Expo"
+  - "TypeScript"
+  - "AWS Amplify"
+  - "SWR"
+  - "Zustand"
+  - "EAS Build"
+achievements:
+  - "Architected unified ERP workflows for waste management operations"
+  - "Built cross-platform web and tablet interfaces with React Native Web"
+  - "Delivered scalable operational dashboards and multi-step approval systems"
+  - "Implemented inventory and material transfer management workflows"
+  - "Integrated AWS Amplify microservices for real-time operational sync"
+  - "Optimized enterprise UI performance for large-scale operational datasets"
+featured: true
+overview: "RekoHub is the internal operational backbone of Rekosistem — a centralized ERP system designed specifically for waste management and circular economy operations. The platform consolidates logistics coordination, operational approvals, warehouse management, inventory tracking, and sustainability reporting into a unified cross-platform product used daily by operations, product, and sustainability teams."
+problem: "Rekosistem's operational teams were managing waste logistics, warehouse movements, and ESG reporting across disconnected tools and manual processes. This fragmentation created visibility gaps between field operations and management, slowed approval cycles, and made accurate sustainability reporting difficult at scale."
+solution: "RekoHub was architected as a single cross-platform ERP built on Expo React Native Web, delivering the same codebase across web browsers and operational tablets. High-density administrative dashboards give management real-time visibility into waste flows. Structured approval workflows replace manual handoffs. AWS Amplify microservices sync operational data across all nodes with low latency."
+architecture: "The platform uses a React Native Web architecture for true cross-platform delivery from one codebase. SWR handles data fetching with stale-while-revalidate caching optimized for dashboard-heavy views that poll frequently. Zustand manages complex multi-step form and approval state. AWS Amplify provides the backend synchronization layer connecting field data to central operational systems. EAS Build manages the deployment pipeline for both web and tablet targets."
+lessonsLearned: "Building ERP dashboards for high-density operational data requires a fundamentally different UI discipline than consumer apps. Performance optimization at the component level — virtualizing long lists, memoizing expensive renders, debouncing real-time updates — matters far more than it does in lighter interfaces. Collaborating directly with operations teams rather than just product stakeholders produced dramatically better workflow designs."
+---

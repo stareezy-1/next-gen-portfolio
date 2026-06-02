@@ -179,6 +179,7 @@ export default async function BlogPage({
                     }}
                   >
                     <article
+                      className="card-hover"
                       style={{
                         backgroundColor: "var(--color-surface)",
                         border: "1px solid var(--color-border)",
@@ -261,6 +262,8 @@ export default async function BlogPage({
                             fontSize: "1.0625rem",
                             fontWeight: 700,
                             lineHeight: 1.3,
+                            color: "var(--color-text-primary)",
+                            textDecoration: "none",
                           }}
                         >
                           {post.title}
@@ -268,13 +271,14 @@ export default async function BlogPage({
                         <p
                           style={{
                             margin: 0,
-                            fontSize: "0.9375rem",
+                            fontSize: "0.9rem",
                             color: "var(--color-text-secondary)",
-                            lineHeight: 1.6,
+                            lineHeight: 1.65,
                             display: "-webkit-box",
                             WebkitLineClamp: 2,
                             WebkitBoxOrient: "vertical",
                             overflow: "hidden",
+                            textDecoration: "none",
                           }}
                         >
                           {post.description}

@@ -15,6 +15,7 @@
   "dependencies": {
     "@lottiefiles/dotlottie-react": "0.19.4",
     "@stareezy-ui/tokens": "0.2.6",
+    "marked": "^15.0.12",
     "next": "16.2.6",
     "react": "19.2.6",
     "react-dom": "19.2.6",

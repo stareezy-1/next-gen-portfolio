@@ -111,6 +111,7 @@ export default async function ProjectsPage() {
                   aria-label={`View ${project.title} project details`}
                 >
                   <article
+                    className="card-hover"
                     style={{
                       backgroundColor: "var(--color-surface)",
                       border: "1px solid var(--color-border)",
@@ -186,6 +187,8 @@ export default async function ProjectsPage() {
                           margin: 0,
                           fontSize: "1.0625rem",
                           fontWeight: 700,
+                          color: "var(--color-text-primary)",
+                          lineHeight: 1.3,
                         }}
                       >
                         {project.title}
@@ -193,9 +196,9 @@ export default async function ProjectsPage() {
                       <p
                         style={{
                           margin: 0,
-                          fontSize: "0.9375rem",
+                          fontSize: "0.9rem",
                           color: "var(--color-text-secondary)",
-                          lineHeight: 1.6,
+                          lineHeight: 1.65,
                           display: "-webkit-box",
                           WebkitLineClamp: 2,
                           WebkitBoxOrient: "vertical",
@@ -316,6 +319,7 @@ export default async function ProjectsPage() {
                   aria-label={`View ${project.title} project details`}
                 >
                   <article
+                    className="card-hover"
                     style={{
                       backgroundColor: "var(--color-surface)",
                       border: "1px solid var(--color-border)",
@@ -363,7 +367,7 @@ export default async function ProjectsPage() {
                         padding: "1.5rem",
                         display: "flex",
                         flexDirection: "column",
-                        gap: "0.875rem",
+                        gap: "0.75rem",
                         flex: 1,
                       }}
                     >
@@ -373,6 +377,8 @@ export default async function ProjectsPage() {
                             margin: 0,
                             fontSize: "1.0625rem",
                             fontWeight: 700,
+                            color: "var(--color-text-primary)",
+                            lineHeight: 1.3,
                           }}
                         >
                           {project.title}
@@ -380,20 +386,20 @@ export default async function ProjectsPage() {
                         <p
                           style={{
                             margin: "0.25rem 0 0",
-                            fontSize: "0.875rem",
+                            fontSize: "0.8125rem",
                             color: "var(--color-brand)",
                             fontWeight: 600,
                           }}
                         >
-                          {project.company}
+                          {project.company} · {project.role}
                         </p>
                       </div>
                       <p
                         style={{
                           margin: 0,
-                          fontSize: "0.9375rem",
+                          fontSize: "0.9rem",
                           color: "var(--color-text-secondary)",
-                          lineHeight: 1.6,
+                          lineHeight: 1.65,
                           display: "-webkit-box",
                           WebkitLineClamp: 2,
                           WebkitBoxOrient: "vertical",

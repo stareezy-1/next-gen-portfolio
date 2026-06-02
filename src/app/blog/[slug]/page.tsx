@@ -8,6 +8,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { marked } from "marked";
 import { loadAll } from "@/content/loader";
 import { publishedOnly } from "@/lib/blog/query";
 import { readingTime } from "@/lib/blog/reading-time";
@@ -68,6 +69,7 @@ export default async function BlogDetailPage({
   const minutes = readingTime(post.body);
   const toc = tableOfContents(post.body);
   const related = getRelatedPosts(slug);
+  const bodyHtml = await marked(post.body, { gfm: true, breaks: false });
 
   const postUrl = canonicalUrl(`${ROUTES.BLOG}/${post.slug}`);
   const blogPostingLd = blogPostingJsonLd(post, postUrl);
@@ -273,7 +275,7 @@ export default async function BlogDetailPage({
             <article
               aria-label={post.title}
               className="prose"
-              dangerouslySetInnerHTML={{ __html: post.body }}
+              dangerouslySetInnerHTML={{ __html: bodyHtml }}
             />
             <div
               style={{

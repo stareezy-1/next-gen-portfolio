@@ -101,6 +101,8 @@ export interface ProfessionalProject {
   architecture?: string;
   lessonsLearned?: string;
   gallery?: string[];
+  playStoreUrl?: string;
+  appStoreUrl?: string;
 }
 
 /** Discriminated union of project content, keyed on `kind`. */

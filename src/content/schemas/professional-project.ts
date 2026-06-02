@@ -54,6 +54,8 @@ const professionalProjectFields = z
     architecture: z.string().optional(),
     lessonsLearned: z.string().optional(),
     gallery: z.array(z.string()).optional(),
+    playStoreUrl: z.string().optional(),
+    appStoreUrl: z.string().optional(),
   })
   .strict();
 

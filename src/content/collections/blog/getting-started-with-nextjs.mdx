@@ -1,67 +1,199 @@
 ---
 slug: "getting-started-with-nextjs"
-title: "Getting Started with Next.js 16"
-description: "A comprehensive guide to building server-first applications with Next.js 16 and React 19, covering the App Router, Server Components, and performance optimization."
-heroImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80"
+title: "Next.js App Router in Production: What Nobody Tells You"
+description: "Hard-won lessons from shipping multiple Next.js App Router applications — Server Components, streaming, caching pitfalls, and the patterns that actually hold up under real traffic."
+heroImage: "https://res.cloudinary.com/diwktkaxv/image/upload/q_auto/f_auto/v1780373933/next-js-blog_qeycev.png"
 author: "Stareezy"
-publishDate: "2024-06-01"
+publishDate: "2024-08-12"
 tags:
   - "Next.js"
   - "React"
   - "TypeScript"
   - "Performance"
+  - "Architecture"
 category: "Tutorial"
 published: true
 ---
 
-# Getting Started with Next.js 16
+# Next.js App Router in Production: What Nobody Tells You
 
-Next.js 16 introduces significant improvements to the App Router and React Server Components, making it easier than ever to build fast, server-rendered applications.
+The Next.js App Router documentation is good. But documentation describes the happy path. Production is where the edges live.
 
-## What's New in Next.js 16
+After shipping several App Router applications — including this portfolio — here are the patterns and pitfalls I wish someone had written down sooner.
 
-The latest version brings enhanced performance, better developer experience, and improved TypeScript support. Key highlights include:
+## The Mental Model That Changes Everything
 
-- Improved streaming SSR with React 19 concurrent features
-- Enhanced static generation with `generateStaticParams`
-- Better error boundaries and loading states
-- Improved image optimization with the `next/image` component
+The App Router's fundamental shift is the **server/client boundary**. Every component in `app/` is a Server Component by default. It renders on the server, produces HTML, and sends nothing to the client except that HTML and any props for Client Components below it.
 
-## Setting Up Your Project
-
-Start by creating a new Next.js project:
-
-```bash
-npx create-next-app@latest my-app --typescript --app
-```
-
-## Understanding Server Components
-
-React Server Components are the foundation of Next.js 16's performance story. By default, every component in the `app/` directory is a Server Component, which means it renders on the server and sends only HTML to the client.
+This is not just a performance optimization. It's a different programming model. You can `await` at the top level of a component. You can read from databases, call APIs, and access environment variables directly in your component — no `useEffect`, no loading state, no API route.
 
 ```tsx
-// This is a Server Component by default
-export default async function Page() {
-  const data = await fetchData(); // runs on the server
-  return <div>{data.title}</div>;
+// This is idiomatic App Router — runs entirely on the server
+export default async function ProjectsPage() {
+  const projects = await db.query(
+    "SELECT * FROM projects WHERE featured = true",
+  );
+
+  return (
+    <ul>
+      {projects.map((p) => (
+        <ProjectCard key={p.id} project={p} />
+      ))}
+    </ul>
+  );
 }
 ```
 
-## When to Use Client Components
+The client never sees the database query, the connection string, or the raw data. It gets HTML.
 
-Use the `'use client'` directive only when you need browser-specific APIs, event handlers, or React state:
+## The Caching Model Will Surprise You
 
-```tsx
-"use client";
+Next.js has four overlapping caching layers:
 
-import { useState } from "react";
+1. Request memoization (per-request deduplication of `fetch` calls)
+2. Data cache (persistent across requests, opt-out with `cache: 'no-store'`)
+3. Full Route Cache (static page cache, revalidated by time or on-demand)
+4. Router cache (client-side cache of visited routes)
 
-export function Counter() {
-  const [count, setCount] = useState(0);
-  return <button onClick={() => setCount((c) => c + 1)}>{count}</button>;
+The default behavior caches aggressively. After deployment, if your data looks stale, the cache is usually why.
+
+**The pattern that works:**
+
+```typescript
+// Tag your fetches so you can invalidate them precisely
+const data = await fetch("/api/projects", {
+  next: { tags: ["projects"], revalidate: 3600 },
+});
+
+// In a Server Action, invalidate by tag after mutation
+import { revalidateTag } from "next/cache";
+
+async function createProject(formData: FormData) {
+  "use server";
+  await db.insert(formData);
+  revalidateTag("projects"); // only the tagged pages rebuild
 }
 ```
 
-## Conclusion
+Don't reach for `cache: 'no-store'` by default. Use tags and targeted invalidation. The performance difference on a deployed app is significant.
 
-Next.js 16 with React 19 represents a major step forward for web development. The server-first model delivers excellent performance while keeping the developer experience smooth and productive.
+## Streaming with Suspense Is Real and Useful
+
+The killer feature of App Router that most tutorials gloss over: you can stream parts of a page independently. Slow data doesn't block fast data.
+
+```tsx
+export default function DashboardPage() {
+  return (
+    <div>
+      {/* Renders immediately — no data dependency */}
+      <PageHeader title="Dashboard" />
+
+      {/* Streams when ready — slow database query */}
+      <Suspense fallback={<MetricsSkeleton />}>
+        <Metrics /> {/* async component with slow query */}
+      </Suspense>
+
+      {/* Streams independently — different data source */}
+      <Suspense fallback={<FeedSkeleton />}>
+        <ActivityFeed /> {/* another async component */}
+      </Suspense>
+    </div>
+  );
+}
+```
+
+The HTML for `PageHeader` arrives immediately. `Metrics` and `ActivityFeed` stream in as their data resolves, each independently. The user sees content progressively rather than waiting for the slowest query.
+
+This is a genuine UX improvement, not a theoretical one. Time-to-first-byte drops. Core Web Vitals improve.
+
+## Where to Draw the Client Boundary
+
+The most common mistake is sprinkling `'use client'` too high. Every `'use client'` boundary sends JavaScript to the browser. Put it as low as possible.
+
+**Wrong — sends the whole section to the client:**
+
+```tsx
+"use client"; // ← too high
+export function ProjectsSection() {
+  const [filter, setFilter] = useState("all");
+  return (
+    <div>
+      <FilterBar value={filter} onChange={setFilter} />
+      <ProjectGrid projects={ALL_PROJECTS} filter={filter} />
+    </div>
+  );
+}
+```
+
+**Right — only the interactive part is a Client Component:**
+
+```tsx
+// ProjectsSection.tsx — Server Component
+export function ProjectsSection({ projects }) {
+  return (
+    <div>
+      <FilterBar /> {/* Client Component — just the interactive bit */}
+      <ProjectGrid projects={projects} />
+    </div>
+  );
+}
+
+// FilterBar.tsx
+("use client");
+export function FilterBar() {
+  const [filter, setFilter] = useState("all");
+  // ...
+}
+```
+
+`ProjectGrid` stays a Server Component. `projects` data never touches the client bundle.
+
+## `searchParams` Are Promises in Next.js 15+
+
+This caught me off guard upgrading an existing App Router project. As of Next.js 15, `searchParams` and `params` in page components are Promises, not plain objects:
+
+```tsx
+// Next.js 15 signature
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; tag?: string; page?: string }>;
+}) {
+  const { q, tag, page } = await searchParams; // must await
+  // ...
+}
+```
+
+TypeScript will catch this if you have strict types, but the runtime error is confusing if you don't.
+
+## Error Boundaries Work Differently in RSC
+
+The `error.tsx` convention creates an error boundary for a route segment. But Server Component errors that happen during streaming don't behave exactly like client-side React errors.
+
+The pattern I've settled on: wrap all async operations in try/catch and return explicit error UI rather than relying on the boundary for expected failure modes. Reserve `error.tsx` for unexpected exceptions.
+
+```tsx
+export default async function ProjectPage({ params }) {
+  const project = await getProject(params.slug);
+
+  if (!project) {
+    notFound(); // triggers not-found.tsx
+  }
+
+  return <ProjectDetail project={project} />;
+}
+```
+
+`notFound()` and `redirect()` are first-class App Router primitives. Use them instead of manual `if (!data) return null` patterns.
+
+## The Pattern That Makes Everything Cleaner
+
+The cleanest architecture I've found for data-heavy pages:
+
+1. **Route component** — only fetches data and composes sections
+2. **Section components** — receive data as props, own their layout
+3. **Client leaf components** — interactive bits only, receive only what they need
+
+No data fetching in Client Components. No `useEffect` for data loading. No prop drilling through four levels of Server Components (use `use()` with Context or just fetch at the level that needs it).
+
+The App Router model rewards this architecture. Fight it and you end up with the worst of both worlds.

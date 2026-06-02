@@ -1,0 +1,30 @@
+---
+kind: professional
+slug: reko-mitra
+title: "Reko Mitra — Operational Mobile App for Field Teams"
+company: "Rekosistem"
+role: "Frontend Engineer"
+description: "Mobile operational platform engineered for field officers and waste management partners, with a focus on offline resilience, local caching, and reliable sync under unstable network conditions."
+image: "https://res.cloudinary.com/diwktkaxv/image/upload/v1780375363/rekomitra_xhxqi1.png"
+technologies:
+  - "React Native"
+  - "Expo"
+  - "TypeScript"
+  - "SWR"
+  - "Zustand"
+  - "AWS Amplify"
+  - "EAS Build"
+achievements:
+  - "Developed mobile-first operational workflows for field waste management teams"
+  - "Implemented offline-oriented synchronization architecture for low-connectivity environments"
+  - "Optimized local caching strategies to prevent UI freezing during network dropouts"
+  - "Built scalable waste activity tracking and operational reporting systems"
+  - "Improved coordination between field officers and management teams"
+  - "Maintained cross-platform deployment pipelines for Android and iOS via EAS Build"
+featured: true
+overview: "Reko Mitra is the field-facing operational mobile app for Rekosistem's Account Officers and operational partners. Where RekoHub serves management and warehouse teams from browsers and tablets, Reko Mitra serves the people on the ground — tracking waste pickups, logging activities, managing operational workflows, and maintaining reporting accuracy directly from mobile devices in the field."
+problem: "Field operations in waste management happen in environments with unreliable connectivity. Urban back-alleys, industrial areas, and outer districts frequently have poor or no mobile data. An app that requires constant network access fails exactly when field teams need it most — creating data gaps, forcing manual workarounds, and undermining the operational coordination that makes Rekosistem's platform work."
+solution: "Reko Mitra was engineered around an offline-first mental model. SWR's caching layer was configured to persist operational data locally so field officers can continue logging activities without a connection. A background sync queue replays mutations when connectivity resumes. Local state management via Zustand keeps the UI responsive even when network calls are pending or failing, preventing the UI freezes that earlier versions of the app had suffered under dropout conditions."
+architecture: "React Native with Expo provides the cross-platform foundation targeting Android and iOS from one codebase. SWR handles data fetching with aggressive local caching — stale data is always shown immediately rather than blocking on a network round-trip. Zustand manages ephemeral session state and the offline mutation queue. AWS Amplify connects the app to Rekosistem's backend infrastructure. EAS Build manages the build and submission pipeline for both stores, with separate staging and production tracks."
+lessonsLearned: "Offline-first is not a feature you add later — it's an architecture decision that shapes every data access pattern from the beginning. Retrofitting offline support onto a network-first app is extremely painful. The key insight was treating the local cache as the source of truth and the network as an async update channel, rather than the reverse. This inversion made the app dramatically more reliable in the field conditions it was actually deployed in."
+---

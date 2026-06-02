@@ -136,6 +136,7 @@ export default function HomePage() {
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section
         aria-labelledby="hero-heading"
+        className="hero-section"
         style={{
           minHeight: "calc(100vh - 68px)",
           display: "flex",
@@ -210,6 +211,7 @@ export default function HomePage() {
           >
             {/* Left: text */}
             <div
+              className="hero-text-col"
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -364,6 +366,7 @@ export default function HomePage() {
               {/* Stats */}
               <MotionWrapper variant="sectionReveal">
                 <div
+                  className="hero-stats"
                   style={{
                     display: "flex",
                     flexWrap: "wrap",
@@ -414,7 +417,10 @@ export default function HomePage() {
 
             {/* Right: floating code card */}
             <MotionWrapper variant="sectionReveal">
-              <div className="hero-float" style={{ position: "relative" }}>
+              <div
+                className="hero-float hero-code-card"
+                style={{ position: "relative" }}
+              >
                 {/* Main card */}
                 <div
                   style={{

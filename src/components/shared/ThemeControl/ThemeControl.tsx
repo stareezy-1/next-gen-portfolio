@@ -1,19 +1,11 @@
 "use client";
 
 /**
- * ThemeControl — client island for cycling through Theme_Mode values.
- *
- * A `'use client'` component that reads the current mode from `useTheme()` and
- * advances it through the cycle dark → light → system → dark via
- * `useThemeControl().setMode()` (Requirements 6.4, 4.1, 4.3).
- *
- * Styles live in `ThemeControl.style.ts` — no inline styles here
- * (Requirement 26.1).
- *
- * @see Requirements 6.4, 4.1, 4.3, 26.1
+ * ThemeControl — mode cycle + palette switcher.
  */
 
 import { useTheme, useThemeControl } from "@/providers/ThemeProvider";
+import { THEME_PALETTES } from "@/constants";
 import {
   themeControlButtonStyles,
   themeControlIconStyles,
@@ -25,26 +17,33 @@ import {
   THEME_MODE_LABELS,
 } from "./ThemeControl.types";
 import type { ThemeControlProps } from "./ThemeControl.types";
+import type { ThemePalette } from "@/types";
 
-/**
- * A button that cycles the active Theme_Mode: dark → light → system → dark.
- *
- * Accessible: the button carries an `aria-label` that describes the *next*
- * action ("Switch to light mode") and a visible label showing the *current*
- * mode, so both sighted and screen-reader users understand the control.
- */
+/** Visual accent color shown in the palette dot. */
+const PALETTE_COLORS: Record<ThemePalette, string> = {
+  aurora: "#00ff88",
+  dark: "#ffffff",
+  light: "#1a1a2e",
+  "steins-gate": "#1a73e8",
+};
+
+/** Display labels for each palette. */
+const PALETTE_LABELS: Record<ThemePalette, string> = {
+  aurora: "Aurora",
+  dark: "Dark",
+  light: "Light",
+  "steins-gate": "Steins;Gate",
+};
+
 export function ThemeControl({ className }: ThemeControlProps) {
-  const { mode } = useTheme();
-  const { setMode } = useThemeControl();
+  const { mode, palette } = useTheme();
+  const { setMode, setPalette } = useThemeControl();
 
-  /** Advance to the next mode in the cycle. */
-  function handleClick() {
+  function handleModeClick() {
     const currentIndex = THEME_MODE_CYCLE.indexOf(mode);
-    const nextIndex = (currentIndex + 1) % THEME_MODE_CYCLE.length;
-    const nextMode = THEME_MODE_CYCLE[nextIndex];
-    if (nextMode !== undefined) {
-      setMode(nextMode);
-    }
+    const nextMode =
+      THEME_MODE_CYCLE[(currentIndex + 1) % THEME_MODE_CYCLE.length];
+    if (nextMode !== undefined) setMode(nextMode);
   }
 
   const nextIndex =
@@ -53,10 +52,57 @@ export function ThemeControl({ className }: ThemeControlProps) {
   const nextLabel = nextMode !== undefined ? THEME_MODE_LABELS[nextMode] : "";
 
   return (
-    <div style={themeControlWrapperStyles} className={className}>
+    <div
+      style={{ ...themeControlWrapperStyles, gap: "0.5rem" }}
+      className={className}
+    >
+      {/* Palette dots */}
+      <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
+        {THEME_PALETTES.map((p) => {
+          const active = palette === p;
+          return (
+            <button
+              key={p}
+              type="button"
+              onClick={() => setPalette(p)}
+              aria-label={`Switch to ${PALETTE_LABELS[p]} palette`}
+              title={PALETTE_LABELS[p]}
+              style={{
+                width: active ? "20px" : "12px",
+                height: "12px",
+                borderRadius: "9999px",
+                backgroundColor: PALETTE_COLORS[p],
+                border: active
+                  ? `2px solid ${PALETTE_COLORS[p]}`
+                  : "2px solid transparent",
+                outline: active ? `2px solid ${PALETTE_COLORS[p]}` : "none",
+                outlineOffset: "2px",
+                cursor: "pointer",
+                padding: 0,
+                transition: "width 0.2s ease, outline 0.15s ease",
+                opacity: active ? 1 : 0.45,
+                flexShrink: 0,
+              }}
+            />
+          );
+        })}
+      </div>
+
+      {/* Divider */}
+      <span
+        style={{
+          width: "1px",
+          height: "16px",
+          backgroundColor: "var(--color-border)",
+          flexShrink: 0,
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Mode cycle button */}
       <button
         type="button"
-        onClick={handleClick}
+        onClick={handleModeClick}
         style={themeControlButtonStyles}
         aria-label={`Switch to ${nextLabel.toLowerCase()} mode`}
         title={`Current: ${THEME_MODE_LABELS[mode]} — click to switch to ${nextLabel}`}

@@ -41,6 +41,12 @@ export function TrackedProjectCard({
       href={href}
       aria-label={ariaLabel}
       onClick={() => track(ANALYTICS_EVENTS.PROJECT_CLICK, { slug })}
+      style={{
+        display: "block",
+        textDecoration: "none",
+        color: "inherit",
+        height: "100%",
+      }}
     >
       {children}
     </Link>

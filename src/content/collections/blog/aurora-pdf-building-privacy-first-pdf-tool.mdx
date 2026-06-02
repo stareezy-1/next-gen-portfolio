@@ -1,0 +1,246 @@
+---
+slug: "aurora-pdf-building-privacy-first-pdf-tool"
+title: "Aurora PDF: Building a Privacy-First PDF Suite Entirely in the Browser"
+description: "How I built Aurora PDF — a free, open-source, client-side PDF utility suite with 53 tools in React 19, TypeScript, and Vite. Files never leave your device."
+heroImage: "https://res.cloudinary.com/diwktkaxv/image/upload/v1780373617/aurora-blog_khzu4f.png"
+author: "Stareezy"
+publishDate: "2025-03-18"
+tags:
+  - "Open Source"
+  - "React"
+  - "TypeScript"
+  - "Privacy"
+  - "PDF"
+  - "Vite"
+category: "Project"
+published: true
+---
+
+# Aurora PDF: Building a Privacy-First PDF Suite Entirely in the Browser
+
+Most PDF tools on the internet share a common problem: they upload your files to a server you don't control, process them somewhere you can't see, and store them for an unspecified period. For legal documents, contracts, medical records, and financial statements, that's not a trade-off most people would consciously make if the label was clearer.
+
+Aurora PDF is my answer to that problem — a free, open-source PDF utility suite that runs **entirely in the browser**. No uploads. No server. No accounts. Your files never leave your device.
+
+## Why Build This?
+
+The frustration started with a real task: I needed to compress a PDF containing confidential client data. Every tool I found either had a file size paywall, required email sign-up, or had a privacy policy vague enough to mean anything.
+
+The irony is that everything needed to process PDFs exists in JavaScript today. [PDF-lib](https://pdf-lib.js.org/) handles creation and modification. [PDF.js](https://mozilla.github.io/pdf.js/) handles rendering. [Tesseract.js](https://tesseract.projectnaptha.com/) handles OCR. All client-side. The only reason most tools upload to servers is business model, not technical necessity.
+
+So I built the tool I wanted.
+
+## 53 Tools, Zero Server Calls
+
+The tool count matters because it's the entire point. The [TOOL_REGISTRY](https://github.com) — a single typed array that drives every route, every command palette entry, and every card on the home page — currently holds 53 tools across six categories:
+
+**Organize:** Merge, Split, Extract Pages, Rotate, Reorder, Add/Remove Blank Pages, Reverse Pages, Multi-Tool, PDFs to ZIP
+
+**Edit:** Edit PDF, Watermark, Page Numbers, Header & Footer, Crop, Bookmarks, Table of Contents, Page Labels, Bates Numbering, Form Builder, Form Filler, Add Stamps, Remove Annotations, Flatten
+
+**Convert (to PDF):** Image to PDF, Word to PDF, Excel to PDF, HTML to PDF, Markdown to PDF, PowerPoint to PDF, Text to PDF
+
+**Convert (from PDF):** PDF to JPG, PDF to PNG, PDF to Word, PDF to Excel, PDF to Text, PDF to Greyscale, PDF to PowerPoint, PDF to PDF/A, Extract Images, Searchable PDF OCR
+
+**Optimize:** Compress, Repair, Remove Blank Pages
+
+**Secure:** Protect, Sanitize, Remove Metadata, Digital Signature, Validate Signature, Redact
+
+Every single one runs entirely in the browser. None touches a server for document data.
+
+## Architecture: Registry-Driven Routing
+
+The cleanest architectural decision in the whole project is that **routes are generated from the registry**, not written by hand. `TOOL_REGISTRY` is the single source of truth:
+
+```typescript
+export interface ToolDefinition {
+  id: string; // kebab-case, matches route path segment
+  path: string; // e.g. '/compress'
+  name: string;
+  icon: string;
+  color: string;
+  bg: string;
+  category: ToolCategory;
+  description: string;
+  component: React.LazyExoticComponent<React.ComponentType>;
+  keywords?: string[];
+}
+
+export const TOOL_REGISTRY: ToolDefinition[] = [
+  {
+    id: "compress",
+    path: "/compress",
+    name: "Compress PDF",
+    icon: "🗜️",
+    category: "optimize",
+    description:
+      "Reduce PDF file size while preserving quality, entirely in your browser.",
+    component: React.lazy(() => import("@/app/compress/CompressPdfPage")),
+    keywords: ["shrink", "reduce", "size", "smaller", "optimize"],
+  },
+  // ... 52 more tools
+];
+```
+
+The router maps over this array and generates routes automatically. Adding a new tool means adding one entry to the registry — the command palette, the home page grid, the category filter, and the route all update immediately. No manual wiring.
+
+## How Compression Actually Works
+
+Compression is the feature most people use first, so it's worth explaining accurately. The approach isn't "apply JPEG compression to an existing PDF" — that's not how PDF-lib works. Instead:
+
+1. Load the source PDF with PDF.js and render each page to a canvas
+2. Export each canvas to a JPEG at the configured quality level (default 0.75)
+3. Create a **brand new, empty PDFDocument** with PDF-lib
+4. Embed each JPEG into the new document as a full-page image
+
+The result has no original content streams, no embedded fonts from the source, no metadata cruft. Just clean JPEG-rendered pages. That's why it actually reduces file size meaningfully — you're not compressing the original, you're recreating the document from rendered output.
+
+One detail that caught me: PDF.js transfers `ArrayBuffer` ownership when you pass a buffer to `getDocument()`. If you need the same buffer again, you have to copy it first:
+
+```typescript
+// PDF.js takes ownership — copy if you need the original later
+function copyBytes(src: ArrayBuffer): ArrayBuffer {
+  const copy = new ArrayBuffer(src.byteLength);
+  new Uint8Array(copy).set(new Uint8Array(src));
+  return copy;
+}
+
+const pdfDoc = await getDocument({ data: copyBytes(fileBuffer) }).promise;
+```
+
+This burned me once when a tool needed the source buffer after passing it to the renderer. The `copyBytes()` pattern is now a standard utility across the codebase.
+
+## Zustand for Session State
+
+Each tool session is managed through a single Zustand store — `useAuroraStore` — that acts as a global workbox for the current operation:
+
+```typescript
+interface AuroraStore {
+  activeFile: File | null;
+  resultBlobUrl: string | null;
+  status: "idle" | "processing" | "success" | "error";
+  progress: number;
+  progressLabel: string;
+  sessionId: string;
+
+  setNewFile: (file: File) => void;
+  setComplete: (blob: Blob, filename: string) => void;
+  updateProgress: (progress: number, label?: string) => void;
+  failSession: (message: string) => void;
+  clearWorkbox: () => void;
+}
+```
+
+The `clearWorkbox()` action is the privacy mechanism. It calls `URL.revokeObjectURL()` on any result blob URL and resets all transient state. No file data persists after the user navigates away or clicks "Start Over". There's no explicit "delete my file" button because the file is never stored anywhere — revoking the blob URL and nulling the references is all that's needed.
+
+```typescript
+clearWorkbox: () => {
+  const { resultBlobUrl } = get();
+  if (resultBlobUrl) {
+    URL.revokeObjectURL(resultBlobUrl); // revoke the blob
+  }
+  set({
+    activeFile: null,
+    resultBlobUrl: null,
+    status: "idle",
+    progress: 0,
+    progressLabel: "",
+    errorMessage: null,
+    outputFilename: null,
+  });
+},
+```
+
+## React 19's `useTransition` for Responsive Processing
+
+PDF operations block the main thread. `useTransition` is what keeps the UI responsive — it marks the processing work as non-urgent, allowing React to keep rendering the progress bar and UI while the heavy computation runs:
+
+```typescript
+const [isPending, startTransition] = useTransition();
+
+function handleProcess(file: File) {
+  store.setNewFile(file);
+  startTransition(async () => {
+    try {
+      const result = await processFile(file, config, (pct, label) => {
+        store.updateProgress(pct, label);
+      });
+      store.setComplete(result, outputName);
+    } catch (err) {
+      store.failSession(
+        err instanceof Error ? err.message : "Processing failed",
+      );
+    }
+  });
+}
+```
+
+Progress updates happen inside the transition, so the progress bar advances smoothly even during heavy operations like OCR on a multi-page scan.
+
+## The Hand-Rolled RC4 Encryption
+
+The PDF password protection feature was the most technically involved part of the project. The PDF specification's Standard Security Handler Revision 2 uses RC4-40 encryption with an MD5-derived key. Since no browser-native API handles this exact combination and PDF-lib's encryption support has limitations, I wrote it from scratch in TypeScript.
+
+The key derivation follows the spec precisely: concatenate password bytes with the owner key, padding to 32 bytes, run through MD5, XOR with the document ID, and use the first 5 bytes as the RC4 key. Per-object keys are derived by appending the object number and generation number before MD5.
+
+It's not glamorous code. But it works, it's spec-compliant, and it runs in the browser without any native dependencies.
+
+## The Command Palette
+
+The command palette (⌘K / Ctrl+K) is powered by the same registry. Every tool's `name`, `description`, and `keywords` are indexed at startup. Filtering is a simple fuzzy match across those fields:
+
+```typescript
+function filterTools(query: string, tools: ToolDefinition[]): ToolDefinition[] {
+  const q = query.toLowerCase().trim();
+  if (!q) return tools;
+  return tools.filter(
+    (tool) =>
+      tool.name.toLowerCase().includes(q) ||
+      tool.description.toLowerCase().includes(q) ||
+      tool.keywords?.some((k) => k.includes(q)),
+  );
+}
+```
+
+Property-based tests cover this — fast-check generates adversarial query strings to ensure the filter never throws, never returns duplicates, and always returns a subset of the input.
+
+## Property-Based Testing
+
+Aurora PDF uses [fast-check](https://fast-check.dev/) for property tests across all utility functions. The invariants are more valuable than example-based tests for PDF utilities because the input space is enormous:
+
+```typescript
+// Paginating any list should never lose or duplicate items
+fc.assert(
+  fc.property(
+    fc.array(fc.integer()),
+    fc.integer({ min: 1, max: 100 }),
+    (items, pageSize) => {
+      const pages = paginate(items, pageSize);
+      const reconstructed = pages.flat();
+      return reconstructed.length === items.length;
+    },
+  ),
+);
+
+// Command palette filter should always return a subset of its input
+fc.assert(
+  fc.property(fc.string(), (query) => {
+    const results = filterTools(query, TOOL_REGISTRY);
+    return results.every((r) => TOOL_REGISTRY.includes(r));
+  }),
+);
+```
+
+These tests catch things example-based tests miss — empty queries, unicode input, queries longer than any tool name.
+
+## What I Learned
+
+**The constraint of "no server" forces clarity.** Every architectural decision — Zustand for state, Blob URLs for results, `clearWorkbox()` as the privacy guarantee — became simpler when the answer to "where does this data go?" was always "nowhere, it stays in memory".
+
+**A typed registry scales better than route files.** At 53 tools, if each tool had its own manually-written route, component import, palette entry, and category tag, the codebase would be a maintenance burden. One registry entry per tool is the right abstraction.
+
+**Trust signals matter as much as functionality.** The `PrivacyShield` banner — a persistent indicator that no uploads occur — is the most-commented UI element in user feedback. People want to believe a privacy claim, but they need a visible signal to actually feel confident.
+
+---
+
+Aurora PDF is MIT licensed and open source. Try it at [aurora.stareezy.tech](https://aurora.stareezy.tech) — no account, no upload, works offline after the first visit.
