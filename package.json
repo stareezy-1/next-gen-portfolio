@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "description": "Next-Gen Portfolio Platform — Next.js 16 / React 19, token-driven, server-first",
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
