@@ -63,7 +63,7 @@ export default async function ProjectDetailPage({
   ).slice(0, RELATED_MAX);
 
   const isPersonal = project.kind === "personal";
-  const liveUrl = isPersonal ? project.liveUrl : undefined;
+  const liveUrl = project.liveUrl;
   const githubUrl = isPersonal ? project.githubUrl : undefined;
 
   const projectUrl = canonicalUrl(`${ROUTES.PROJECTS}/${project.slug}`);
