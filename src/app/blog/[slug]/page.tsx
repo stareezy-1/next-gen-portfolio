@@ -111,18 +111,28 @@ export default async function BlogDetailPage({
         style={{
           position: "relative",
           width: "100%",
-          aspectRatio: "21/9",
-          maxHeight: "480px",
           backgroundColor: "var(--color-surface-elevated)",
           overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "240px",
+          maxHeight: "560px",
         }}
       >
         <Image
           loading="eager"
           src={post.heroImage}
           alt={"Hero image for " + post.title}
-          fill
-          style={{ objectFit: "cover" }}
+          width={1200}
+          height={630}
+          style={{
+            width: "100%",
+            height: "auto",
+            maxHeight: "560px",
+            objectFit: "contain",
+            display: "block",
+          }}
           priority
           sizes="100vw"
         />

@@ -118,10 +118,13 @@ export default async function ProjectDetailPage({
         style={{
           position: "relative",
           width: "100%",
-          aspectRatio: "21/9",
           backgroundColor: "var(--color-surface-elevated)",
           overflow: "hidden",
-          maxHeight: "480px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "240px",
+          maxHeight: "560px",
         }}
       >
         {project.image ? (
@@ -129,8 +132,15 @@ export default async function ProjectDetailPage({
             loading="eager"
             src={project.image}
             alt={project.title}
-            fill
-            style={{ objectFit: "cover" }}
+            width={1200}
+            height={630}
+            style={{
+              width: "100%",
+              height: "auto",
+              maxHeight: "560px",
+              objectFit: "contain",
+              display: "block",
+            }}
             priority
             sizes="100vw"
           />

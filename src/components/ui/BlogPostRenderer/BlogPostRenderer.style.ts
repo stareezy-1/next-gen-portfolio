@@ -27,13 +27,15 @@ export const blogPostHeroContainerStyles: CSSProperties = {
   aspectRatio: "16 / 9",
   overflow: "hidden",
   backgroundColor: "var(--color-surface-elevated)",
+  alignItems: "center",
+  justifyContent: "center",
 };
 
 /** Hero image. */
 export const blogPostHeroImageStyles: CSSProperties = {
   width: "100%",
   height: "100%",
-  objectFit: "cover",
+  objectFit: "contain",
 };
 
 /** Content area below the hero image. */
