@@ -1,0 +1,150 @@
+---
+slug: "introducing-nova-visual-builder"
+title: "Introducing Nova: A Figma-Inspired Visual Builder Built on Stareezy UI"
+description: "Nova is a drag-and-drop visual component builder living inside the Stareezy UI docs — drag 30+ components onto a canvas, tweak props in a live panel, apply design tokens, and export production-ready TSX code in seconds."
+heroImage: "https://res.cloudinary.com/diwktkaxv/image/upload/q_auto/f_auto/v1780373933/next-js-blog_qeycev.png"
+author: "Stareezy"
+publishDate: "2025-06-08"
+tags:
+  - "Stareezy UI"
+  - "Design Tools"
+  - "React"
+  - "TypeScript"
+  - "Developer Experience"
+category: "Product"
+published: true
+---
+
+# Introducing Nova: A Figma-Inspired Visual Builder Built on Stareezy UI
+
+There's a familiar friction in component-driven development: you know exactly what you want to build, but it still takes four or five iterations of editing props, hot-reloading, and squinting at the result before the layout feels right. Nova is my attempt to close that loop.
+
+Nova is a drag-and-drop visual builder living at `/nova` inside the Stareezy UI documentation site. It lets you compose UIs by dragging components onto a canvas, edit their props in a live panel, apply design tokens with a click, and export the result as production-ready TSX — with proper `@stareezy-ui/components` imports already written.
+
+## Why Build This
+
+Stareezy UI ships 30+ cross-platform components. They're typed, theme-reactive, and they work identically on web and React Native. But even with great documentation, there's a gap between reading about a component and _feeling_ how it behaves — what size tokens look good at which breakpoints, whether `variant="glow"` actually lands the way you imagined, how many tabs fit before the nav overflows.
+
+Nova is that gap closed. It's not a design handoff tool or a Figma replacement. It's a scratchpad for engineers — a fast way to prototype with real components and real design tokens before committing to a file.
+
+## The Canvas
+
+The canvas is a grid-backed surface (radial dot grid, the kind that makes spatial thinking easy) that holds absolutely-positioned component cards. Each card:
+
+- Shows the component type and icon in a drag handle bar at the top
+- Renders the actual live component inside it (using the real `@stareezy-ui/components` render path, not screenshots or stubs)
+- Highlights with an orange border on selection
+- Has resize handles on the right edge and bottom-right corner
+
+You can zoom from 25% to 200% to work on fine detail or get a full-page overview. The canvas state auto-saves to `localStorage`, so closing the tab and coming back picks up exactly where you left off.
+
+## 30+ Draggable Components Across 8 Categories
+
+The component palette on the left groups everything into eight categories:
+
+| Category       | Components                                        |
+| -------------- | ------------------------------------------------- |
+| **Layout**     | Box, Stack, HStack, VStack, Grid                  |
+| **Buttons**    | Button, IconButton                                |
+| **Inputs**     | Input, Checkbox, Switch, Slider, FileDropZone     |
+| **Data**       | Table, Progress, CircularProgress, Badge, Tag     |
+| **Navigation** | NavBar, Tabs, Breadcrumb, Pagination              |
+| **Overlay**    | Modal, Drawer, Tooltip, Dropdown, CommandPalette  |
+| **Media**      | Avatar, Skeleton, Divider, Card                   |
+| **Feedback**   | Toast, Clipboard, Resizer, ProgressPanel, Spinner |
+
+Drag any component from the palette onto the canvas, or double-click to drop it at a smart position. The component renders immediately with sensible defaults.
+
+## The Properties Panel
+
+Selecting a component opens the right panel with three tabs.
+
+### Style Tab
+
+This is where most of the work happens. The Style tab reads the component's `propsMeta` — a typed descriptor attached to every component definition in Nova's data layer — and renders the right input type for each prop:
+
+- **Select** for enum props (`variant`, `size`, `anchor`, `placement`, `shape`) — rendered as a styled dropdown populated from the actual union type options
+- **Toggle** for boolean props (`disabled`, `loading`, `checked`, `animated`, `showValue`) — a pill switch that shows on/off state
+- **Color picker + text field** for color props (`color`, `bg`, `trackColor`, `activeColor`) — side-by-side so you can pick from the wheel or type a CSS variable
+- **Range slider** for value props (`Progress value`, `Slider value`, `opacity`) — with a live numeric readout
+- **Number input** for dimension and count props, bounded by the component's actual min/max from its interface
+
+Props are grouped into named sections — `Content`, `Appearance`, `Layout`, `Behaviour`, `State`, `Flex` — so they're in the right logical order regardless of how many there are. A component like `Input` exposes 14 props; a component like `Badge` exposes 2. The panel adapts.
+
+Position (`x`, `y`) and node type live at the top, always visible.
+
+### Content Tab
+
+Free-text editing for the component's label or child text, plus a raw key/value grid for any prop not covered by the typed metadata — an escape hatch when you need to set something the panel doesn't render a dedicated input for.
+
+### Layers Tab
+
+A flat list of every component on the canvas. Click to select; the orange left border tracks the selection. Each row has a delete button. It's the panel you reach for when components are stacked on top of each other and clicking the canvas is unreliable.
+
+## Design Token Browser
+
+The Style tab has a collapsible **Design Tokens** section at the bottom. It shows all five token categories — Colors, Spacing, Typography, Radius, Shadow — with every token rendered as a clickable chip. Colour tokens get a small swatch next to their name.
+
+Clicking a token applies it to the relevant prop of the selected component: color tokens go to the `color` prop, spacing tokens to `p`, radius tokens to `borderRadius`, shadow tokens to `boxShadow`. A green checkmark briefly confirms the applied token.
+
+This makes it fast to try a palette or spacing scale against a real component without manually typing CSS variable names.
+
+## Code Generation and Export
+
+The bottom panel (toggle with the **Code** button in the top bar) has three tabs:
+
+**Code** renders the full JSX for everything on the canvas, with auto-collected imports:
+
+```tsx
+import { Button, Card, Badge } from "@stareezy-ui/components";
+import { t } from "@stareezy-ui/tokens";
+
+export default function NovaDesign() {
+  return (
+    <Button text="Click Me" type="Primary" size="MD" />
+    <Card p={16} width={280} variant="border" />
+    <Badge label="New" variant="green" />
+  );
+}
+```
+
+The import list is derived automatically from the component types on the canvas — no manual tracking needed.
+
+**Preview** renders all canvas components inside a `ThemeProvider` so you can see how the composition looks in a clean white-space context, separate from the canvas chrome.
+
+**Export** gives you two buttons: copy to clipboard and download as `NovaDesign.tsx`. The downloaded file is valid TypeScript — drop it into a project with `@stareezy-ui/components` installed and it works.
+
+## Theme Switcher
+
+The top bar has three theme buttons: `quasar`, `aurora`, `steins-gate`. Switching themes re-renders the entire canvas (wrapped in `ThemeProvider`) so you can immediately see how your composition looks across the full Stareezy UI theme palette. This is genuinely useful for checking contrast, verifying that dark-mode styles hold, and making sure component colors are theme-reactive rather than hardcoded.
+
+## Undo / Redo and Keyboard Shortcuts
+
+Every prop change, position update, and add/remove operation pushes to a history stack. `Cmd+Z` / `Ctrl+Z` undoes; `Cmd+Shift+Z` / `Ctrl+Shift+Z` redoes. `Delete` or `Backspace` removes the selected component when focus isn't inside a text input.
+
+The history stack serializes the full node tree at each step, so undo always restores exact state — no partial rollbacks.
+
+## How It's Built
+
+Nova is a Next.js App Router page (`/nova`) using only React state and standard DOM events — no external drag-and-drop libraries, no canvas APIs. A few implementation details worth noting:
+
+**`useNovaState`** is a single hook that owns all state: the node tree, selection, theme, zoom, history stack, drag/resize handlers, and localStorage persistence. The page component and sub-components receive slices of this state as props — clean unidirectional flow.
+
+**`renderPreview`** recursively renders a `CanvasNode` tree to real React elements using the actual `@stareezy-ui/components` exports. This is why the live preview is accurate — it's the same code path as a production render, not a mock.
+
+**`propsMeta`** on each `ComponentDef` drives the entire Style Tab UI. Each entry declares `key`, `label`, `type` (`text | number | boolean | color | select | range`), option arrays for selects, min/max/step for numbers and ranges, and a `group` for section headers. Adding a new component to Nova is one object in `data.ts` — no additional UI code.
+
+The canvas uses `position: absolute` per-node with `left: node.x, top: node.y`. Dragging updates position via `mousemove` / `mouseup` window listeners, zoomed by the current scale factor. Resizing works the same way, clamped to a minimum of 60×32px.
+
+## What's Next
+
+Nova is a scratchpad today. A few things on the roadmap:
+
+- **Nesting** — dragging a component onto an existing layout component to make it a child
+- **More components** — Accordion, NavBar stories, richer Table configuration
+- **Preset layouts** — drop a complete card grid or hero section as a starting point
+- **Share link** — encode the canvas state into a URL for sharing compositions
+
+If you want to try it, it's live at `/nova` in the Stareezy UI docs. The source is in [`apps/docs/src/app/nova`](https://github.com/stareezy-1/stareezy-ui/tree/main/apps/docs/src/app/nova).
+
+The interesting constraint building Nova was that it had to run in the same Next.js bundle as the rest of the docs — which meant solving the `react-native` webpack parse problem (Flow syntax in `react-native/Libraries/*` doesn't go through Babel in Next.js by default). The fix was a `NormalModuleReplacementPlugin` that catches all `react-native/*` imports and redirects them to a thin web stub. The components themselves only use RN APIs inside `isNative` guards at runtime, so the stub is never actually called on web.
