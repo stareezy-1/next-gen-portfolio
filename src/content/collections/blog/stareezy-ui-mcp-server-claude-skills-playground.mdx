@@ -1,0 +1,148 @@
+---
+slug: "stareezy-ui-mcp-server-claude-skills-playground"
+title: "Stareezy UI Gets AI-Native: MCP Server, Claude Skills, and the UI Playground"
+description: "Three new features that make Stareezy UI the first design system with a native AI integration layer — a Model Context Protocol server, curated skill files for Claude, and an interactive UI Playground."
+heroImage: "https://res.cloudinary.com/diwktkaxv/image/upload/v1780373749/stareezy-ui-blog_nmuwzl.png"
+author: "Stareezy"
+publishDate: "2026-06-08"
+tags:
+  - "Design Systems"
+  - "AI"
+  - "MCP"
+  - "Claude"
+  - "Developer Experience"
+  - "Open Source"
+  - "TypeScript"
+category: "Feature"
+published: true
+---
+
+# Stareezy UI Gets AI-Native: MCP Server, Claude Skills, and the UI Playground
+
+Design systems have always been about making the right thing easy. For the past two years that meant typed tokens, a responsive prop system, and an O(1) runtime. Today it means something different: meeting developers where they actually work — inside an AI assistant.
+
+This post covers three features that shipped together to form Stareezy UI's AI integration layer: the MCP Server, the Claude Skills collection, and the UI Playground.
+
+---
+
+## Why an AI Integration Layer?
+
+The pattern of "write a prompt, get a component" works until the AI hallucinates a prop that doesn't exist, ignores your theme entirely, or generates code that breaks when you switch from `quasar` to `aurora`. The root problem is that language models don't have reliable knowledge of a private design system — especially one that's under active development.
+
+The standard fix is RAG or embeddings. Both require infrastructure, ongoing maintenance, and still produce probabilistic answers. We wanted something deterministic: a system where the AI calls a function, gets an exact answer, and generates code from that answer.
+
+That's exactly what the Model Context Protocol enables.
+
+---
+
+## The MCP Server
+
+The Stareezy UI MCP server (`stareezy-mcp`) exposes the design system as a set of structured tools that any MCP-compatible AI assistant can call at inference time.
+
+```json
+{
+  "mcpServers": {
+    "stareezy-ui": {
+      "command": "node",
+      "args": ["/path/to/stareezy-mcp/dist/index.js"],
+      "autoApprove": [
+        "get_tokens",
+        "list_components",
+        "list_themes",
+        "search_docs"
+      ]
+    }
+  }
+}
+```
+
+Once connected — in Kiro, Claude Desktop, Cursor, Windsurf, or any other MCP-compatible editor — the assistant has live access to eight tools:
+
+| Tool                 | What it returns                                                                                   |
+| -------------------- | ------------------------------------------------------------------------------------------------- |
+| `get_tokens`         | All design tokens, optionally filtered by category (colors, spacing, radius, typography, shadows) |
+| `get_token`          | Single token by dot-path, e.g. `colors.celurenBlue.500`                                           |
+| `list_components`    | All 31+ components with prop signatures and import paths                                          |
+| `get_component`      | Full props, usage notes, and platform details for one component                                   |
+| `list_themes`        | All 5 built-in themes with their brand, accent, and background values                             |
+| `validate_config`    | Validates a `stareezy.config.ts` against known correctness rules                                  |
+| `scaffold_component` | Generates `ComponentName.tsx`, `.style.ts`, and `.types.ts` with correct token patterns           |
+| `search_docs`        | Full-text search across all documentation pages                                                   |
+
+The tools are read-only and stateless. The server is a single Node.js file with no external dependencies beyond `@modelcontextprotocol/sdk`. Building it locally is a one-liner:
+
+```bash
+cd stareezy-mcp && npm install && npm run build
+```
+
+### What changes in practice
+
+Without the server, asking an AI to "build a card using Stareezy UI tokens" produces code that guesses at the API. With the server, the assistant calls `get_component("Card")` first, gets the exact prop interface, then generates code against that interface. The difference is the same as the difference between a developer writing from memory versus writing with the docs open.
+
+The `scaffold_component` tool is the most immediately useful. Ask the assistant to scaffold a new component and it returns three files with the correct three-file convention — logic in `.tsx`, styles using only token values in `.style.ts`, TypeScript types in `.types.ts` — without you having to explain the pattern each time.
+
+---
+
+## Claude Skills
+
+Before MCP became widely supported, the standard approach to giving Claude persistent knowledge of a project was skill files: Markdown documents with a frontmatter header that Claude stores and references in future conversations.
+
+We ship four skill files in the [`claude-skills`](https://github.com/stareezy-1/claude-skills) repository:
+
+**`skills/tokens.md`** — The complete token system. Every color palette, the full spacing scale, typography hierarchy, breakpoints, shadows, and the `t.*` accessor pattern. Claude learns that `colors.celurenBlue[500].value` returns `"#024CCE"` and that the accessor is always required.
+
+**`skills/components.md`** — All 31+ components with their prop signatures, valid values, composition examples, and RSC requirements. Covers every component from `Box` and `Button` through `Accordion`, `Drawer`, `Pagination`, and `Table`.
+
+**`skills/themes.md`** — The five built-in themes (quasar, aurora, steins-gate, dark, light), how `createUi` works, how to define custom themes via `defineTheme`, and how runtime theme switching with `useTheme` flows through the component tree.
+
+**`skills/best-practices.md`** — The rules that prevent common mistakes: use `display: 'flex'` not `flex: 1` on web, never hardcode hex values that belong in tokens, use the `sx` prop for instance-level overrides rather than new variants, the correct way to separate client and server component boundaries.
+
+Installation is the same for Claude Desktop and Claude Code — add a skills array to your config and point at the files:
+
+```json
+{
+  "projectSettings": {
+    "skills": [
+      { "name": "stareezy-tokens", "file": "./skills/tokens.md" },
+      { "name": "stareezy-components", "file": "./skills/components.md" },
+      { "name": "stareezy-themes", "file": "./skills/themes.md" },
+      {
+        "name": "stareezy-best-practices",
+        "file": "./skills/best-practices.md"
+      }
+    ]
+  }
+}
+```
+
+Skills and the MCP server are complementary, not competing. Skills load statically — they're always in context regardless of what you're asking. The MCP server is dynamic — it gets called when the assistant needs a specific, precise answer. In practice the combination works like a developer who has read the docs thoroughly and can also look something up in real time.
+
+---
+
+## The UI Playground
+
+The Playground lives at `/playground` in the Stareezy UI docs. It's an interactive sandbox for previewing and iterating on component configurations before committing to code.
+
+The design is deliberately simple — it's not an AI-powered code generator, and it doesn't pretend to be. It's a pattern browser with a feedback loop.
+
+On the left panel you describe what you want to build — or pick from six quick-start patterns: Landing Page Hero, Dashboard, Sign In Form, Card Grid, Navbar, Modal Dialog. The right panel shows a live preview rendered using the actual theme CSS variables, alongside a VS Code–style file tree with exportable code for `src/App.tsx`, `main.tsx`, `package.json`, `vite.config.ts`, and `index.html`.
+
+The preview panel has a three-theme switcher (quasar, aurora, steins-gate) so you can immediately verify that a component looks correct across theme boundaries before you copy the code. This is the most important feature: it makes the "will this look right in dark mode?" question answerable in two seconds rather than requiring you to build and test.
+
+Refinement chips below each generated component let you make one-click adjustments — lighter/darker, more/less spacing, larger/smaller text, change layout. Each adjustment updates both the preview and the exported code in real time.
+
+The Playground deliberately does not call an LLM. Rule-based pattern generation is predictable, offline-capable, and instantaneous. The AI integration belongs in your editor where it has context about your actual project. The Playground is for the moment when you want to see what a component looks like before writing any code at all.
+
+---
+
+## Three Features, One Idea
+
+The MCP server, Claude skills, and the Playground each solve a different part of the same problem: the gap between a design system's intended usage and how it's actually used when a developer is in flow.
+
+The skills files address the "I've read the docs once but not enough" problem. The MCP server addresses the "the docs are accurate but the AI doesn't have them" problem. The Playground addresses the "I don't want to write code before I know what it looks like" problem.
+
+None of them replace the token system, the component library, or the responsive prop architecture that stareezy-ui is built on. They're a layer on top — the integration surface between a design system and the way development actually happens in 2026.
+
+---
+
+All three features are live in the [stareezy-ui docs](https://ui.stareezy.tech) and open source in the [stareezy-ui repository](https://github.com/stareezy-1/stareezy-ui).
