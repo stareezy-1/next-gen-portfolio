@@ -578,6 +578,110 @@
   margin-top: 1.75rem;
 }
 
+/* ── PROJECT detail — title-first masthead ────────────────────────────────── */
+.pd-masthead {
+  padding-top: clamp(2.5rem, 6vh, 4rem);
+  padding-bottom: 2.25rem;
+}
+
+.pd-crumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.8125rem;
+  margin-bottom: 1.75rem;
+}
+
+.pd-crumb-link {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 0.16s ease;
+}
+
+.pd-crumb-link:hover {
+  color: var(--color-brand);
+}
+
+.pd-crumb-sep {
+  color: var(--color-text-muted);
+}
+
+.pd-crumb-current {
+  color: var(--color-text-secondary);
+  max-width: 50vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pd-masthead-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.pd-masthead-title {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin: 0 0 0.875rem;
+  color: var(--color-text-primary);
+  text-wrap: balance;
+  max-width: 18ch;
+}
+
+.pd-masthead-meta {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  color: var(--color-brand);
+  margin: 0 0 1rem;
+}
+
+.pd-masthead-desc {
+  font-family: var(--font-body), sans-serif;
+  margin: 0;
+  font-size: clamp(1rem, 1.5vw, 1.1875rem);
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  max-width: 60ch;
+}
+
+.pd-masthead-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+/* ── PROJECT detail — framed showcase image ───────────────────────────────── */
+.pd-showcase {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-elevated);
+  margin-bottom: 0.5rem;
+}
+
+.pd-showcase-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+@media (max-width: 640px) {
+  .pd-crumb-current {
+    max-width: 55vw;
+  }
+}
+
 /* ── DETAIL — two-column layout ───────────────────────────────────────────── */
 .detail-layout {
   display: grid;
@@ -853,6 +957,118 @@
   font-size: 0.75rem;
   color: var(--color-text-muted);
   font-variant-numeric: tabular-nums;
+}
+
+/* ── BLOG list — featured lead ────────────────────────────────────────────── */
+.blog-lead {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-top: 2rem;
+  margin-bottom: 2.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  background-color: var(--color-surface);
+  transition: border-color 0.22s ease,
+    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 860px) {
+  .blog-lead {
+    grid-template-columns: 1.15fr 1fr;
+    align-items: stretch;
+  }
+}
+
+.blog-lead:hover {
+  border-color: color-mix(in srgb, var(--color-brand) 50%, transparent);
+  transform: translateY(-3px);
+}
+
+.blog-lead-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background-color: var(--color-surface-elevated);
+}
+
+@media (min-width: 860px) {
+  .blog-lead-media {
+    aspect-ratio: unset;
+    min-height: 320px;
+  }
+}
+
+.blog-lead-img {
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.blog-lead:hover .blog-lead-img {
+  transform: scale(1.03);
+}
+
+.blog-lead-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  padding: clamp(1.75rem, 4vw, 2.75rem);
+  min-width: 0;
+}
+
+.blog-lead-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.blog-lead-flag {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-on-brand);
+  background-color: var(--color-brand);
+  padding: 0.1875rem 0.5rem;
+  border-radius: 5px;
+}
+
+.blog-lead-title {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.125rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  margin: 0;
+  color: var(--color-text-primary);
+  text-wrap: balance;
+}
+
+.blog-lead-desc {
+  font-family: var(--font-body), sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-lead-cta {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.8125rem;
+  color: var(--color-brand);
+  margin-top: 0.25rem;
 }
 
 /* ── BLOG list — pagination ───────────────────────────────────────────────── */

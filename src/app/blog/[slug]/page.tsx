@@ -20,6 +20,7 @@ import { readingTime } from "@/lib/blog/reading-time";
 import { tableOfContents } from "@/lib/blog/toc";
 import { ContentWidth } from "@/components/layouts";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
+import { ReadingProgress } from "@/components/shared/ReadingProgress/ReadingProgress";
 import { Badge } from "@/components/ui/shadcn/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/shadcn/avatar";
 import { canonicalUrl } from "@/services/seo";
@@ -112,6 +113,7 @@ export default async function BlogDetailPage({
 
   return (
     <div>
+      <ReadingProgress />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingLd) }}

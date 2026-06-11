@@ -83,6 +83,11 @@ export default async function BlogPage({
   const isEmpty = posts.length === 0;
   const hasFilters = Boolean(q || tag || category);
 
+  // Featured lead: the newest post, shown only on the unfiltered first page.
+  const showLead = page === 1 && !hasFilters && posts.length > 0;
+  const leadPost = showLead ? posts[0] : undefined;
+  const restPosts = showLead ? posts.slice(1) : posts;
+
   const breadcrumbLd = breadcrumbListJsonLd([
     { name: NAV_LABELS.HOME, url: canonicalUrl(ROUTES.HOME) },
     { name: NAV_LABELS.BLOG, url: canonicalUrl(ROUTES.BLOG) },
@@ -142,10 +147,57 @@ export default async function BlogPage({
         </ScrollReveal>
       ) : (
         <>
+          {/* ── Featured lead post (only on page 1, no active filters) ── */}
+          {showLead && leadPost && (
+            <ScrollReveal variant="fade-up">
+              <Link
+                href={`${ROUTES.BLOG}/${leadPost.slug}`}
+                aria-label={`Read ${leadPost.title}`}
+                className="blog-lead"
+              >
+                {leadPost.heroImage && (
+                  <div className="blog-lead-media">
+                    <Image
+                      loading="eager"
+                      src={leadPost.heroImage}
+                      alt={`Cover for ${leadPost.title}`}
+                      fill
+                      className="blog-lead-img"
+                      sizes="(max-width: 860px) 100vw, 620px"
+                      priority
+                    />
+                  </div>
+                )}
+                <div className="blog-lead-body">
+                  <div className="blog-lead-meta">
+                    <span className="blog-lead-flag">Latest</span>
+                    <Badge variant="outline" className="post-cat">
+                      {leadPost.category}
+                    </Badge>
+                    <time dateTime={leadPost.publishDate} className="post-date">
+                      {new Date(leadPost.publishDate).toLocaleDateString(
+                        "en-US",
+                        { year: "numeric", month: "short", day: "numeric" },
+                      )}
+                    </time>
+                    <span className="post-date">
+                      {readingTime(leadPost.body)} min read
+                    </span>
+                  </div>
+                  <h2 className="blog-lead-title">{leadPost.title}</h2>
+                  <p className="blog-lead-desc">{leadPost.description}</p>
+                  <span className="blog-lead-cta" aria-hidden="true">
+                    Read the post ↗
+                  </span>
+                </div>
+              </Link>
+            </ScrollReveal>
+          )}
+
           {/* ── Post list — horizontal rows ────────────────────────── */}
           <section aria-label="Blog posts" style={{ paddingBottom: "3rem" }}>
             <div className="post-list">
-              {posts.map((post, i) => (
+              {restPosts.map((post, i) => (
                 <ScrollReveal
                   key={post.slug}
                   variant="fade-up"

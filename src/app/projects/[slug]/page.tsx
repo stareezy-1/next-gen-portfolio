@@ -122,58 +122,38 @@ export default async function ProjectDetailPage({
         suppressHydrationWarning
       />
 
-      {/* ── Banner — full-width with scrim + breadcrumb ──────────────── */}
-      <div className="detail-banner">
-        {project.image ? (
-          <Image
-            loading="eager"
-            src={project.image}
-            alt={project.title}
-            width={1200}
-            height={420}
-            className="detail-banner-img"
-            priority
-            sizes="100vw"
-          />
-        ) : (
-          <div className="detail-banner-placeholder" aria-hidden="true">
-            {project.title.charAt(0)}
-          </div>
-        )}
-        <div className="detail-banner-scrim" aria-hidden="true" />
-        <nav className="crumb" aria-label="Breadcrumb">
-          <Link href={ROUTES.PROJECTS} className="crumb-link">
-            Projects
-          </Link>
-          <span className="crumb-sep" aria-hidden="true">
-            /
-          </span>
-          <span className="crumb-current">{project.title}</span>
-        </nav>
-      </div>
-
+      {/* ── Masthead — title-first, breadcrumb + mono spec rail ──────── */}
       <ContentWidth as="main">
-        {/* ── Title block ────────────────────────────────────────────── */}
         <MotionWrapper variant="heroWordReveal">
-          <div className="detail-head">
-            <div className="detail-head-badges">
+          <div className="pd-masthead">
+            <nav className="pd-crumb" aria-label="Breadcrumb">
+              <Link href={ROUTES.PROJECTS} className="pd-crumb-link">
+                Projects
+              </Link>
+              <span className="pd-crumb-sep" aria-hidden="true">
+                /
+              </span>
+              <span className="pd-crumb-current">{project.title}</span>
+            </nav>
+
+            <div className="pd-masthead-badges">
               {project.kind === "professional" && (
                 <Badge variant="secondary">Professional</Badge>
               )}
               {project.featured && <Badge variant="outline">Featured</Badge>}
             </div>
 
-            <h1 className="detail-head-title">{project.title}</h1>
+            <h1 className="pd-masthead-title">{project.title}</h1>
 
             {project.kind === "professional" && (
-              <p className="detail-head-meta">
+              <p className="pd-masthead-meta">
                 {project.company} · {project.role}
               </p>
             )}
 
-            <p className="detail-head-desc">{project.description}</p>
+            <p className="pd-masthead-desc">{project.description}</p>
 
-            <div className="detail-head-actions">
+            <div className="pd-masthead-actions">
               {liveUrl && (
                 <a
                   href={liveUrl}
@@ -197,6 +177,24 @@ export default async function ProjectDetailPage({
             </div>
           </div>
         </MotionWrapper>
+
+        {/* ── Showcase image — framed, after the title ─────────────────── */}
+        {project.image && (
+          <MotionWrapper variant="sectionReveal">
+            <div className="pd-showcase">
+              <Image
+                loading="eager"
+                src={project.image}
+                alt={project.title}
+                width={1200}
+                height={675}
+                className="pd-showcase-img"
+                priority
+                sizes="(max-width: 1200px) 100vw, 1100px"
+              />
+            </div>
+          </MotionWrapper>
+        )}
 
         {/* ── Two-column: content + sidebar ──────────────────────────── */}
         <div className="detail-layout two-col-layout">
