@@ -48,11 +48,7 @@ import { useReducedMotion } from "@/hooks";
 import { useTheme } from "@/hooks";
 import { resolveVariant } from "@/services/theme";
 import type { AssetPlayerProps } from "./AssetPlayer.types";
-import {
-  getAssetPlayerStyles,
-  fallbackStyles,
-  staticFrameStyles,
-} from "./AssetPlayer.style";
+import { getAssetPlayerStyles, fallbackStyles } from "./AssetPlayer.style";
 
 // ---------------------------------------------------------------------------
 // LSS theme builder
@@ -258,19 +254,12 @@ export function AssetPlayer({
         {...a11yProps}
       >
         {/*
-         * Static final-frame fallback for reduced-motion users.
-         * We render a plain <img> pointing at the src; dotLottie files are
-         * not directly renderable as images, so this acts as a placeholder
-         * that communicates the asset's presence without animating.
-         * In a production build the asset author would supply a static
-         * poster/thumbnail URL alongside the .lottie src.
+         * Reduced-motion users get a static, non-animated placeholder box that
+         * matches the player's dimensions so there is no layout shift. We do
+         * NOT render an <img src={.lottie}> — dotLottie files are not valid
+         * image sources and would render as a broken image.
          */}
-        <img
-          src={src}
-          alt={decorative ? "" : name ?? ""}
-          style={staticFrameStyles}
-          aria-hidden={decorative ? "true" : undefined}
-        />
+        <div style={fallbackStyles} aria-hidden="true" />
       </div>
     );
   }

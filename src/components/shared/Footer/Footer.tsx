@@ -45,7 +45,9 @@ export function Footer() {
           <div style={footerTopStyles}>
             {/* Brand */}
             <div style={footerBrandStyles}>
-              <span style={footerBrandNameStyles}>Bintang</span>
+              <span style={footerBrandNameStyles}>
+                Bintang<span style={{ color: "var(--color-brand)" }}>.</span>
+              </span>
               <p style={footerBrandTaglineStyles}>
                 Full-Stack Engineer building premium digital experiences from
                 first principles.

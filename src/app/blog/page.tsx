@@ -1,6 +1,10 @@
 /**
- * Blog listing page — React Server Component.
- * @see Requirements 13.1–13.6
+ * Blog index page — React Server Component, "The Logbook" direction.
+ *
+ * Horizontal post rows (home .post-* primitives) with an outline category Badge
+ * and mono date + reading time. Pagination uses .btn-ghost with a mono page
+ * indicator. The stars-sparkle empty state is preserved. BlogSearch is untouched.
+ * Zero em-dashes; mono carries dates and counts.
  */
 
 import { Suspense } from "react";
@@ -17,9 +21,10 @@ import {
 } from "@/lib/blog/query";
 import { readingTime } from "@/lib/blog/reading-time";
 import { ContentWidth } from "@/components/layouts";
-import { MotionWrapper } from "@/components/shared/MotionWrapper";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
+import { AssetPlayer } from "@/components/shared/AssetPlayer";
 import { BlogSearch } from "@/features/blog/BlogSearch";
+import { Badge } from "@/components/ui/shadcn/badge";
 import { canonicalUrl } from "@/services/seo";
 import { breadcrumbListJsonLd } from "@/services/seo/structured-data";
 import { ROUTES, NAV_LABELS, BLOG_PAGE_SIZE } from "@/constants";
@@ -88,287 +93,122 @@ export default async function BlogPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+        suppressHydrationWarning
       />
 
-      {/* Page header */}
-      <div
-        style={{
-          paddingTop: "4rem",
-          paddingBottom: "3rem",
-          borderBottom: "1px solid var(--color-border)",
-        }}
-      >
+      {/* ── Page header ──────────────────────────────────────────────── */}
+      <section aria-labelledby="blog-page-heading" className="page-head">
         <ScrollReveal variant="fade-up">
-          <p
-            style={{
-              fontSize: "0.8125rem",
-              fontWeight: 700,
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
-              color: "var(--color-brand)",
-              marginBottom: "0.75rem",
-            }}
-          >
-            Writing
-          </p>
-          <h1 style={{ marginBottom: "1rem" }}>Blog</h1>
-          <p
-            style={{
-              fontSize: "1.125rem",
-              color: "var(--color-text-secondary)",
-              lineHeight: 1.7,
-              maxWidth: "560px",
-            }}
-          >
-            Technical articles, tutorials, and thoughts on software engineering,
-            design systems, and developer experience.
+          <p className="section-kicker">Writing</p>
+          <h1 id="blog-page-heading" className="page-head-title">
+            Notes from the build
+          </h1>
+          <p className="page-head-sub">
+            Articles and write-ups on React, design systems, and the tooling I
+            reach for when shipping cross-platform.
           </p>
         </ScrollReveal>
-      </div>
+      </section>
 
-      {/* Search / filter */}
+      {/* ── Search / filter (client component, untouched) ────────────── */}
       <div style={{ paddingTop: "2rem", paddingBottom: "1.5rem" }}>
         <Suspense fallback={null}>
           <BlogSearch tags={allTags} categories={allCategories} />
         </Suspense>
       </div>
 
-      {/* Empty state */}
+      {/* ── Empty state ──────────────────────────────────────────────── */}
       {isEmpty ? (
         <ScrollReveal variant="zoom">
-          <div
-            style={{
-              textAlign: "center",
-              padding: "5rem 2rem",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "1rem",
-            }}
-          >
-            <span style={{ fontSize: "3rem" }}>📭</span>
-            <h2 style={{ margin: 0, fontSize: "1.25rem" }}>
-              {hasFilters ? "No posts found" : "No posts yet"}
+          <div className="blog-empty">
+            <div className="blog-empty-lottie" aria-hidden="true">
+              <AssetPlayer
+                src="/lottie/stars-sparkle.json"
+                decorative
+                trigger="auto"
+                width="100%"
+                height="100%"
+              />
+            </div>
+            <h2 className="blog-empty-title">
+              {hasFilters ? "Nothing matched" : "No posts yet"}
             </h2>
-            <p style={{ margin: 0, color: "var(--color-text-muted)" }}>
+            <p className="blog-empty-text">
               {hasFilters
-                ? "Try a different search or filter."
+                ? "Try a different search or clear the filters."
                 : "Check back soon."}
             </p>
           </div>
         </ScrollReveal>
       ) : (
         <>
+          {/* ── Post list — horizontal rows ────────────────────────── */}
           <section aria-label="Blog posts" style={{ paddingBottom: "3rem" }}>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-                gap: "1.5rem",
-              }}
-            >
+            <div className="post-list">
               {posts.map((post, i) => (
                 <ScrollReveal
                   key={post.slug}
                   variant="fade-up"
                   delay={((i % 3) + 1) as 1 | 2 | 3}
+                  as="div"
                 >
                   <Link
                     href={`${ROUTES.BLOG}/${post.slug}`}
                     aria-label={`Read ${post.title}`}
-                    style={{
-                      textDecoration: "none",
-                      color: "inherit",
-                      display: "block",
-                      height: "100%",
-                    }}
+                    className="post-row"
                   >
-                    <article
-                      className="card-hover"
-                      style={{
-                        backgroundColor: "var(--color-surface)",
-                        border: "1px solid var(--color-border)",
-                        borderRadius: "1rem",
-                        overflow: "hidden",
-                        display: "flex",
-                        flexDirection: "column",
-                        height: "100%",
-                        transition: "border-color 0.2s ease",
-                      }}
-                    >
-                      {post.heroImage && (
-                        <div
-                          style={{
-                            position: "relative",
-                            width: "100%",
-                            aspectRatio: "16/9",
-                            backgroundColor: "var(--color-surface-elevated)",
-                          }}
-                        >
-                          <Image
-                            loading="eager"
-                            src={post.heroImage}
-                            alt={`Hero image for ${post.title}`}
-                            fill
-                            style={{ objectFit: "cover" }}
-                            sizes="(max-width: 768px) 100vw, 400px"
-                          />
-                        </div>
-                      )}
-                      <div
-                        style={{
-                          padding: "1.5rem",
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "0.875rem",
-                          flex: 1,
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            gap: "0.375rem",
-                          }}
-                        >
-                          <span
-                            style={{
-                              padding: "0.2rem 0.625rem",
-                              borderRadius: "9999px",
-                              backgroundColor: "var(--color-brand)",
-                              color: "var(--color-background)",
-                              fontSize: "0.6875rem",
-                              fontWeight: 700,
-                              textTransform: "uppercase",
-                              letterSpacing: "0.05em",
-                            }}
-                          >
-                            {post.category}
-                          </span>
-                          {post.tags.slice(0, 2).map((tag) => (
-                            <span
-                              key={tag}
-                              style={{
-                                padding: "0.2rem 0.5rem",
-                                borderRadius: "9999px",
-                                backgroundColor:
-                                  "var(--color-surface-elevated)",
-                                border: "1px solid var(--color-border)",
-                                fontSize: "0.6875rem",
-                                color: "var(--color-text-muted)",
-                              }}
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                        <h2
-                          style={{
-                            margin: 0,
-                            fontSize: "1.0625rem",
-                            fontWeight: 700,
-                            lineHeight: 1.3,
-                            color: "var(--color-text-primary)",
-                            textDecoration: "none",
-                          }}
-                        >
-                          {post.title}
-                        </h2>
-                        <p
-                          style={{
-                            margin: 0,
-                            fontSize: "0.9rem",
-                            color: "var(--color-text-secondary)",
-                            lineHeight: 1.65,
-                            display: "-webkit-box",
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: "vertical",
-                            overflow: "hidden",
-                            textDecoration: "none",
-                          }}
-                        >
-                          {post.description}
-                        </p>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            marginTop: "auto",
-                            paddingTop: "0.75rem",
-                            borderTop: "1px solid var(--color-border)",
-                          }}
-                        >
-                          <time
-                            dateTime={post.publishDate}
-                            style={{
-                              fontSize: "0.8125rem",
-                              color: "var(--color-text-muted)",
-                            }}
-                          >
-                            {new Date(post.publishDate).toLocaleDateString(
-                              "en-US",
-                              {
-                                year: "numeric",
-                                month: "short",
-                                day: "numeric",
-                              },
-                            )}
-                          </time>
-                          <span
-                            style={{
-                              fontSize: "0.8125rem",
-                              color: "var(--color-text-muted)",
-                            }}
-                          >
-                            {readingTime(post.body)} min read
-                          </span>
-                        </div>
+                    {post.heroImage && (
+                      <div className="post-row-media">
+                        <Image
+                          loading="eager"
+                          src={post.heroImage}
+                          alt={`Cover for ${post.title}`}
+                          fill
+                          className="post-row-img"
+                          sizes="(max-width: 640px) 100vw, 240px"
+                        />
                       </div>
-                    </article>
+                    )}
+                    <div className="post-row-body">
+                      <div className="post-row-meta">
+                        <Badge variant="outline" className="post-cat">
+                          {post.category}
+                        </Badge>
+                        <time dateTime={post.publishDate} className="post-date">
+                          {new Date(post.publishDate).toLocaleDateString(
+                            "en-US",
+                            { year: "numeric", month: "short", day: "numeric" },
+                          )}
+                        </time>
+                        <span className="post-date">
+                          {readingTime(post.body)} min read
+                        </span>
+                      </div>
+                      <h2 className="post-title">{post.title}</h2>
+                      <p className="post-desc">{post.description}</p>
+                    </div>
                   </Link>
                 </ScrollReveal>
               ))}
             </div>
           </section>
 
-          {/* Pagination */}
+          {/* ── Pagination ─────────────────────────────────────────── */}
           {totalPages > 1 && (
-            <nav
-              aria-label="Blog pagination"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                gap: "0.75rem",
-                paddingBottom: "4rem",
-              }}
-            >
+            <nav aria-label="Blog pagination" className="pager">
               {page > 1 && (
                 <a
                   href={buildPageUrl(page - 1)}
                   aria-label="Previous page"
-                  style={{
-                    padding: "0.5rem 1rem",
-                    borderRadius: "0.5rem",
-                    border: "1px solid var(--color-border)",
-                    backgroundColor: "var(--color-surface)",
-                    color: "var(--color-text-primary)",
-                    textDecoration: "none",
-                    fontSize: "0.9375rem",
-                  }}
+                  className="btn-ghost"
                 >
                   ← Previous
                 </a>
               )}
               <span
-                style={{
-                  padding: "0.5rem 1rem",
-                  borderRadius: "0.5rem",
-                  backgroundColor: "var(--color-brand)",
-                  color: "var(--color-background)",
-                  fontSize: "0.9375rem",
-                  fontWeight: 600,
-                }}
+                className="pager-current"
+                aria-current="page"
+                aria-label={`Page ${page} of ${totalPages}`}
               >
                 {page} / {totalPages}
               </span>
@@ -376,15 +216,7 @@ export default async function BlogPage({
                 <a
                   href={buildPageUrl(page + 1)}
                   aria-label="Next page"
-                  style={{
-                    padding: "0.5rem 1rem",
-                    borderRadius: "0.5rem",
-                    border: "1px solid var(--color-border)",
-                    backgroundColor: "var(--color-surface)",
-                    color: "var(--color-text-primary)",
-                    textDecoration: "none",
-                    fontSize: "0.9375rem",
-                  }}
+                  className="btn-ghost"
                 >
                   Next →
                 </a>

@@ -1,6 +1,11 @@
 /**
- * Projects listing page — React Server Component.
- * @see Requirements 11.1, 11.2, 11.4, 11.5
+ * Projects index page — React Server Component, "The Logbook" direction.
+ *
+ * Personal and open-source work is a numbered catalog (home .work-* primitives)
+ * with alternating media sides and mono GitHub/Live indicators. Professional
+ * work uses a deliberately different layout: horizontal cards with an image on
+ * the left and a company.role meta line. Eyebrow budget: 1 ("Index").
+ * Zero em-dashes; mono carries numbers and labels.
  */
 
 import Image from "next/image";
@@ -8,7 +13,6 @@ import type { Metadata } from "next";
 import { loadAll } from "@/content/loader";
 import { partitionProjects } from "@/features/projects/partition";
 import { ContentWidth } from "@/components/layouts";
-import { MotionWrapper } from "@/components/shared/MotionWrapper";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { TrackedProjectCard } from "@/components/shared/TrackedProjectCard";
 import { canonicalUrl } from "@/services/seo";
@@ -18,9 +22,14 @@ import { ROUTES, NAV_LABELS } from "@/constants/routes";
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Open-source and professional projects by Muhammad Bintang Al Akbar — Stareezy UI (design token system), Aurora PDF (WebAssembly PDF toolkit), and more. React, React Native, TypeScript.",
+    "Open-source and professional projects by Muhammad Bintang Al Akbar. Stareezy UI design token system, Aurora PDF WebAssembly toolkit, and more. React, React Native, TypeScript.",
   alternates: { canonical: "https://stareezy.tech/projects" },
 };
+
+/** Two-digit catalog number (01, 02, ...). */
+function catalogNumber(index: number): string {
+  return String(index + 1).padStart(2, "0");
+}
 
 export default async function ProjectsPage() {
   const { items: personalProjects } = loadAll("personal-project");
@@ -40,410 +49,160 @@ export default async function ProjectsPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+        suppressHydrationWarning
       />
 
-      {/* Page header */}
-      <div
-        style={{
-          paddingTop: "4rem",
-          paddingBottom: "3rem",
-          borderBottom: "1px solid var(--color-border)",
-        }}
-      >
-        <ScrollReveal variant="fade">
-          <p
-            style={{
-              fontSize: "0.8125rem",
-              fontWeight: 700,
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
-              color: "var(--color-brand)",
-              marginBottom: "0.75rem",
-            }}
-          >
-            Portfolio
-          </p>
-          <h1 style={{ marginBottom: "1rem" }}>Projects</h1>
-          <p
-            style={{
-              fontSize: "1.125rem",
-              color: "var(--color-text-secondary)",
-              lineHeight: 1.7,
-              maxWidth: "560px",
-            }}
-          >
-            Open-source work, client builds, and personal experiments. Each
-            project is a story.
+      {/* ── Page header ──────────────────────────────────────────────── */}
+      <section aria-labelledby="projects-page-heading" className="page-head">
+        <ScrollReveal variant="fade-up">
+          <p className="section-kicker">Index</p>
+          <h1 id="projects-page-heading" className="page-head-title">
+            Things I built, and how they work
+          </h1>
+          <p className="page-head-sub">
+            Open-source libraries, client builds, and personal experiments. Each
+            entry opens into the full story.
           </p>
         </ScrollReveal>
-      </div>
+      </section>
 
-      {/* Personal Projects */}
-      <section
-        aria-labelledby="personal-projects-heading"
-        style={{ paddingTop: "3rem", paddingBottom: "3rem" }}
-      >
+      {/* ── Personal & open source — numbered catalog ────────────────── */}
+      <section aria-labelledby="personal-heading" className="page-section">
         <ScrollReveal variant="fade-up">
-          <h2
-            id="personal-projects-heading"
-            style={{ marginBottom: "2rem", fontSize: "1.375rem" }}
-          >
-            Personal &amp; Open Source
+          <h2 id="personal-heading" className="section-h2">
+            Personal &amp; open source
           </h2>
         </ScrollReveal>
 
         {personal.length === 0 ? (
-          <p style={{ color: "var(--color-text-muted)" }}>
-            No personal projects yet.
-          </p>
+          <p className="empty-state">No personal projects yet.</p>
         ) : (
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-              gap: "1.5rem",
-            }}
-          >
+          <ol className="work-index" style={{ marginTop: "2.5rem" }}>
             {personal.map((project, i) => (
               <ScrollReveal
                 key={project.slug}
-                variant="zoom"
+                variant="fade-up"
                 delay={((i % 3) + 1) as 1 | 2 | 3}
+                as="li"
               >
                 <TrackedProjectCard
                   href={`${ROUTES.PROJECTS}/${project.slug}`}
                   slug={project.slug}
-                  aria-label={`View ${project.title} project details`}
+                  aria-label={`View ${project.title}`}
                 >
-                  <article
-                    className="card-hover"
-                    style={{
-                      backgroundColor: "var(--color-surface)",
-                      border: "1px solid var(--color-border)",
-                      borderRadius: "1rem",
-                      overflow: "hidden",
-                      display: "flex",
-                      flexDirection: "column",
-                      transition: "border-color 0.2s ease, transform 0.2s ease",
-                      height: "100%",
-                    }}
-                  >
-                    <div
-                      style={{
-                        position: "relative",
-                        width: "100%",
-                        aspectRatio: "16/9",
-                        backgroundColor: "var(--color-surface-elevated)",
-                      }}
-                    >
+                  <div className="work-row">
+                    <div className="work-row-media">
                       {project.image ? (
                         <Image
                           src={project.image}
                           alt={project.title}
                           fill
-                          style={{ objectFit: "cover" }}
-                          sizes="(max-width: 768px) 100vw, 400px"
+                          className="work-row-img"
+                          sizes="(max-width: 720px) 100vw, 520px"
                         />
                       ) : (
-                        <div
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontSize: "3rem",
-                            color: "var(--color-brand)",
-                          }}
-                        >
-                          ⬡
-                        </div>
-                      )}
-                      {project.featured && (
                         <span
-                          style={{
-                            position: "absolute",
-                            top: "0.75rem",
-                            right: "0.75rem",
-                            padding: "0.25rem 0.625rem",
-                            borderRadius: "9999px",
-                            backgroundColor: "var(--color-brand)",
-                            color: "var(--color-background)",
-                            fontSize: "0.6875rem",
-                            fontWeight: 700,
-                            textTransform: "uppercase",
-                          }}
+                          className="work-row-placeholder"
+                          aria-hidden="true"
                         >
-                          Featured
+                          {catalogNumber(i)}
                         </span>
                       )}
                     </div>
-                    <div
-                      style={{
-                        padding: "1.5rem",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "0.875rem",
-                        flex: 1,
-                      }}
-                    >
-                      <h3
-                        style={{
-                          margin: 0,
-                          fontSize: "1.0625rem",
-                          fontWeight: 700,
-                          color: "var(--color-text-primary)",
-                          lineHeight: 1.3,
-                        }}
-                      >
-                        {project.title}
-                      </h3>
-                      <p
-                        style={{
-                          margin: 0,
-                          fontSize: "0.9rem",
-                          color: "var(--color-text-secondary)",
-                          lineHeight: 1.65,
-                          display: "-webkit-box",
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: "vertical",
-                          overflow: "hidden",
-                        }}
-                      >
-                        {project.description}
-                      </p>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexWrap: "wrap",
-                          gap: "0.375rem",
-                          marginTop: "auto",
-                        }}
-                      >
-                        {project.technologies.slice(0, 4).map((tech) => (
-                          <span
-                            key={tech}
-                            style={{
-                              padding: "0.2rem 0.5rem",
-                              borderRadius: "9999px",
-                              backgroundColor: "var(--color-surface-elevated)",
-                              border: "1px solid var(--color-border)",
-                              fontSize: "0.75rem",
-                              color: "var(--color-text-muted)",
-                            }}
-                          >
+                    <div className="work-row-body">
+                      <span className="work-row-num" aria-hidden="true">
+                        {catalogNumber(i)}
+                      </span>
+                      <h3 className="work-row-title">{project.title}</h3>
+                      <p className="work-row-desc">{project.description}</p>
+                      <div className="work-row-tags">
+                        {project.technologies.slice(0, 5).map((tech) => (
+                          <span key={tech} className="tech-tag">
                             {tech}
                           </span>
                         ))}
                       </div>
                       {(project.githubUrl || project.liveUrl) && (
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: "1rem",
-                            paddingTop: "0.75rem",
-                            borderTop: "1px solid var(--color-border)",
-                          }}
-                        >
+                        <div className="work-row-links">
                           {project.githubUrl && (
-                            <span
-                              style={{
-                                fontSize: "0.875rem",
-                                color: "var(--color-brand)",
-                                fontWeight: 600,
-                              }}
-                            >
-                              GitHub ↗
-                            </span>
+                            <span className="work-row-link">GitHub ↗</span>
                           )}
                           {project.liveUrl && (
-                            <span
-                              style={{
-                                fontSize: "0.875rem",
-                                color: "var(--color-brand)",
-                                fontWeight: 600,
-                              }}
-                            >
-                              Live Demo ↗
-                            </span>
+                            <span className="work-row-link">Live ↗</span>
                           )}
                         </div>
                       )}
                     </div>
-                  </article>
+                  </div>
                 </TrackedProjectCard>
               </ScrollReveal>
             ))}
-          </div>
+          </ol>
         )}
       </section>
 
-      {/* Professional Projects */}
+      {/* ── Professional work — horizontal cards ─────────────────────── */}
       {professional.length > 0 && (
         <section
-          aria-labelledby="professional-projects-heading"
-          style={{
-            paddingTop: "2rem",
-            paddingBottom: "5rem",
-            borderTop: "1px solid var(--color-border)",
-          }}
+          aria-labelledby="professional-heading"
+          className="page-section page-section--last"
         >
           <ScrollReveal variant="fade-up">
-            <div style={{ marginBottom: "2rem", marginTop: "2rem" }}>
-              <h2
-                id="professional-projects-heading"
-                style={{ marginBottom: "0.5rem", fontSize: "1.375rem" }}
-              >
-                Professional Work
-              </h2>
-              <p
-                style={{
-                  margin: 0,
-                  fontSize: "0.9375rem",
-                  color: "var(--color-text-muted)",
-                }}
-              >
-                Client and employer projects — source code not publicly
-                available.
-              </p>
-            </div>
+            <h2 id="professional-heading" className="section-h2">
+              Professional work
+            </h2>
+            <p className="page-head-sub" style={{ marginTop: "0.875rem" }}>
+              Client and employer projects. Source code stays private.
+            </p>
           </ScrollReveal>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-              gap: "1.5rem",
-            }}
-          >
+          <div className="proj-work-list" style={{ marginTop: "2.5rem" }}>
             {professional.map((project, i) => (
               <ScrollReveal
                 key={project.slug}
-                variant="flip"
+                variant="fade-up"
                 delay={((i % 3) + 1) as 1 | 2 | 3}
+                as="div"
               >
                 <TrackedProjectCard
                   href={`${ROUTES.PROJECTS}/${project.slug}`}
                   slug={project.slug}
-                  aria-label={`View ${project.title} project details`}
+                  aria-label={`View ${project.title}`}
                 >
-                  <article
-                    className="card-hover"
-                    style={{
-                      backgroundColor: "var(--color-surface)",
-                      border: "1px solid var(--color-border)",
-                      borderRadius: "1rem",
-                      overflow: "hidden",
-                      display: "flex",
-                      flexDirection: "column",
-                      height: "100%",
-                    }}
-                  >
-                    <div
-                      style={{
-                        position: "relative",
-                        width: "100%",
-                        aspectRatio: "16/9",
-                        backgroundColor: "var(--color-surface-elevated)",
-                      }}
-                    >
+                  <article className="proj-work-row">
+                    <div className="proj-work-media">
                       {project.image ? (
                         <Image
                           src={project.image}
                           alt={project.title}
                           fill
-                          style={{ objectFit: "cover" }}
-                          sizes="(max-width: 768px) 100vw, 400px"
+                          className="proj-work-img"
+                          sizes="(max-width: 640px) 100vw, 200px"
                         />
                       ) : (
-                        <div
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontSize: "3rem",
-                            color: "var(--color-accent)",
-                          }}
+                        <span
+                          className="proj-work-placeholder"
+                          aria-hidden="true"
                         >
-                          ⬢
-                        </div>
+                          {catalogNumber(i)}
+                        </span>
                       )}
                     </div>
-                    <div
-                      style={{
-                        padding: "1.5rem",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "0.75rem",
-                        flex: 1,
-                      }}
-                    >
-                      <div>
-                        <h3
-                          style={{
-                            margin: 0,
-                            fontSize: "1.0625rem",
-                            fontWeight: 700,
-                            color: "var(--color-text-primary)",
-                            lineHeight: 1.3,
-                          }}
-                        >
-                          {project.title}
-                        </h3>
-                        <p
-                          style={{
-                            margin: "0.25rem 0 0",
-                            fontSize: "0.8125rem",
-                            color: "var(--color-brand)",
-                            fontWeight: 600,
-                          }}
-                        >
-                          {project.company} · {project.role}
-                        </p>
-                      </div>
-                      <p
-                        style={{
-                          margin: 0,
-                          fontSize: "0.9rem",
-                          color: "var(--color-text-secondary)",
-                          lineHeight: 1.65,
-                          display: "-webkit-box",
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: "vertical",
-                          overflow: "hidden",
-                        }}
-                      >
-                        {project.description}
+                    <div className="proj-work-body">
+                      <p className="proj-work-meta">
+                        {project.company} · {project.role}
                       </p>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexWrap: "wrap",
-                          gap: "0.375rem",
-                          marginTop: "auto",
-                        }}
-                      >
-                        {project.technologies.slice(0, 4).map((tech) => (
-                          <span
-                            key={tech}
-                            style={{
-                              padding: "0.2rem 0.5rem",
-                              borderRadius: "9999px",
-                              backgroundColor: "var(--color-surface-elevated)",
-                              border: "1px solid var(--color-border)",
-                              fontSize: "0.75rem",
-                              color: "var(--color-text-muted)",
-                            }}
-                          >
+                      <h3 className="proj-work-title">{project.title}</h3>
+                      <p className="proj-work-desc">{project.description}</p>
+                      <div className="proj-work-tags">
+                        {project.technologies.slice(0, 5).map((tech) => (
+                          <span key={tech} className="tech-tag">
                             {tech}
                           </span>
                         ))}
                       </div>
                     </div>
                   </article>
-                  {/* Last remaining professional project closes here */}
                 </TrackedProjectCard>
               </ScrollReveal>
             ))}

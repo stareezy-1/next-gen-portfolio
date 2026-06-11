@@ -29,10 +29,10 @@ export const footerBrandStyles: CSSProperties = {
 };
 
 export const footerBrandNameStyles: CSSProperties = {
-  fontSize: "1.25rem",
+  fontSize: "1.0625rem",
   fontWeight: 800,
-  color: "var(--color-brand)",
-  letterSpacing: "-0.02em",
+  color: "var(--color-text-primary)",
+  letterSpacing: "-0.025em",
 };
 
 export const footerBrandTaglineStyles: CSSProperties = {
@@ -49,12 +49,15 @@ export const footerNavStyles: CSSProperties = {
 };
 
 export const footerNavTitleStyles: CSSProperties = {
-  fontSize: "0.8125rem",
+  fontSize: "0.6875rem",
   fontWeight: 700,
   textTransform: "uppercase",
-  letterSpacing: "0.08em",
+  letterSpacing: "0.12em",
   color: "var(--color-text-muted)",
   margin: 0,
+  fontFamily: "var(--font-mono), monospace",
+  paddingBottom: "0.5rem",
+  borderBottom: "1px solid var(--color-border)",
 };
 
 export const footerNavListStyles: CSSProperties = {

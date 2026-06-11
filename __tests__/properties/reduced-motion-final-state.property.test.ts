@@ -232,33 +232,31 @@ describe("Property 36: Reduced motion presents content in its final state", () =
   // -------------------------------------------------------------------------
   // AssetPlayer: static final frame, no animated player
   // -------------------------------------------------------------------------
-  describe("AssetPlayer — reduced motion renders static final frame, no autoplay", () => {
-    it("renders a static <img> and NOT the animated player for any src and name", () => {
+  describe("AssetPlayer — reduced motion renders static fallback, no autoplay", () => {
+    it("renders a static fallback (no broken <img>) and NOT the animated player for any src and name", () => {
       fc.assert(
         fc.property(srcArb, nameArb, (src, name) => {
-          const { unmount } = render(
+          const { container, unmount } = render(
             React.createElement(AssetPlayer, {
               src,
               name: name || undefined,
             }),
           );
 
-          // (1) A static <img> element is rendered (final frame).
-          // AssetPlayer renders an <img> when reduced motion is true.
+          // (1) A static fallback container is rendered with matching
+          // dimensions. dotLottie files are not valid <img> sources, so the
+          // reduced-motion branch must NOT render an <img> (it would show a
+          // broken-image icon). Instead a plain sized box is rendered.
           const imgs = document.querySelectorAll("img");
-          expect(imgs.length).toBeGreaterThanOrEqual(1);
+          expect(imgs.length).toBe(0);
+          // The outer container element exists.
+          expect(container.firstChild).not.toBeNull();
 
           // (2) The animated DotLottie player is NOT rendered.
-          // The mock renders a div[data-testid="dotlottie-player"] — it must
-          // not be present when reduced motion is enabled.
           const player = document.querySelector(
             '[data-testid="dotlottie-player"]',
           );
           expect(player).toBeNull();
-
-          // (3) The static img has the correct src attribute.
-          const img = imgs[0]!;
-          expect(img.getAttribute("src")).toBe(src);
 
           unmount();
         }),
@@ -269,7 +267,7 @@ describe("Property 36: Reduced motion presents content in its final state", () =
     it("does not render the animated player for any src (autoplay suppressed)", () => {
       fc.assert(
         fc.property(srcArb, (src) => {
-          const { unmount } = render(
+          const { container, unmount } = render(
             React.createElement(AssetPlayer, {
               src,
               name: "test animation",
@@ -282,9 +280,10 @@ describe("Property 36: Reduced motion presents content in its final state", () =
           );
           expect(player).toBeNull();
 
-          // A static img must be present instead.
-          const img = document.querySelector("img");
-          expect(img).not.toBeNull();
+          // A static fallback container must be present instead (no <img>,
+          // which would render as a broken image for a .json/.lottie src).
+          expect(container.firstChild).not.toBeNull();
+          expect(document.querySelectorAll("img").length).toBe(0);
 
           unmount();
         }),

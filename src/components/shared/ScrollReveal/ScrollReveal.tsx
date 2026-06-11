@@ -1,25 +1,28 @@
 "use client";
 
 /**
- * ScrollReveal — IntersectionObserver scroll animation wrapper.
+ * ScrollReveal — Framer Motion (motion/react) scroll animation wrapper.
  *
- * Uses React state + className toggling (not data attributes) to trigger
- * CSS animations. This approach is SSR-safe and works reliably with React 19.
+ * Uses `motion` + `useInView` from `motion/react` instead of manual
+ * IntersectionObserver + useState. This eliminates the SSR/client hydration
+ * mismatch (the old useState(true) pattern caused the "server text didn't
+ * match client" error) and gives proper spring physics.
  *
- * Elements start with className "sr-hidden sr-{variant}" and get
- * "sr-visible" added when they enter the viewport.
+ * Reduced-motion: `useReducedMotion()` from motion/react skips all animation
+ * and renders children at their final state immediately.
  *
  * @see Requirements 20.4, 20.7, 23.5
  */
 
+import { useRef } from "react";
 import {
-  useEffect,
-  useRef,
-  useState,
-  type ElementType,
-  type ReactNode,
-  type CSSProperties,
-} from "react";
+  motion,
+  useInView,
+  useReducedMotion,
+  type Variants,
+  type Transition,
+} from "motion/react";
+import type { ReactNode, CSSProperties, ElementType } from "react";
 
 export type RevealVariant =
   | "fade-up"
@@ -34,7 +37,7 @@ export type RevealVariant =
 export interface ScrollRevealProps {
   children: ReactNode;
   variant?: RevealVariant;
-  /** Stagger delay step (1–8). Each step = 80ms. */
+  /** Stagger delay in steps (1–8), each step ≈ 80ms */
   delay?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
   threshold?: number;
   as?: ElementType;
@@ -42,131 +45,122 @@ export interface ScrollRevealProps {
   style?: CSSProperties;
 }
 
-const DELAY_MS: Record<number, number> = {
-  1: 80,
-  2: 160,
-  3: 240,
-  4: 320,
-  5: 400,
-  6: 480,
-  7: 560,
-  8: 640,
+const DELAY_STEP = 0.08; // seconds
+
+const SPRING: Transition = {
+  type: "spring",
+  stiffness: 260,
+  damping: 28,
+  mass: 0.8,
 };
+
+const EASE_OUT: Transition = {
+  type: "tween",
+  ease: [0.16, 1, 0.3, 1],
+  duration: 0.65,
+};
+
+function getVariants(variant: RevealVariant): Variants {
+  switch (variant) {
+    case "fade-up":
+      return {
+        hidden: { opacity: 0, y: 40 },
+        visible: { opacity: 1, y: 0 },
+      };
+    case "fade-down":
+      return {
+        hidden: { opacity: 0, y: -32 },
+        visible: { opacity: 1, y: 0 },
+      };
+    case "fade-left":
+      return {
+        hidden: { opacity: 0, x: -44 },
+        visible: { opacity: 1, x: 0 },
+      };
+    case "fade-right":
+      return {
+        hidden: { opacity: 0, x: 44 },
+        visible: { opacity: 1, x: 0 },
+      };
+    case "zoom":
+      return {
+        hidden: { opacity: 0, scale: 0.88 },
+        visible: { opacity: 1, scale: 1 },
+      };
+    case "flip":
+      return {
+        hidden: { opacity: 0, rotateX: -18, y: 24 },
+        visible: { opacity: 1, rotateX: 0, y: 0 },
+      };
+    case "tilt":
+      return {
+        hidden: { opacity: 0, rotateY: -16, x: -20 },
+        visible: { opacity: 1, rotateY: 0, x: 0 },
+      };
+    case "fade":
+      return {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1 },
+      };
+  }
+}
+
+function getTransition(
+  variant: RevealVariant,
+  delaySeconds: number,
+): Transition {
+  const base = variant === "zoom" ? SPRING : EASE_OUT;
+  return { ...base, delay: delaySeconds };
+}
 
 export function ScrollReveal({
   children,
   variant = "fade-up",
   delay,
   threshold = 0.08,
-  as: Tag = "div",
+  as,
   className,
   style,
 }: ScrollRevealProps) {
-  const ref = useRef<HTMLElement>(null);
-  // Start as hidden=true (invisible). Will flip to false when in viewport.
-  const [hidden, setHidden] = useState(true);
+  const ref = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) {
-      setHidden(false);
-      return;
-    }
+  const isInView = useInView(ref, {
+    once: true,
+    amount: threshold,
+  });
 
-    if (typeof IntersectionObserver === "undefined") {
-      setHidden(false);
-      return;
-    }
+  const delaySeconds = delay ? delay * DELAY_STEP : 0;
+  const variants = getVariants(variant);
+  const transition = getTransition(variant, delaySeconds);
 
-    const delayMs = delay ? DELAY_MS[delay] ?? 0 : 0;
-
-    // Apply will-change only while waiting to animate — improves perf vs always-on
-    el.style.willChange = "opacity, transform";
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (entry?.isIntersecting) {
-          if (delayMs > 0) {
-            setTimeout(() => {
-              setHidden(false);
-              // Remove will-change after transition completes to free GPU layer
-              setTimeout(() => {
-                el.style.willChange = "auto";
-              }, 300);
-            }, delayMs);
-          } else {
-            setHidden(false);
-            setTimeout(() => {
-              el.style.willChange = "auto";
-            }, 300);
-          }
-          observer.disconnect();
-        }
-      },
-      { threshold, rootMargin: "0px" },
+  // Reduced motion: render at final state, no animation
+  if (prefersReducedMotion) {
+    const Tag = (as ?? "div") as React.ElementType;
+    return (
+      <Tag className={className} style={style}>
+        {children}
+      </Tag>
     );
+  }
 
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [threshold, delay]);
-
-  const hiddenStyles = getHiddenStyles(variant);
-  const transitionStyle: CSSProperties = {
-    transition: getTransition(variant),
-    ...(hidden ? hiddenStyles : getVisibleStyles()),
-    ...style,
-  };
+  // motion/react ships typed polymorphic components — use motion.div as default
+  // and cast for custom `as` elements
+  const MotionTag = as
+    ? (motion[as as keyof typeof motion] as typeof motion.div) ?? motion.div
+    : motion.div;
 
   return (
-    <Tag
-      ref={ref as React.RefObject<never>}
+    <MotionTag
+      ref={ref}
       className={className}
-      style={transitionStyle}
+      style={style}
+      variants={variants}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      transition={transition}
     >
       {children}
-    </Tag>
+    </MotionTag>
   );
-}
-
-function getHiddenStyles(variant: RevealVariant): CSSProperties {
-  switch (variant) {
-    case "fade-up":
-      return { opacity: 0, transform: "translateY(52px)" };
-    case "fade-down":
-      return { opacity: 0, transform: "translateY(-40px)" };
-    case "fade-left":
-      return { opacity: 0, transform: "translateX(-52px)" };
-    case "fade-right":
-      return { opacity: 0, transform: "translateX(52px)" };
-    case "zoom":
-      return { opacity: 0, transform: "scale(0.82)" };
-    case "flip":
-      return {
-        opacity: 0,
-        transform: "perspective(700px) rotateX(-24deg) translateY(28px)",
-      };
-    case "tilt":
-      return {
-        opacity: 0,
-        transform: "perspective(900px) rotateY(-22deg) translateX(-24px)",
-      };
-    case "fade":
-      return { opacity: 0 };
-  }
-}
-
-function getVisibleStyles(): CSSProperties {
-  return { opacity: 1, transform: "none" };
-}
-
-function getTransition(variant: RevealVariant): string {
-  const spring = "cubic-bezier(0.16, 1, 0.3, 1)";
-  const bounce = "cubic-bezier(0.34, 1.56, 0.64, 1)";
-  const easing = variant === "zoom" ? bounce : spring;
-  const dur = variant === "fade" ? "0.85s" : "0.7s";
-  if (variant === "fade") {
-    return `opacity ${dur} ease`;
-  }
-  return `opacity ${dur} ${easing}, transform ${dur} ${easing}`;
 }

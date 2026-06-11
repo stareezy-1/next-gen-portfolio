@@ -1,74 +1,39 @@
 /**
- * Not-found page — React Server Component.
- * @see Requirements 2.6, 25.8
+ * Not-found page — React Server Component, "The Logbook" direction.
+ *
+ * Orbit-rings lottie above a large mono 404, a short message, and a primary
+ * action back home. Classes live in pages.styles.css. Zero em-dashes.
  */
 
 import Link from "next/link";
 import { ContentWidth } from "@/components/layouts";
+import { AssetPlayer } from "@/components/shared/AssetPlayer";
 import { ROUTES } from "@/constants";
 
 export default function NotFound() {
   return (
     <ContentWidth as="main">
-      <div
-        style={{
-          minHeight: "60vh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          textAlign: "center",
-          gap: "1.5rem",
-          paddingTop: "5rem",
-          paddingBottom: "5rem",
-        }}
-      >
-        <div
-          style={{
-            fontSize: "6rem",
-            lineHeight: 1,
-            color: "var(--color-brand)",
-            fontWeight: 800,
-            letterSpacing: "-0.04em",
-          }}
-        >
-          404
+      <div className="notfound-root">
+        <div className="notfound-lottie" aria-hidden="true">
+          <AssetPlayer
+            src="/lottie/orbit-rings.json"
+            decorative
+            trigger="auto"
+            width="100%"
+            height="100%"
+          />
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "0.75rem",
-            maxWidth: "400px",
-          }}
-        >
-          <h1 style={{ margin: 0, fontSize: "1.5rem" }}>Page not found</h1>
-          <p
-            style={{
-              margin: 0,
-              color: "var(--color-text-secondary)",
-              lineHeight: 1.7,
-            }}
-          >
-            The page you&apos;re looking for doesn&apos;t exist or has been
-            moved.
+        <p className="notfound-code" aria-hidden="true">
+          404
+        </p>
+        <div className="notfound-text">
+          <h1>Page not found</h1>
+          <p>
+            The page you are looking for does not exist, or it moved somewhere
+            else.
           </p>
         </div>
-        <Link
-          href={ROUTES.HOME}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            padding: "0.75rem 1.75rem",
-            borderRadius: "0.5rem",
-            backgroundColor: "var(--color-brand)",
-            color: "var(--color-background)",
-            fontWeight: 700,
-            fontSize: "0.9375rem",
-            textDecoration: "none",
-          }}
-        >
+        <Link href={ROUTES.HOME} className="btn-primary">
           ← Go home
         </Link>
       </div>
