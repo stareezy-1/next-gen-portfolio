@@ -1,6 +1,11 @@
 /**
- * Blog Detail page — React Server Component.
- * @see Requirements 14.1–14.5
+ * Blog detail page — React Server Component, "The Logbook" direction.
+ *
+ * Full-width hero banner with a gradient scrim and breadcrumb. Title block
+ * carries a category Badge, tag Badges, Space Grotesk title, description, and a
+ * byline with Avatar + mono date and reading time. A two-column body (prose
+ * article + sticky mono TOC) sits below, then share buttons and related posts.
+ * Zero em-dashes; mono carries dates and reading time.
  */
 
 import { notFound } from "next/navigation";
@@ -15,6 +20,9 @@ import { readingTime } from "@/lib/blog/reading-time";
 import { tableOfContents } from "@/lib/blog/toc";
 import { ContentWidth } from "@/components/layouts";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
+import { ReadingProgress } from "@/components/shared/ReadingProgress/ReadingProgress";
+import { Badge } from "@/components/ui/shadcn/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/shadcn/avatar";
 import { canonicalUrl } from "@/services/seo";
 import {
   blogPostingJsonLd,
@@ -96,312 +104,129 @@ export default async function BlogDetailPage({
     "https://www.linkedin.com/sharing/share-offsite/?url=" +
     encodeURIComponent(postUrl);
 
+  const authorInitials = post.author
+    .split(" ")
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
   return (
     <div>
+      <ReadingProgress />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingLd) }}
+        suppressHydrationWarning
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+        suppressHydrationWarning
       />
 
-      <div
-        style={{
-          position: "relative",
-          width: "100%",
-          backgroundColor: "var(--color-surface-elevated)",
-          overflow: "hidden",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          minHeight: "240px",
-          maxHeight: "560px",
-        }}
-      >
+      {/* ── Hero banner — scrim + breadcrumb ─────────────────────────── */}
+      <div className="detail-banner">
         <Image
           loading="eager"
           src={post.heroImage}
-          alt={"Hero image for " + post.title}
+          alt={"Cover for " + post.title}
           width={1200}
-          height={630}
-          style={{
-            width: "100%",
-            height: "auto",
-            maxHeight: "560px",
-            objectFit: "contain",
-            display: "block",
-          }}
+          height={420}
+          className="detail-banner-img"
           priority
           sizes="100vw"
         />
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(to top, color-mix(in srgb, var(--color-background) 70%, transparent) 0%, transparent 60%)",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            top: "1.5rem",
-            left: "1.5rem",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            fontSize: "0.875rem",
-          }}
-        >
-          <Link
-            href={ROUTES.BLOG}
-            style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none" }}
-          >
+        <div className="detail-banner-scrim" aria-hidden="true" />
+        <nav className="crumb" aria-label="Breadcrumb">
+          <Link href={ROUTES.BLOG} className="crumb-link">
             Blog
           </Link>
-          <span style={{ color: "rgba(255,255,255,0.4)" }}>›</span>
-          <span style={{ color: "rgba(255,255,255,0.9)" }}>{post.title}</span>
-        </div>
+          <span className="crumb-sep" aria-hidden="true">
+            /
+          </span>
+          <span className="crumb-current">{post.title}</span>
+        </nav>
       </div>
 
       <ContentWidth as="main">
+        {/* ── Title block ────────────────────────────────────────────── */}
         <ScrollReveal variant="fade-up">
-          <div
-            style={{
-              paddingTop: "2.5rem",
-              paddingBottom: "2rem",
-              borderBottom: "1px solid var(--color-border)",
-              maxWidth: "720px",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "0.5rem",
-                marginBottom: "1.25rem",
-              }}
-            >
-              <span
-                style={{
-                  padding: "0.25rem 0.75rem",
-                  borderRadius: "9999px",
-                  backgroundColor: "var(--color-brand)",
-                  color: "var(--color-background)",
-                  fontSize: "0.75rem",
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.05em",
-                }}
-              >
+          <div className="article-head">
+            <div className="article-head-badges">
+              <Badge variant="outline" className="post-cat">
                 {post.category}
-              </span>
+              </Badge>
               {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  style={{
-                    padding: "0.25rem 0.625rem",
-                    borderRadius: "9999px",
-                    backgroundColor: "var(--color-surface-elevated)",
-                    border: "1px solid var(--color-border)",
-                    fontSize: "0.75rem",
-                    color: "var(--color-text-muted)",
-                  }}
-                >
+                <Badge key={tag} variant="secondary" className="text-xs">
                   {tag}
-                </span>
+                </Badge>
               ))}
             </div>
-            <h1 style={{ marginBottom: "1.25rem", lineHeight: 1.15 }}>
-              {post.title}
-            </h1>
-            <p
-              style={{
-                margin: "0 0 1.5rem",
-                fontSize: "1.125rem",
-                color: "var(--color-text-secondary)",
-                lineHeight: 1.7,
-              }}
-            >
-              {post.description}
-            </p>
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "1.25rem",
-                alignItems: "center",
-                fontSize: "0.875rem",
-                color: "var(--color-text-muted)",
-              }}
-            >
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
-              >
-                <div
-                  style={{
-                    width: "32px",
-                    height: "32px",
-                    borderRadius: "50%",
-                    backgroundColor:
-                      "color-mix(in srgb, var(--color-brand) 15%, transparent)",
-                    border:
-                      "1px solid color-mix(in srgb, var(--color-brand) 30%, transparent)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "0.875rem",
-                    fontWeight: 700,
-                    color: "var(--color-brand)",
-                  }}
-                >
-                  {post.author.charAt(0)}
-                </div>
-                <span
-                  style={{
-                    fontWeight: 600,
-                    color: "var(--color-text-secondary)",
-                  }}
-                >
-                  {post.author}
-                </span>
+
+            <h1 className="article-head-title">{post.title}</h1>
+            <p className="article-head-desc">{post.description}</p>
+
+            <div className="article-byline">
+              <div className="article-byline-author">
+                <Avatar className="w-8 h-8">
+                  <AvatarFallback className="article-avatar-fallback">
+                    {authorInitials}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="article-byline-name">{post.author}</span>
               </div>
-              <time dateTime={post.publishDate}>{formattedDate}</time>
-              <span>{minutes} min read</span>
+              <time dateTime={post.publishDate} className="article-byline-meta">
+                {formattedDate}
+              </time>
+              <span className="article-byline-meta">{minutes} min read</span>
             </div>
           </div>
         </ScrollReveal>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "minmax(0, 1fr) 260px",
-            gap: "4rem",
-            paddingTop: "2.5rem",
-            paddingBottom: "5rem",
-            alignItems: "start",
-          }}
-          className="two-col-layout blog-body-layout"
-        >
-          <ScrollReveal
-            variant="fade-left"
-            style={{ minWidth: 0, overflow: "hidden" }}
-          >
+        {/* ── Two-column: article + TOC ──────────────────────────────── */}
+        <div className="article-layout two-col-layout blog-body-layout">
+          <ScrollReveal variant="fade-up" className="article-main">
             <article
               aria-label={post.title}
               className="prose"
               dangerouslySetInnerHTML={{ __html: bodyHtml }}
             />
-            <div
-              style={{
-                marginTop: "3rem",
-                paddingTop: "2rem",
-                borderTop: "1px solid var(--color-border)",
-              }}
-            >
-              <p
-                style={{
-                  margin: "0 0 1rem",
-                  fontSize: "0.875rem",
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.08em",
-                  color: "var(--color-text-muted)",
-                }}
-              >
-                Share this post
-              </p>
-              <div
-                style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}
-              >
+
+            {/* Share */}
+            <div className="share">
+              <p className="share-label">Share this post</p>
+              <div className="share-actions">
                 <a
                   href={twitterShareUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={"Share on X"}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                    padding: "0.5rem 1rem",
-                    borderRadius: "0.5rem",
-                    border: "1px solid var(--color-border)",
-                    backgroundColor: "var(--color-surface-elevated)",
-                    color: "var(--color-text-primary)",
-                    fontSize: "0.875rem",
-                    fontWeight: 600,
-                    textDecoration: "none",
-                  }}
+                  aria-label="Share on X"
+                  className="btn-ghost"
                 >
-                  𝕏 Share on X
+                  Share on X
                 </a>
                 <a
                   href={linkedInShareUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={"Share on LinkedIn"}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                    padding: "0.5rem 1rem",
-                    borderRadius: "0.5rem",
-                    border: "1px solid var(--color-border)",
-                    backgroundColor: "var(--color-surface-elevated)",
-                    color: "var(--color-text-primary)",
-                    fontSize: "0.875rem",
-                    fontWeight: 600,
-                    textDecoration: "none",
-                  }}
+                  aria-label="Share on LinkedIn"
+                  className="btn-ghost"
                 >
-                  in LinkedIn
+                  Share on LinkedIn
                 </a>
               </div>
             </div>
           </ScrollReveal>
 
           {toc.length > 0 && (
-            <aside style={{ position: "sticky", top: "88px" }}>
+            <aside className="article-toc">
               <nav aria-label="Table of contents">
-                <p
-                  style={{
-                    margin: "0 0 0.875rem",
-                    fontSize: "0.75rem",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                    color: "var(--color-text-muted)",
-                  }}
-                >
-                  On this page
-                </p>
-                <ol
-                  style={{
-                    listStyle: "none",
-                    margin: 0,
-                    padding: 0,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.125rem",
-                  }}
-                >
+                <p className="toc-label">On this page</p>
+                <ol className="toc-list">
                   {toc.map((entry) => (
                     <li key={entry.id}>
-                      <a
-                        href={"#" + entry.id}
-                        style={{
-                          display: "block",
-                          padding: "0.375rem 0.75rem",
-                          borderRadius: "0.375rem",
-                          fontSize: "0.875rem",
-                          color: "var(--color-text-secondary)",
-                          textDecoration: "none",
-                          lineHeight: 1.5,
-                          borderLeft: "2px solid var(--color-border)",
-                        }}
-                      >
+                      <a href={"#" + entry.id} className="toc-link">
                         {entry.text}
                       </a>
                     </li>
@@ -412,111 +237,60 @@ export default async function BlogDetailPage({
           )}
         </div>
 
+        {/* ── Related posts ──────────────────────────────────────────── */}
         {related.length > 0 && (
           <section
             aria-labelledby="related-posts-heading"
-            style={{
-              paddingBottom: "5rem",
-              borderTop: "1px solid var(--color-border)",
-              paddingTop: "3rem",
-            }}
+            className="rel-section"
           >
             <ScrollReveal variant="fade-up">
-              <h2
-                id="related-posts-heading"
-                style={{ marginBottom: "2rem", fontSize: "1.375rem" }}
-              >
-                More Posts
+              <h2 id="related-posts-heading" className="section-h2">
+                More posts
               </h2>
             </ScrollReveal>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-                gap: "1.25rem",
-              }}
-            >
+            <div className="rel-grid" style={{ marginTop: "2.5rem" }}>
               {related.map((rel, i) => (
                 <ScrollReveal
                   key={rel.slug}
-                  variant="zoom"
+                  variant="fade-up"
                   delay={((i % 3) + 1) as 1 | 2 | 3}
+                  as="div"
                 >
                   <Link
                     href={ROUTES.BLOG + "/" + rel.slug}
                     aria-label={"Read " + rel.title}
-                    style={{
-                      textDecoration: "none",
-                      color: "inherit",
-                      display: "block",
-                    }}
+                    className="rel-card"
                   >
-                    <article
-                      style={{
-                        backgroundColor: "var(--color-surface)",
-                        border: "1px solid var(--color-border)",
-                        borderRadius: "0.875rem",
-                        overflow: "hidden",
-                      }}
-                    >
-                      {rel.heroImage && (
-                        <div
-                          style={{
-                            position: "relative",
-                            aspectRatio: "16/9",
-                            backgroundColor: "var(--color-surface-elevated)",
-                          }}
-                        >
-                          <Image
-                            loading="eager"
-                            src={rel.heroImage}
-                            alt={"Hero image for " + rel.title}
-                            fill
-                            style={{ objectFit: "cover" }}
-                            sizes="320px"
-                          />
-                        </div>
-                      )}
-                      <div style={{ padding: "1.25rem" }}>
-                        <span
-                          style={{
-                            display: "inline-block",
-                            marginBottom: "0.5rem",
-                            padding: "0.2rem 0.5rem",
-                            borderRadius: "9999px",
-                            backgroundColor: "var(--color-brand)",
-                            color: "var(--color-background)",
-                            fontSize: "0.6875rem",
-                            fontWeight: 700,
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          {rel.category}
-                        </span>
-                        <h3
-                          style={{
-                            margin: "0 0 0.5rem",
-                            fontSize: "1rem",
-                            fontWeight: 700,
-                            lineHeight: 1.3,
-                          }}
-                        >
-                          {rel.title}
-                        </h3>
-                        <time
-                          dateTime={rel.publishDate}
-                          style={{
-                            fontSize: "0.8125rem",
-                            color: "var(--color-text-muted)",
-                          }}
-                        >
-                          {new Date(rel.publishDate).toLocaleDateString(
-                            "en-US",
-                            { year: "numeric", month: "short", day: "numeric" },
-                          )}
-                        </time>
+                    {rel.heroImage && (
+                      <div className="rel-card-media">
+                        <Image
+                          loading="eager"
+                          src={rel.heroImage}
+                          alt={"Cover for " + rel.title}
+                          fill
+                          className="rel-card-img"
+                          sizes="320px"
+                        />
                       </div>
-                    </article>
+                    )}
+                    <div className="rel-card-body">
+                      <div>
+                        <Badge variant="outline" className="post-cat">
+                          {rel.category}
+                        </Badge>
+                      </div>
+                      <h3 className="rel-card-title">{rel.title}</h3>
+                      <time
+                        dateTime={rel.publishDate}
+                        className="rel-card-date"
+                      >
+                        {new Date(rel.publishDate).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </time>
+                    </div>
                   </Link>
                 </ScrollReveal>
               ))}

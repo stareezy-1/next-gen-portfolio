@@ -1,0 +1,199 @@
+/**
+ * Nav styles — Grid Ledger aesthetic.
+ * Clean, minimal 68px bar. Logo in Outfit 800, nav links in Outfit 500.
+ * Active indicator: a 2px bottom line, not a background pill.
+ */
+
+.nav-root {
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  height: 68px;
+  background-color: color-mix(
+    in srgb,
+    var(--color-background) 88%,
+    transparent
+  );
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.nav-logo {
+  font-size: 1.0625rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  letter-spacing: -0.025em;
+  flex-shrink: 0;
+  font-family: var(--font-display), sans-serif;
+}
+
+.nav-logo-dot {
+  color: var(--color-brand);
+}
+
+.nav-links-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.625rem;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 5px;
+  transition: color 0.15s ease;
+}
+
+.nav-link:hover {
+  color: var(--color-text-primary);
+}
+
+.nav-link--active {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.nav-link-underline {
+  position: absolute;
+  bottom: -2px;
+  left: 0.625rem;
+  right: 0.625rem;
+  height: 2px;
+  background-color: var(--color-brand);
+  border-radius: 1px;
+}
+
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Mobile drawer */
+.nav-mobile-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+  background-color: color-mix(
+    in srgb,
+    var(--color-background) 70%,
+    transparent
+  );
+  backdrop-filter: blur(4px);
+}
+
+.nav-mobile-drawer {
+  position: fixed;
+  top: 68px;
+  left: 0;
+  right: 0;
+  z-index: 195;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nav-mobile-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.75rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.nav-mobile-link:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--color-text-primary) 5%,
+    transparent
+  );
+  color: var(--color-text-primary);
+}
+
+.nav-mobile-link--active {
+  color: var(--color-brand);
+  font-weight: 700;
+}
+
+.nav-mobile-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-brand);
+}
+
+.nav-mobile-theme {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Hamburger */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 0.375rem;
+  color: var(--color-text-primary);
+  transition: border-color 0.15s ease;
+}
+
+.nav-hamburger:hover {
+  border-color: var(--color-brand);
+}
+
+.nav-hamburger-bar {
+  display: block;
+  width: 16px;
+  height: 1.5px;
+  background-color: currentColor;
+  border-radius: 1px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .nav-desktop-links {
+    display: none !important;
+  }
+
+  .nav-hamburger {
+    display: flex !important;
+  }
+}

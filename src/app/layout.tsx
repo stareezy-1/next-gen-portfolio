@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { AnalyticsProvider } from "@/providers/AnalyticsProvider";
 import { ThemeScript } from "@/components/shared/ThemeScript";
@@ -24,11 +25,34 @@ import {
 } from "@/constants/seo";
 import "./theme.generated.css";
 import "./globals.css";
+import "./home.styles.css";
+import "./pages.styles.css";
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  weight: ["400", "500"],
+  display: "swap",
+});
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#050505" },
-    { media: "(prefers-color-scheme: light)", color: "#050505" },
+    { media: "(prefers-color-scheme: dark)", color: "#070f16" },
+    { media: "(prefers-color-scheme: light)", color: "#f3f7f7" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -92,7 +116,7 @@ export const metadata: Metadata = {
       { url: "/favicon.png", sizes: "64x64", type: "image/png" },
     ],
     apple: [{ url: "/icon-192.svg", sizes: "192x192", type: "image/svg+xml" }],
-    other: [{ rel: "mask-icon", url: "/favicon.svg", color: "#00ff88" }],
+    other: [{ rel: "mask-icon", url: "/favicon.svg", color: "#2dd4a7" }],
   },
 
   // ── Web app manifest ────────────────────────────────────────────────────
@@ -133,7 +157,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+    >
       <head>
         <ThemeScript />
         {/* Preconnect to image CDNs for faster LCP */}

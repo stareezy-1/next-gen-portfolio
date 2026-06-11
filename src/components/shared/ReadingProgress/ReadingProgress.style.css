@@ -1,0 +1,16 @@
+/**
+ * ReadingProgress — fixed top bar, scales horizontally with scroll progress.
+ * Sits above the sticky nav; transform-only animation for cheap repaints.
+ */
+
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--color-brand);
+  transform-origin: 0%;
+  z-index: 300;
+  pointer-events: none;
+}

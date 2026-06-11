@@ -1,3 +1,44 @@
+@import "tailwindcss";
+
+/**
+ * shadcn/ui token bridge.
+ *
+ * Every shadcn token is mapped to a palette-aware portfolio semantic var
+ * (`var(--color-*)`). Because those portfolio vars are redefined per
+ * `:root[data-palette][data-theme]` block below, shadcn components (Card,
+ * Badge, Avatar, Button, Input) automatically recolor with the active theme —
+ * fixing the light-mode "stuck dark" bug.
+ *
+ * `--color-background` / `--color-border` share names with the portfolio vars;
+ * the higher-specificity palette blocks win, so they resolve correctly too.
+ * The literals here are only the pre-hydration fallback (= Aurora dark).
+ */
+@theme inline {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-text-primary);
+  --color-card: var(--color-surface-elevated);
+  --color-card-foreground: var(--color-text-primary);
+  --color-popover: var(--color-surface-elevated);
+  --color-popover-foreground: var(--color-text-primary);
+  --color-primary: var(--color-brand);
+  --color-primary-foreground: var(--color-on-brand);
+  --color-secondary: var(--color-surface-elevated);
+  --color-secondary-foreground: var(--color-text-primary);
+  --color-muted: var(--color-surface-elevated);
+  --color-muted-foreground: var(--color-text-secondary);
+  --color-accent: var(--color-surface-elevated);
+  --color-accent-foreground: var(--color-text-primary);
+  --color-destructive: var(--color-error);
+  --color-destructive-foreground: var(--color-on-brand);
+  --color-border: var(--color-border);
+  --color-input: var(--color-border);
+  --color-ring: var(--color-brand);
+  --radius: 0.625rem;
+
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
 /**
  * Global styles — semantic CSS variable aliases + accessibility baseline.
  *
@@ -14,39 +55,43 @@
 
 /* ---------------------------------------------------------------------------
  * Aurora palette — dark
- * --------------------------------------------------------------------------- */
-/* ---------------------------------------------------------------------------
- * Aurora palette — dark  (neon green on deep space, default)
+ * Aurora borealis identity: luminous teal-green primary + violet accent on a
+ * deep midnight-blue base (tinted, never pure black). Duo-accent on a tinted
+ * ground deliberately escapes the "near-black + single accent" AI default.
  * --------------------------------------------------------------------------- */
 :root[data-palette="aurora"][data-theme="dark"] {
-  --color-background: #050508;
-  --color-surface: #0e0e1a;
-  --color-surface-elevated: #141428;
-  --color-brand: #00ff88;
-  --color-accent: #7c3aed;
-  --color-text-primary: #f0f0ff;
-  --color-text-secondary: #9090b0;
-  --color-text-muted: #606080;
-  --color-border: #1e1e38;
-  --color-error: #ff4466;
-  --color-warning: #f59e0b;
+  --color-background: #070f16;
+  --color-surface: #0d1a26;
+  --color-surface-elevated: #132536;
+  --color-brand: #2dd4a7;
+  --color-on-brand: #042018;
+  --color-accent: #a78bfa;
+  --color-text-primary: #e9f2f1;
+  --color-text-secondary: #93a8ad;
+  --color-text-muted: #5a6f78;
+  --color-border: #1b3041;
+  --color-error: #ff5c72;
+  --color-warning: #f5b53f;
 }
 
 /* ---------------------------------------------------------------------------
- * Aurora palette — light  (green on soft white)
+ * Aurora palette — light
+ * Cool aurora daylight: deep teal-green on a faintly blue-tinted white, with
+ * the same violet accent for continuity between modes.
  * --------------------------------------------------------------------------- */
 :root[data-palette="aurora"][data-theme="light"] {
-  --color-background: #f4f4f8;
-  --color-surface: #e8e8f0;
+  --color-background: #f3f7f7;
+  --color-surface: #e9eff0;
   --color-surface-elevated: #ffffff;
-  --color-brand: #00aa55;
-  --color-accent: #6d28d9;
-  --color-text-primary: #0f0f1a;
-  --color-text-secondary: #3a3a5c;
-  --color-text-muted: #6a6a8a;
-  --color-border: #d0d0e0;
-  --color-error: #cc2244;
-  --color-warning: #d97706;
+  --color-brand: #0d9b73;
+  --color-on-brand: #ffffff;
+  --color-accent: #6d4ad9;
+  --color-text-primary: #0c1a1f;
+  --color-text-secondary: #41565c;
+  --color-text-muted: #6c8087;
+  --color-border: #d2dedd;
+  --color-error: #c5253c;
+  --color-warning: #b9740a;
 }
 
 /* ---------------------------------------------------------------------------
@@ -57,6 +102,7 @@
   --color-surface: #eef2fa;
   --color-surface-elevated: #ffffff;
   --color-brand: #1b5ed3;
+  --color-on-brand: #ffffff;
   --color-accent: #4d8d01;
   --color-text-primary: #0c0e14;
   --color-text-secondary: #3d4860;
@@ -74,6 +120,7 @@
   --color-surface: #0d1224;
   --color-surface-elevated: #131929;
   --color-brand: #4a9eff;
+  --color-on-brand: #04101f;
   --color-accent: #2a9d8f;
   --color-text-primary: #e8dcc8;
   --color-text-secondary: #a89880;
@@ -91,6 +138,7 @@
   --color-surface: #ede8dc;
   --color-surface-elevated: #faf7f0;
   --color-brand: #1a5fb4;
+  --color-on-brand: #ffffff;
   --color-accent: #1a7a6e;
   --color-text-primary: #1a1410;
   --color-text-secondary: #4a3c2c;
@@ -105,17 +153,18 @@
  * Matches Aurora dark, the default palette+mode.
  * --------------------------------------------------------------------------- */
 :root {
-  --color-background: #050508;
-  --color-surface: #0e0e1a;
-  --color-surface-elevated: #141428;
-  --color-brand: #00ff88;
-  --color-accent: #7c3aed;
-  --color-text-primary: #f0f0ff;
-  --color-text-secondary: #9090b0;
-  --color-text-muted: #606080;
-  --color-border: #1e1e38;
-  --color-error: #ff4466;
-  --color-warning: #f59e0b;
+  --color-background: #070f16;
+  --color-surface: #0d1a26;
+  --color-surface-elevated: #132536;
+  --color-brand: #2dd4a7;
+  --color-on-brand: #042018;
+  --color-accent: #a78bfa;
+  --color-text-primary: #e9f2f1;
+  --color-text-secondary: #93a8ad;
+  --color-text-muted: #5a6f78;
+  --color-border: #1b3041;
+  --color-error: #ff5c72;
+  --color-warning: #f5b53f;
 }
 
 /* ---------------------------------------------------------------------------
@@ -156,8 +205,8 @@ body {
   overflow-x: hidden;
   background-color: var(--color-background);
   color: var(--color-text-primary);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
@@ -174,7 +223,9 @@ h5,
 h6 {
   margin: 0;
   line-height: 1.2;
-  font-weight: 700;
+  font-weight: 600;
+  font-family: var(--font-display), sans-serif;
+  letter-spacing: -0.02em;
   color: var(--color-text-primary);
 }
 
@@ -208,7 +259,7 @@ html {
  * --------------------------------------------------------------------------- */
 ::selection {
   background-color: var(--color-brand);
-  color: var(--color-background);
+  color: var(--color-on-brand);
 }
 
 /* ---------------------------------------------------------------------------
@@ -221,7 +272,7 @@ html {
   z-index: 9999;
   padding: 0.5rem 1rem;
   background-color: var(--color-brand);
-  color: var(--color-background);
+  color: var(--color-on-brand);
   font-weight: 700;
   text-decoration: none;
   transition: top 0.1s;
