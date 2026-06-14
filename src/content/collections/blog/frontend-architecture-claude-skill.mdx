@@ -1,7 +1,7 @@
 ---
 slug: "frontend-architecture-claude-skill"
-title: "I Published a Frontend Architecture Skill for Claude — Now on skills.sh"
-description: "A portable, framework-agnostic frontend architecture skill for Claude and other AI coding tools. Feature modules, page directories, a strict server-state vs UI-state split, and barrel-only imports — installable from skills.sh."
+title: "Six Frontend Skills for Claude — A Portable Production Suite on skills.sh"
+description: "A growing suite of portable, framework-agnostic frontend skills for Claude and other AI coding tools: architecture, SEO, a Lighthouse performance gate, typed data contracts, optimistic mutations, and field observability. React, React Native, Next.js — installable from skills.sh."
 heroImage: "https://res.cloudinary.com/diwktkaxv/image/upload/v1781416420/Screenshot_2026-06-14_at_12.52.27_nxydk3.png"
 author: "Stareezy"
 publishDate: "2026-06-14"
@@ -10,70 +10,85 @@ tags:
   - "AI Tools"
   - "Frontend Architecture"
   - "React"
+  - "React Native"
+  - "SEO"
+  - "Performance"
   - "Open Source"
   - "Developer Experience"
 category: "Open Source"
 published: true
 ---
 
-# I Published a Frontend Architecture Skill for Claude — Now on skills.sh
+# Six Frontend Skills for Claude — A Portable Production Suite on skills.sh
 
-I just published my first Claude skill, and it captures something I've been refining across every React and React Native project I've shipped: a single, consistent way to answer the three questions that quietly decide whether a frontend codebase stays healthy or rots.
+What started as a single Claude skill has grown into a small suite. It began with the one thing I'd refined across every React and React Native project I've shipped — a consistent way to answer "where does this code live?" — and it kept growing as I realized the same approach could capture the other production concerns I reach for on every project.
 
-It's called **frontend-architecture**, it's free and MIT-licensed, and you can find it on [skills.sh](https://skills.sh). The source lives on GitHub at [stareezy-1/frontend-architecture-skill](https://github.com/stareezy-1/frontend-architecture-skill).
+The repo now ships **six** free, MIT-licensed skills. You can find them on [skills.sh](https://skills.sh/stareezy-1/frontend-architecture-skill), and the source lives on GitHub at [stareezy-1/frontend-architecture-skill](https://github.com/stareezy-1/frontend-architecture-skill).
 
 ## What a Skill Actually Is
 
 If you haven't run into them yet: a skill is a portable instruction file (`SKILL.md`) that an AI coding tool loads into context when the work matches its description. Claude reads it, but so do OpenCode, Codex, Cursor, Windsurf, and Copilot — anything that understands the Anthropic `SKILL.md` format or can be pointed at it from `AGENTS.md` / `CLAUDE.md`.
 
-The point is leverage. Instead of re-explaining your conventions in every prompt, you encode them once. The agent then scaffolds features, places components, and names types the way you would — without being told each time.
+The point is leverage. Instead of re-explaining your conventions in every prompt, you encode them once. The agent then scaffolds features, places components, wires telemetry, and names types the way you would — without being told each time.
 
-## The Problem It Solves
+## The Suite
 
-Most "architecture" advice is either tied to one framework or so abstract it doesn't help when you're staring at a folder tree wondering where a hook should go.
+Each skill is deliberately **structure and rules**, not a component library or a visual style. And each is grounded in a real system I've shipped, not abstract advice.
 
-This skill is built around three questions a contributor should be able to answer instantly, without asking anyone:
+### 1. `frontend-architecture` — where everything lives
 
-1. **Where does this code live?**
-2. **What is allowed to import what?**
-3. **Is this server state or UI state?**
+The foundation. It organizes apps around three questions a contributor should answer instantly without asking anyone: **where does this code live?**, **what is allowed to import what?**, and **is this server state or UI state?**
 
-The structure makes the answers obvious rather than relying on tribal knowledge.
+Five principles do all the work: feature modules own their world; pages are directories, not files; state is split by origin; imports cross boundaries only through barrels; and code is promoted, not pre-placed. The same module/page/state model maps onto Next.js App Router, React + Vite, Remix, and Expo / React Native — only the thin routing layer changes.
 
-## The Five Core Ideas
+### 2. `frontend-seo` — discoverability as a system
 
-The whole skill is the mechanical application of five principles:
+A complete SEO system built as pure builder functions plus a thin framework adapter. Site identity lives in one constants module, every URL flows through a single `canonicalUrl()`, and search engines get generated `sitemap.xml`, `robots.txt`, an RSS feed, and typed JSON-LD structured data (Person, WebSite, BlogPosting, CreativeWork, BreadcrumbList, FAQPage) — all cross-referenced by stable `@id`.
 
-1. **Feature modules own their world.** Each feature is a self-contained `modules/{feature}/` folder with its own pages, components, hooks, state, types, and a single public barrel.
-2. **Pages are directories, not files.** A route is a folder that co-locates its component, its styles, and the components and hooks used only by it.
-3. **State is split by origin.** Server data lives in a query/cache layer. UI state lives in a store. They never overlap.
-4. **Imports cross boundaries only through barrels.** Reaching into another module's internals is forbidden — you import from `@/modules/{feature}` and nothing deeper.
-5. **Code is promoted, not pre-placed.** It starts as local as possible and moves outward only when a second consumer appears.
+### 3. `frontend-lighthouse` — a performance gate that blocks regressions
 
-## Deliberately Library-Agnostic
+A Lighthouse CI gate around a single `lighthouserc.cjs`. It runs against the production build with median-of-N runs for stability and **blocks pull requests** that miss Google's "good" Core Web Vitals budgets (LCP ≤ 2500 ms, INP ≤ 200 ms via the TBT lab proxy, CLS ≤ 0.1) or the category score floors. Ships the config, an `lhci` script, and a GitHub Actions workflow.
 
-The part I'm most happy with is what the skill _doesn't_ prescribe. It describes a structure and a set of rules — not a component library, not a state library, not a visual style.
+### 4. `frontend-data-contracts` — type safety at the network edge
 
-The same module/page/state model maps cleanly onto Next.js App Router, React + Vite SPA, Remix, and Expo / React Native. Only the thin routing layer on top changes; pages always live in `modules/`, and the router just mounts them.
+One typed API client as the single fetch boundary. The moment data crosses in, it's parsed into a trusted domain type (parse, don't validate) — or it becomes one normalized `ApiError`. A single `{ data } / { error }` envelope, branded IDs so a `CustomerId` can't be passed where an `InvoiceId` is expected, and per-field server errors mapped straight onto form fields.
 
-It's state-management agnostic too. The hard rule is that server state and UI state never mix — but whether you draw that box with Zustand, Redux Toolkit, MobX, Jotai, or Context is your call. The skill shows the same store shape in each. Styling follows the same idea: co-located `{name}.styles.ts`, no inline styles, whether you're on Tailwind, CSS Modules, Tamagui, StyleSheet, or styled-components.
+### 5. `frontend-optimistic-mutations` — the write path
+
+The craft of making writes feel instant _and_ safe. A fixed optimistic lifecycle — cancel in-flight queries, snapshot every affected cache, patch instantly, roll back verbatim on error, invalidate on settle — plus idempotency keys generated once at intent time so a retry replays the original response instead of double-charging, and lock-step coherence so the detail view and every list page always agree.
+
+### 6. `frontend-observability` — the field side
+
+The complement to the Lighthouse _lab_ gate. A typed event taxonomy (no stringly-typed `track("clicked_thing")` scattered around), a best-effort non-blocking provider fan-out so a broken or absent analytics provider can never crash the app, real-user Core Web Vitals reported through the same pipe, error reporting at deliberate boundaries, and consent gating so nothing fires before opt-in. It speaks **Firebase Analytics, GA4, Clarity, PostHog, OpenPanel, and Sentry** — with the same adapter shape on web and React Native (the Firebase adapter guards the native module instead of `window`).
+
+## How They Fit Together
+
+The skills aren't isolated — they reference each other where the seams meet:
+
+- `frontend-data-contracts` defines the typed client; `frontend-optimistic-mutations` builds its write path on top of it.
+- `frontend-lighthouse` is the _lab_ performance gate; `frontend-observability` is the _field_ side, reporting real-user vitals against the **same metrics and thresholds**.
+- All of them live inside the module structure that `frontend-architecture` lays down — SEO in a service module, the client in `shared/api-client`, analytics in `services/analytics`.
 
 ## The Rule I Reach For Most
 
-If I had to keep one rule, it's the state split:
+If I had to keep one rule from the whole suite, it's still the state split from the architecture skill:
 
 > Never mirror server responses into the client store. The query/cache layer is the single source of truth for server data. UI state — open dialogs, filters, wizard steps, drafts — lives in the module store. Neither leaks into the other.
 
-This single boundary prevents the most common way frontend codebases decay: fetched entities getting copied into a global store, then drifting out of sync with the server. Catching that leak in review is worth more than any folder convention.
+This single boundary prevents the most common way frontend codebases decay: fetched entities getting copied into a global store, then drifting out of sync with the server. The optimistic-mutations skill leans on exactly this — optimistic state lives in the query cache, never the store.
 
 ## Try It
 
-Install it into any project from skills.sh, or pull it straight from the repo:
+Install the whole suite, or just the skill you need, from skills.sh or straight from the repo:
 
 ```bash
-npx skills add stareezy-1/frontend-architecture-skill --skill "frontend-architecture"
+# the whole suite
+npx skills add stareezy-1/frontend-architecture-skill
+
+# or a single skill
+npx skills add stareezy-1/frontend-architecture-skill --skill "frontend-observability"
 ```
 
-The full skill — directory layout, the conventions checklist, per-framework adapters, and the component-promotion ladder — is on [GitHub](https://github.com/stareezy-1/frontend-architecture-skill). It's MIT licensed, so copy and adapt it freely.
+Every skill — directory layouts, conventions checklists, per-framework adapters, and the diagrams that show how the pieces fit — is on [GitHub](https://github.com/stareezy-1/frontend-architecture-skill). It's all MIT licensed, so copy and adapt it freely.
 
-If you try it and something doesn't map cleanly onto your stack, open an issue. The whole value of a portable skill is that it gets sharper the more codebases it meets.
+If you try one and something doesn't map cleanly onto your stack, open an issue. The whole value of a portable skill is that it gets sharper the more codebases it meets.
