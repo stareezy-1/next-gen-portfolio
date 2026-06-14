@@ -1,0 +1,79 @@
+---
+slug: "frontend-architecture-claude-skill"
+title: "I Published a Frontend Architecture Skill for Claude — Now on skills.sh"
+description: "A portable, framework-agnostic frontend architecture skill for Claude and other AI coding tools. Feature modules, page directories, a strict server-state vs UI-state split, and barrel-only imports — installable from skills.sh."
+heroImage: "https://res.cloudinary.com/diwktkaxv/image/upload/v1781416420/Screenshot_2026-06-14_at_12.52.27_nxydk3.png"
+author: "Stareezy"
+publishDate: "2026-06-14"
+tags:
+  - "Claude"
+  - "AI Tools"
+  - "Frontend Architecture"
+  - "React"
+  - "Open Source"
+  - "Developer Experience"
+category: "Open Source"
+published: true
+---
+
+# I Published a Frontend Architecture Skill for Claude — Now on skills.sh
+
+I just published my first Claude skill, and it captures something I've been refining across every React and React Native project I've shipped: a single, consistent way to answer the three questions that quietly decide whether a frontend codebase stays healthy or rots.
+
+It's called **frontend-architecture**, it's free and MIT-licensed, and you can find it on [skills.sh](https://skills.sh). The source lives on GitHub at [stareezy-1/frontend-architecture-skill](https://github.com/stareezy-1/frontend-architecture-skill).
+
+## What a Skill Actually Is
+
+If you haven't run into them yet: a skill is a portable instruction file (`SKILL.md`) that an AI coding tool loads into context when the work matches its description. Claude reads it, but so do OpenCode, Codex, Cursor, Windsurf, and Copilot — anything that understands the Anthropic `SKILL.md` format or can be pointed at it from `AGENTS.md` / `CLAUDE.md`.
+
+The point is leverage. Instead of re-explaining your conventions in every prompt, you encode them once. The agent then scaffolds features, places components, and names types the way you would — without being told each time.
+
+## The Problem It Solves
+
+Most "architecture" advice is either tied to one framework or so abstract it doesn't help when you're staring at a folder tree wondering where a hook should go.
+
+This skill is built around three questions a contributor should be able to answer instantly, without asking anyone:
+
+1. **Where does this code live?**
+2. **What is allowed to import what?**
+3. **Is this server state or UI state?**
+
+The structure makes the answers obvious rather than relying on tribal knowledge.
+
+## The Five Core Ideas
+
+The whole skill is the mechanical application of five principles:
+
+1. **Feature modules own their world.** Each feature is a self-contained `modules/{feature}/` folder with its own pages, components, hooks, state, types, and a single public barrel.
+2. **Pages are directories, not files.** A route is a folder that co-locates its component, its styles, and the components and hooks used only by it.
+3. **State is split by origin.** Server data lives in a query/cache layer. UI state lives in a store. They never overlap.
+4. **Imports cross boundaries only through barrels.** Reaching into another module's internals is forbidden — you import from `@/modules/{feature}` and nothing deeper.
+5. **Code is promoted, not pre-placed.** It starts as local as possible and moves outward only when a second consumer appears.
+
+## Deliberately Library-Agnostic
+
+The part I'm most happy with is what the skill _doesn't_ prescribe. It describes a structure and a set of rules — not a component library, not a state library, not a visual style.
+
+The same module/page/state model maps cleanly onto Next.js App Router, React + Vite SPA, Remix, and Expo / React Native. Only the thin routing layer on top changes; pages always live in `modules/`, and the router just mounts them.
+
+It's state-management agnostic too. The hard rule is that server state and UI state never mix — but whether you draw that box with Zustand, Redux Toolkit, MobX, Jotai, or Context is your call. The skill shows the same store shape in each. Styling follows the same idea: co-located `{name}.styles.ts`, no inline styles, whether you're on Tailwind, CSS Modules, Tamagui, StyleSheet, or styled-components.
+
+## The Rule I Reach For Most
+
+If I had to keep one rule, it's the state split:
+
+> Never mirror server responses into the client store. The query/cache layer is the single source of truth for server data. UI state — open dialogs, filters, wizard steps, drafts — lives in the module store. Neither leaks into the other.
+
+This single boundary prevents the most common way frontend codebases decay: fetched entities getting copied into a global store, then drifting out of sync with the server. Catching that leak in review is worth more than any folder convention.
+
+## Try It
+
+Install it into any project from skills.sh, or pull it straight from the repo:
+
+```bash
+npx skills add stareezy-1/frontend-architecture-skill --skill "frontend-architecture"
+```
+
+The full skill — directory layout, the conventions checklist, per-framework adapters, and the component-promotion ladder — is on [GitHub](https://github.com/stareezy-1/frontend-architecture-skill). It's MIT licensed, so copy and adapt it freely.
+
+If you try it and something doesn't map cleanly onto your stack, open an issue. The whole value of a portable skill is that it gets sharper the more codebases it meets.
