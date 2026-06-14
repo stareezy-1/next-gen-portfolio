@@ -68,6 +68,7 @@ const CAPABILITIES: { label: string; items: string[] }[] = [
   {
     label: "Cloud & delivery",
     items: [
+      "Cloudflare",
       "AWS Amplify",
       "EAS Build",
       "EAS Submit",
@@ -78,7 +79,15 @@ const CAPABILITIES: { label: string; items: string[] }[] = [
   },
   {
     label: "Backend & data",
-    items: [".NET Core", "C#", "PHP", "Microsoft SQL Server", "MySQL"],
+    items: [
+      "Go",
+      "Hono.js",
+      ".NET Core",
+      "C#",
+      "PHP",
+      "Microsoft SQL Server",
+      "MySQL",
+    ],
   },
   {
     label: "Working with teams",
