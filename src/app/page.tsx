@@ -79,7 +79,15 @@ const CAPABILITIES: { label: string; items: string[] }[] = [
   },
   {
     label: "Backend",
-    items: [".NET Core / C#", "REST APIs", "SQL Server", "MySQL", "PHP"],
+    items: [
+      "Go",
+      "Hono.js",
+      ".NET Core / C#",
+      "REST APIs",
+      "SQL Server",
+      "MySQL",
+      "PHP",
+    ],
   },
   {
     label: "Quality",
@@ -87,7 +95,14 @@ const CAPABILITIES: { label: string; items: string[] }[] = [
   },
   {
     label: "Cloud & AI",
-    items: ["AWS Amplify", "LLMs", "Prompt Engineering", "RAG", "Embeddings"],
+    items: [
+      "Cloudflare",
+      "AWS Amplify",
+      "LLMs",
+      "Prompt Engineering",
+      "RAG",
+      "Embeddings",
+    ],
   },
 ];
 
