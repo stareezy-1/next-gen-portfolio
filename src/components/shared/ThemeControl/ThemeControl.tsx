@@ -90,22 +90,38 @@ export function ThemeControl({ className }: ThemeControlProps) {
                   aria-label={`Switch to ${PALETTE_LABELS[p]} palette`}
                   title={PALETTE_LABELS[p]}
                   style={{
-                    width: active ? "20px" : "12px",
-                    height: "12px",
+                    width: "24px",
+                    height: "24px",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: "none",
+                    border: "none",
                     borderRadius: "9999px",
-                    backgroundColor: PALETTE_COLORS[p],
-                    border: active
-                      ? `2px solid ${PALETTE_COLORS[p]}`
-                      : "2px solid transparent",
-                    outline: active ? `2px solid ${PALETTE_COLORS[p]}` : "none",
-                    outlineOffset: "2px",
                     cursor: "pointer",
                     padding: 0,
-                    transition: "width 0.2s ease, outline 0.15s ease",
-                    opacity: active ? 1 : 0.45,
                     flexShrink: 0,
                   }}
-                />
+                >
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      width: active ? "20px" : "12px",
+                      height: "12px",
+                      borderRadius: "9999px",
+                      backgroundColor: PALETTE_COLORS[p],
+                      border: active
+                        ? `2px solid ${PALETTE_COLORS[p]}`
+                        : "2px solid transparent",
+                      outline: active
+                        ? `2px solid ${PALETTE_COLORS[p]}`
+                        : "none",
+                      outlineOffset: "2px",
+                      transition: "width 0.2s ease, outline 0.15s ease",
+                      opacity: active ? 1 : 0.45,
+                    }}
+                  />
+                </button>
               );
             })}
           </div>
