@@ -91,28 +91,32 @@ export default async function ProjectsPage() {
                   aria-label={`View ${project.title}`}
                 >
                   <div className="work-row">
+                    {/* Left: thumbnail + index */}
                     <div className="work-row-media">
-                      {project.image ? (
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          fill
-                          className="work-row-img"
-                          sizes="(max-width: 720px) 100vw, 520px"
-                        />
-                      ) : (
-                        <span
-                          className="work-row-placeholder"
-                          aria-hidden="true"
-                        >
-                          {catalogNumber(i)}
-                        </span>
-                      )}
-                    </div>
-                    <div className="work-row-body">
+                      <div className="work-row-thumb">
+                        {project.image ? (
+                          <Image
+                            src={project.image}
+                            alt={project.title}
+                            fill
+                            className="work-row-img"
+                            sizes="(max-width: 640px) 5rem, 11rem"
+                          />
+                        ) : (
+                          <span
+                            className="work-row-placeholder"
+                            aria-hidden="true"
+                          >
+                            {catalogNumber(i)}
+                          </span>
+                        )}
+                      </div>
                       <span className="work-row-num" aria-hidden="true">
                         {catalogNumber(i)}
                       </span>
+                    </div>
+                    {/* Right: body */}
+                    <div className="work-row-body">
                       <h3 className="work-row-title">{project.title}</h3>
                       <p className="work-row-desc">{project.description}</p>
                       <div className="work-row-tags">
@@ -141,7 +145,7 @@ export default async function ProjectsPage() {
         )}
       </section>
 
-      {/* ── Professional work — horizontal cards ─────────────────────── */}
+      {/* ── Professional work — same logbook rows ─────────────────────── */}
       {professional.length > 0 && (
         <section
           aria-labelledby="professional-heading"
@@ -156,45 +160,52 @@ export default async function ProjectsPage() {
             </p>
           </ScrollReveal>
 
-          <div className="proj-work-list" style={{ marginTop: "2.5rem" }}>
+          <ol className="work-index" style={{ marginTop: "2.5rem" }}>
             {professional.map((project, i) => (
               <ScrollReveal
                 key={project.slug}
                 variant="fade-up"
                 delay={((i % 3) + 1) as 1 | 2 | 3}
-                as="div"
+                as="li"
               >
                 <TrackedProjectCard
                   href={`${ROUTES.PROJECTS}/${project.slug}`}
                   slug={project.slug}
                   aria-label={`View ${project.title}`}
                 >
-                  <article className="proj-work-row">
-                    <div className="proj-work-media">
-                      {project.image ? (
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          fill
-                          className="proj-work-img"
-                          sizes="(max-width: 640px) 100vw, 200px"
-                        />
-                      ) : (
-                        <span
-                          className="proj-work-placeholder"
-                          aria-hidden="true"
-                        >
-                          {catalogNumber(i)}
-                        </span>
-                      )}
+                  <div className="work-row">
+                    {/* Left: thumbnail + index */}
+                    <div className="work-row-media">
+                      <div className="work-row-thumb">
+                        {project.image ? (
+                          <Image
+                            src={project.image}
+                            alt={project.title}
+                            fill
+                            className="work-row-img"
+                            sizes="(max-width: 640px) 5rem, 11rem"
+                          />
+                        ) : (
+                          <span
+                            className="work-row-placeholder"
+                            aria-hidden="true"
+                          >
+                            {catalogNumber(i)}
+                          </span>
+                        )}
+                      </div>
+                      <span className="work-row-num" aria-hidden="true">
+                        {catalogNumber(i)}
+                      </span>
                     </div>
-                    <div className="proj-work-body">
+                    {/* Right: body with company/role meta */}
+                    <div className="work-row-body">
                       <p className="proj-work-meta">
                         {project.company} · {project.role}
                       </p>
-                      <h3 className="proj-work-title">{project.title}</h3>
-                      <p className="proj-work-desc">{project.description}</p>
-                      <div className="proj-work-tags">
+                      <h3 className="work-row-title">{project.title}</h3>
+                      <p className="work-row-desc">{project.description}</p>
+                      <div className="work-row-tags">
                         {project.technologies.slice(0, 5).map((tech) => (
                           <span key={tech} className="tech-tag">
                             {tech}
@@ -202,11 +213,11 @@ export default async function ProjectsPage() {
                         ))}
                       </div>
                     </div>
-                  </article>
+                  </div>
                 </TrackedProjectCard>
               </ScrollReveal>
             ))}
-          </div>
+          </ol>
         </section>
       )}
     </ContentWidth>
