@@ -1472,3 +1472,567 @@
     flex: 1 1 auto;
   }
 }
+
+/* ── EXPERIENCE PAGE — logbook rows ──────────────────────────────────────── */
+/*
+ * Design direction: full-width asymmetric row layout — no cards, no borders,
+ * no rail dots. Structure comes from the typography and a 3-zone grid:
+ * [index + date] | [role + company + achievements] | [tech tags]
+ *
+ * Hover: a brand-tinted background sweeps in from the left via a pseudo-
+ * element scale transform. Active row always shows the wash + a live dot.
+ *
+ * VARIANCE: 7 — asymmetric columns, strong mono index, open negative space.
+ */
+
+.xp-index {
+  list-style: none;
+  margin: 3rem 0 0;
+  padding: 0;
+  /* Top hairline above the first row */
+  border-top: 1px solid var(--color-border);
+}
+
+/* Each row */
+.xp-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: clamp(8rem, 16vw, 14rem) minmax(0, 1fr) clamp(
+      10rem,
+      22vw,
+      18rem
+    );
+  gap: 0 2.5rem;
+  padding: 2.25rem 0;
+  border-bottom: 1px solid var(--color-border);
+  overflow: hidden;
+  /* Ink-wash hover layer */
+  isolation: isolate;
+}
+
+.xp-row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--color-brand) 6%, transparent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 0;
+}
+
+.xp-row:hover::before {
+  transform: scaleX(1);
+}
+
+/* Active row always shows the wash */
+.xp-row--active::before {
+  transform: scaleX(1);
+  background: color-mix(in srgb, var(--color-brand) 8%, transparent);
+}
+
+/* All direct children sit above the pseudo-element wash */
+.xp-row > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Left column: index number stacked above the date */
+.xp-row-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.125rem;
+}
+
+.xp-row-idx {
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  font-weight: 400;
+  color: var(--color-text-muted);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.22s ease;
+}
+
+.xp-row:hover .xp-row-idx,
+.xp-row--active .xp-row-idx {
+  color: var(--color-brand);
+}
+
+.xp-row-date {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.4;
+}
+
+/* Center column: role title, company + location, achievements */
+.xp-row-center {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.xp-row-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  flex-wrap: wrap;
+}
+
+.xp-row-role {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+/* Live indicator badge — replaces .tl-now */
+.xp-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-brand);
+  padding: 0.1875rem 0.5rem 0.1875rem 0.375rem;
+  border-radius: 4px;
+  background-color: color-mix(in srgb, var(--color-brand) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-brand) 25%, transparent);
+  flex-shrink: 0;
+}
+
+.xp-live-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-brand);
+  flex-shrink: 0;
+  animation: xp-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes xp-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-brand) 55%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-brand) 0%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xp-live-dot {
+    animation: none;
+  }
+}
+
+.xp-row-company {
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-brand);
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.875rem;
+  flex-wrap: wrap;
+}
+
+.xp-row-loc {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+}
+
+/* Achievements: tight mono list, no bullets, brand arrow markers */
+.xp-row-achievements {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4375rem;
+}
+
+.xp-row-achievement {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: baseline;
+  gap: 0.625rem;
+}
+
+.xp-row-achievement::before {
+  content: "›";
+  color: var(--color-brand);
+  flex-shrink: 0;
+  font-size: 0.875rem;
+}
+
+/* Right column: tech tags, wrapping cloud */
+.xp-row-right {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  align-content: flex-start;
+  padding-top: 0.25rem;
+}
+
+/* Tag variant for the experience index — slightly different from .tech-tag */
+.xp-tag {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.01em;
+  color: var(--color-text-muted);
+  padding: 0.25rem 0.5625rem;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  background-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+
+.xp-row:hover .xp-tag,
+.xp-row--active .xp-tag {
+  color: var(--color-text-secondary);
+  border-color: color-mix(in srgb, var(--color-brand) 30%, transparent);
+}
+
+/* ── Responsive collapse ──────────────────────────────────────────────── */
+/* At tablet: hide the right tech column, fold into center */
+@media (max-width: 900px) {
+  .xp-row {
+    grid-template-columns: clamp(6rem, 14vw, 10rem) minmax(0, 1fr);
+    gap: 0 1.75rem;
+  }
+
+  .xp-row-right {
+    grid-column: 2;
+    padding-top: 0.875rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .xp-row {
+    grid-template-columns: 3.5rem 1fr;
+    gap: 0 1.25rem;
+    padding: 1.75rem 0;
+  }
+
+  .xp-row-left {
+    gap: 0.375rem;
+  }
+
+  .xp-row-idx {
+    font-size: 1.375rem;
+  }
+
+  /* Stack date below the right column on mobile */
+  .xp-row-date {
+    display: none;
+  }
+}
+
+/* ── EDUCATION — open grid blocks ─────────────────────────────────────────── */
+/*
+ * Two-column grid of open blocks — no card container. The school name is the
+ * visual anchor (large display), degree below it, date as a mono footnote.
+ * A bold left rule in brand color is the only structure.
+ */
+.edu-index {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-top: 3rem;
+  border-top: 1px solid var(--color-border);
+}
+
+@media (min-width: 640px) {
+  .edu-index {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+}
+
+/* Scrollreveal wrapper fills the cell */
+.edu-index > * {
+  display: flex;
+  flex-direction: column;
+}
+
+.edu-block {
+  display: flex;
+  gap: 1.5rem;
+  padding: 2.25rem 2rem;
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+@media (min-width: 640px) {
+  /* Right column gets a left border */
+  .edu-index > *:nth-child(even) .edu-block {
+    border-left: 1px solid var(--color-border);
+  }
+}
+
+/* Hover wash same as xp-row */
+.edu-block::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--color-brand) 5%, transparent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 0;
+}
+
+.edu-block:hover::before {
+  transform: scaleX(1);
+}
+
+.edu-block > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Large mono index number — decorative, aria-hidden */
+.edu-block-idx {
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 400;
+  color: var(--color-text-muted);
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  padding-top: 0.125rem;
+  line-height: 1;
+  transition: color 0.22s ease;
+}
+
+.edu-block:hover .edu-block-idx {
+  color: var(--color-brand);
+}
+
+.edu-block-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  min-width: 0;
+}
+
+/* School name is the biggest element */
+.edu-block-school {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.125rem, 2.2vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--color-brand);
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Degree below in primary text */
+.edu-block-degree {
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Date + GPA in the same mono row */
+.edu-block-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.375rem;
+}
+
+.edu-block-gpa {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: baseline;
+  gap: 0.375rem;
+}
+
+.edu-block-gpa-label {
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* Achievements as a tight mono list */
+.edu-block-achievements {
+  list-style: none;
+  margin: 0.875rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 0.875rem;
+}
+
+.edu-block-achievement {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: baseline;
+  gap: 0.625rem;
+}
+
+.edu-block-achievement::before {
+  content: "›";
+  color: var(--color-brand);
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .edu-block {
+    padding: 1.75rem 0;
+    gap: 1.125rem;
+  }
+
+  .edu-block-idx {
+    font-size: 1.375rem;
+  }
+}
+
+/* ── BLOG list — featured lead ────────────────────────────────────────────── */
+.blog-lead {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-top: 2rem;
+  margin-bottom: 2.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  background-color: var(--color-surface);
+  transition: border-color 0.22s ease,
+    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 860px) {
+  .blog-lead {
+    grid-template-columns: 1.15fr 1fr;
+    align-items: stretch;
+  }
+}
+
+.blog-lead:hover {
+  border-color: color-mix(in srgb, var(--color-brand) 50%, transparent);
+  transform: translateY(-3px);
+}
+
+.blog-lead-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background-color: var(--color-surface-elevated);
+}
+
+@media (min-width: 860px) {
+  .blog-lead-media {
+    aspect-ratio: unset;
+    min-height: 320px;
+  }
+}
+
+.blog-lead-img {
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.blog-lead:hover .blog-lead-img {
+  transform: scale(1.03);
+}
+
+.blog-lead-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  padding: clamp(1.75rem, 4vw, 2.75rem);
+  min-width: 0;
+}
+
+.blog-lead-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.blog-lead-flag {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-on-brand);
+  background-color: var(--color-brand);
+  padding: 0.1875rem 0.5rem;
+  border-radius: 5px;
+}
+
+.blog-lead-title {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.125rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  margin: 0;
+  color: var(--color-text-primary);
+  text-wrap: balance;
+}
+
+.blog-lead-desc {
+  font-family: var(--font-body), sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-lead-cta {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.8125rem;
+  color: var(--color-brand);
+  margin-top: 0.25rem;
+}

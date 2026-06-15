@@ -1,10 +1,14 @@
 /**
- * Experience and Education page — React Server Component, "The Logbook" direction.
+ * Experience and Education page — React Server Component.
  *
- * Headline-only header. Work history is a vertical timeline (home .tl-* / .timeline
- * primitives) with mono date ranges, brand company names, indented mono achievement
- * markers, and tech tags. The active role gets the brand dot. Education sits in two
- * shadcn cards. Zero em-dashes; mono carries every date.
+ * Work history: full-width logbook rows. Each row splits into three zones:
+ * mono index+date column left, editorial role/company center, tech tags right.
+ * Hairlines divide rows. Hover sweeps a brand wash. Active role is always lit.
+ * No rail, no dots, no card borders — the typography IS the structure.
+ *
+ * Education: two-column grid where each card is a tall typographic block,
+ * not a bordered container. School name as the visual anchor, degree + date
+ * in the secondary voice.
  */
 
 import type { Metadata } from "next";
@@ -12,7 +16,6 @@ import { loadAll } from "@/content/loader";
 import { orderByStartDateDesc } from "@/lib/timeline";
 import { ContentWidth } from "@/components/layouts";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
-import { Card, CardHeader, CardContent } from "@/components/ui/shadcn/card";
 import { canonicalUrl } from "@/services/seo";
 import { breadcrumbListJsonLd } from "@/services/seo/structured-data";
 import { ROUTES, NAV_LABELS } from "@/constants/routes";
@@ -24,10 +27,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://stareezy.tech/experience" },
 };
 
-/** Format a YYYY-MM range with "to", never a dash. */
 function formatRange(startDate: string, endDate?: string): string {
   const start = startDate.slice(0, 7);
   return endDate ? `${start} to ${endDate.slice(0, 7)}` : `${start} to now`;
+}
+
+function twoDigit(n: number): string {
+  return String(n).padStart(2, "0");
 }
 
 export default function ExperiencePage() {
@@ -50,7 +56,7 @@ export default function ExperiencePage() {
         suppressHydrationWarning
       />
 
-      {/* ── Page header — headline only ──────────────────────────────── */}
+      {/* ── Page header ──────────────────────────────────────────────── */}
       <section aria-labelledby="experience-page-heading" className="page-head">
         <ScrollReveal variant="fade-up">
           <h1 id="experience-page-heading" className="page-head-title">
@@ -62,7 +68,7 @@ export default function ExperiencePage() {
         </ScrollReveal>
       </section>
 
-      {/* ── Work Experience — vertical timeline ──────────────────────── */}
+      {/* ── Work — logbook rows ───────────────────────────────────────── */}
       <section aria-labelledby="work-heading" className="page-section">
         <ScrollReveal variant="fade-up">
           <h2 id="work-heading" className="section-h2">
@@ -75,8 +81,7 @@ export default function ExperiencePage() {
         ) : (
           <ol
             aria-label="Professional experience timeline"
-            className="timeline"
-            style={{ marginTop: "2.5rem" }}
+            className="xp-index"
           >
             {experience.map((entry, index) => {
               const isActive = !entry.endDate;
@@ -84,47 +89,61 @@ export default function ExperiencePage() {
                 <ScrollReveal
                   key={`${entry.company}-${entry.startDate}-${index}`}
                   variant="fade-up"
-                  delay={((index % 3) + 1) as 1 | 2 | 3}
+                  delay={1}
                   as="li"
                 >
-                  <div
-                    className={`tl-item${isActive ? " tl-item--active" : ""}`}
+                  <article
+                    className={`xp-row${isActive ? " xp-row--active" : ""}`}
                   >
-                    <div className="tl-rail" aria-hidden="true">
-                      <span className="tl-dot" />
+                    {/* Left column: index + date */}
+                    <div className="xp-row-left" aria-hidden="true">
+                      <span className="xp-row-idx">{twoDigit(index + 1)}</span>
+                      <code className="xp-row-date">
+                        {formatRange(entry.startDate, entry.endDate)}
+                      </code>
                     </div>
-                    <div className="tl-body">
-                      <div className="tl-meta">
-                        <code className="tl-date">
-                          {formatRange(entry.startDate, entry.endDate)}
-                        </code>
-                        {isActive && <span className="tl-now">Current</span>}
+
+                    {/* Center column: role + company + location + achievements */}
+                    <div className="xp-row-center">
+                      <div className="xp-row-title-row">
+                        <h3 className="xp-row-role">{entry.role}</h3>
+                        {isActive && (
+                          <span className="xp-live" aria-label="Current role">
+                            <span className="xp-live-dot" aria-hidden="true" />
+                            Now
+                          </span>
+                        )}
                       </div>
-                      <h3 className="tl-role">{entry.role}</h3>
-                      <p className="tl-company">{entry.company}</p>
-                      <p className="tl-loc">{entry.location}</p>
+                      <p className="xp-row-company">
+                        {entry.company}
+                        <span className="xp-row-loc">{entry.location}</span>
+                      </p>
 
                       {entry.achievements.length > 0 && (
-                        <ul className="tl-achievements" aria-label="Highlights">
+                        <ul
+                          className="xp-row-achievements"
+                          aria-label="Key achievements"
+                        >
                           {entry.achievements.map((a, i) => (
-                            <li key={i} className="tl-achievement">
+                            <li key={i} className="xp-row-achievement">
                               {a}
                             </li>
                           ))}
                         </ul>
                       )}
-
-                      {entry.technologies.length > 0 && (
-                        <div className="tl-tags">
-                          {entry.technologies.map((tech) => (
-                            <span key={tech} className="tech-tag">
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      )}
                     </div>
-                  </div>
+
+                    {/* Right column: tech tags */}
+                    {entry.technologies.length > 0 && (
+                      <div className="xp-row-right" aria-label="Technologies">
+                        {entry.technologies.map((tech) => (
+                          <span key={tech} className="xp-tag">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </article>
                 </ScrollReveal>
               );
             })}
@@ -132,7 +151,7 @@ export default function ExperiencePage() {
         )}
       </section>
 
-      {/* ── Education — two-col cards ─────────────────────────────────── */}
+      {/* ── Education ─────────────────────────────────────────────────── */}
       <section
         aria-labelledby="education-heading"
         className="page-section page-section--last"
@@ -146,7 +165,7 @@ export default function ExperiencePage() {
         {education.length === 0 ? (
           <p className="empty-state">No education entries yet.</p>
         ) : (
-          <div className="edu-cards" style={{ marginTop: "2.5rem" }}>
+          <div className="edu-index">
             {education.map((entry, index) => (
               <ScrollReveal
                 key={`${entry.school}-${entry.startDate}-${index}`}
@@ -154,29 +173,37 @@ export default function ExperiencePage() {
                 delay={((index % 2) + 1) as 1 | 2}
                 as="div"
               >
-                <Card className="edu-card">
-                  <CardHeader className="px-6 pt-6 pb-3">
-                    <h3 className="edu-degree">
+                <article className="edu-block">
+                  <div className="edu-block-idx" aria-hidden="true">
+                    {twoDigit(index + 1)}
+                  </div>
+                  <div className="edu-block-body">
+                    <p className="edu-block-school">{entry.school}</p>
+                    <h3 className="edu-block-degree">
                       {entry.degree} in {entry.major}
                     </h3>
-                    <p className="edu-school">{entry.school}</p>
-                    <p className="edu-date">
-                      {formatRange(entry.startDate, entry.endDate)}
-                    </p>
-                  </CardHeader>
-                  <CardContent className="px-6 pb-6 pt-0">
-                    {entry.gpa && <p className="edu-gpa">GPA {entry.gpa}</p>}
+                    <div className="edu-block-meta">
+                      <code className="tl-date">
+                        {formatRange(entry.startDate, entry.endDate)}
+                      </code>
+                      {entry.gpa && (
+                        <span className="edu-block-gpa">
+                          <span className="edu-block-gpa-label">GPA</span>
+                          {entry.gpa}
+                        </span>
+                      )}
+                    </div>
                     {entry.achievements && entry.achievements.length > 0 && (
-                      <ul className="edu-achievements">
+                      <ul className="edu-block-achievements">
                         {entry.achievements.map((a, i) => (
-                          <li key={i} className="edu-achievement-item">
+                          <li key={i} className="edu-block-achievement">
                             {a}
                           </li>
                         ))}
                       </ul>
                     )}
-                  </CardContent>
-                </Card>
+                  </div>
+                </article>
               </ScrollReveal>
             ))}
           </div>

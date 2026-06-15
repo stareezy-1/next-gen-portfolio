@@ -3,10 +3,12 @@
 /**
  * ScrollReveal — Framer Motion (motion/react) scroll animation wrapper.
  *
- * Uses `motion` + `useInView` from `motion/react` instead of manual
- * IntersectionObserver + useState. This eliminates the SSR/client hydration
- * mismatch (the old useState(true) pattern caused the "server text didn't
- * match client" error) and gives proper spring physics.
+ * Uses `motion` + `useInView` from `motion/react`. A safety fallback timer
+ * ensures content is always visible after MAX_HIDDEN_MS even if
+ * IntersectionObserver never fires (e.g. some iOS WebViews, low-power mode,
+ * hidden iframes, or viewports where the element is already in view but the
+ * observer misfires). This prevents the "content invisible on some devices"
+ * regression.
  *
  * Reduced-motion: `useReducedMotion()` from motion/react skips all animation
  * and renders children at their final state immediately.
@@ -14,7 +16,7 @@
  * @see Requirements 20.4, 20.7, 23.5
  */
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   motion,
   useInView,
@@ -46,6 +48,13 @@ export interface ScrollRevealProps {
 }
 
 const DELAY_STEP = 0.08; // seconds
+
+/**
+ * Safety ceiling: if IntersectionObserver hasn't fired within this window
+ * (ms), we force the element visible. Covers iOS low-power mode, hidden tabs,
+ * and observers that never report on already-visible elements.
+ */
+const MAX_HIDDEN_MS = 1200;
 
 const SPRING: Transition = {
   type: "spring",
@@ -117,7 +126,7 @@ export function ScrollReveal({
   children,
   variant = "fade-up",
   delay,
-  threshold = 0.08,
+  threshold = 0.06,
   as,
   className,
   style,
@@ -125,10 +134,25 @@ export function ScrollReveal({
   const ref = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
 
+  // useInView with a generous rootMargin so elements near the viewport edge
+  // are caught before they scroll fully into view (helps on tall mobile screens).
   const isInView = useInView(ref, {
     once: true,
     amount: threshold,
+    margin: "0px 0px -40px 0px",
   });
+
+  // Safety fallback: if the observer never fires within MAX_HIDDEN_MS, force
+  // visible. This covers iOS low-power mode, hidden tabs, and WebViews where
+  // IntersectionObserver misfires on elements that are already in the viewport.
+  const [forcedVisible, setForcedVisible] = useState(false);
+  useEffect(() => {
+    if (isInView) return; // observer already fired — no need for the timer
+    const id = setTimeout(() => setForcedVisible(true), MAX_HIDDEN_MS);
+    return () => clearTimeout(id);
+  }, [isInView]);
+
+  const shouldShow = isInView || forcedVisible;
 
   const delaySeconds = delay ? delay * DELAY_STEP : 0;
   const variants = getVariants(variant);
@@ -157,7 +181,7 @@ export function ScrollReveal({
       style={style}
       variants={variants}
       initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
+      animate={shouldShow ? "visible" : "hidden"}
       transition={transition}
     >
       {children}

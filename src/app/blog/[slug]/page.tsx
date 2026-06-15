@@ -150,7 +150,7 @@ export default async function BlogDetailPage({
       </div>
 
       <ContentWidth as="main">
-        {/* ── Title block ────────────────────────────────────────────── */}
+        {/* ── Typographic masthead — breadcrumb + title + byline ────── */}
         <ScrollReveal variant="fade-up">
           <div className="article-head">
             <div className="article-head-badges">

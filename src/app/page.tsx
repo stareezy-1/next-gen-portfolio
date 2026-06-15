@@ -267,28 +267,33 @@ export default function HomePage() {
                     aria-label={`View ${project.title}`}
                     className="work-row"
                   >
+                    {/* Left zone: thumbnail + index */}
                     <div className="work-row-media">
-                      {project.image ? (
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          fill
-                          className="work-row-img"
-                          sizes="(max-width: 860px) 100vw, 520px"
-                        />
-                      ) : (
-                        <span
-                          className="work-row-placeholder"
-                          aria-hidden="true"
-                        >
-                          {catalogNumber(i)}
-                        </span>
-                      )}
-                    </div>
-                    <div className="work-row-body">
+                      <div className="work-row-thumb">
+                        {project.image ? (
+                          <Image
+                            src={project.image}
+                            alt={project.title}
+                            fill
+                            className="work-row-img"
+                            sizes="(max-width: 640px) 5rem, 11rem"
+                          />
+                        ) : (
+                          <span
+                            className="work-row-placeholder"
+                            aria-hidden="true"
+                          >
+                            {catalogNumber(i)}
+                          </span>
+                        )}
+                      </div>
                       <span className="work-row-num" aria-hidden="true">
                         {catalogNumber(i)}
                       </span>
+                    </div>
+
+                    {/* Right zone: title, desc, tags */}
+                    <div className="work-row-body">
                       <h3 className="work-row-title">{project.title}</h3>
                       <p className="work-row-desc">{project.description}</p>
                       <div className="work-row-tags">
@@ -325,45 +330,60 @@ export default function HomePage() {
             </div>
           </ScrollReveal>
 
-          <div className="timeline">
+          {/* Ledger header row */}
+          <div className="home-xp-header" aria-hidden="true">
+            <span className="home-xp-header-num">#</span>
+            <span className="home-xp-header-role">Role</span>
+            <span className="home-xp-header-date">Period</span>
+          </div>
+
+          <ol className="home-xp-ledger" aria-label="Recent experience">
             {recentExperience.map((entry, i) => {
               const isActive = !entry.endDate;
               const dateRange = isActive
-                ? "Now"
+                ? `${entry.startDate.slice(0, 7)} to now`
                 : `${entry.startDate.slice(0, 7)} to ${entry.endDate!.slice(
                     0,
                     7,
                   )}`;
-              const startRange = isActive
-                ? `${entry.startDate.slice(0, 7)} to now`
-                : dateRange;
               return (
                 <ScrollReveal
                   key={`${entry.company}-${i}`}
                   variant="fade-up"
                   delay={((i % 3) + 1) as 1 | 2 | 3}
-                  as="div"
+                  as="li"
                 >
-                  <div
-                    className={`tl-item ${isActive ? "tl-item--active" : ""}`}
+                  <article
+                    className={`home-xp-strip${
+                      isActive ? " home-xp-strip--active" : ""
+                    }`}
                   >
-                    <div className="tl-rail" aria-hidden="true">
-                      <span className="tl-dot" />
-                    </div>
-                    <div className="tl-body">
-                      <div className="tl-meta">
-                        <code className="tl-date">{startRange}</code>
-                        {isActive && <span className="tl-now">Current</span>}
+                    <span className="home-xp-strip-num" aria-hidden="true">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div className="home-xp-strip-body">
+                      <div className="home-xp-strip-title-row">
+                        <h3 className="home-xp-strip-role">{entry.role}</h3>
+                        {isActive && (
+                          <span className="xp-live" aria-label="Current role">
+                            <span className="xp-live-dot" aria-hidden="true" />
+                            Now
+                          </span>
+                        )}
                       </div>
-                      <h3 className="tl-role">{entry.role}</h3>
-                      <p className="tl-company">{entry.company}</p>
-                      <p className="tl-loc">{entry.location}</p>
+                      <p className="home-xp-strip-company">
+                        {entry.company}
+                        <span className="home-xp-strip-loc">
+                          {entry.location}
+                        </span>
+                      </p>
                     </div>
-                  </div>
+                    <code className="home-xp-strip-date">{dateRange}</code>
+                  </article>
                 </ScrollReveal>
               );
             })}
-          </div>
+          </ol>
         </ContentWidth>
       </section>
 
