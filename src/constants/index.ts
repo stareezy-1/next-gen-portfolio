@@ -15,3 +15,5 @@ export * from "./skills";
 export * from "./assets";
 export * from "./theme";
 export * from "./seo";
+export * from "./starfield";
+export * from "./cosmic";

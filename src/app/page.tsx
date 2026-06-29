@@ -24,6 +24,7 @@ import {
 import { ContentWidth, MaxContentWidth } from "@/components/layouts";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { AssetPlayer } from "@/components/shared/AssetPlayer";
+import { StarField } from "@/components/shared/StarField";
 import { ROUTES, BLOG_PREVIEW_COUNT } from "@/constants";
 import { personJsonLd, websiteJsonLd } from "@/services/seo/structured-data";
 import { Badge } from "@/components/ui/shadcn/badge";
@@ -151,7 +152,8 @@ export default function HomePage() {
         brand rule, never as a floating card or spinning ring.
       */}
       <section aria-labelledby="hero-heading" className="hero">
-        <ContentWidth>
+        <StarField className="hero-starfield" />
+        <ContentWidth className="hero-content">
           <div className="hero-layout">
             {/* Left: metadata rail + statement */}
             <div className="hero-main">
@@ -180,8 +182,8 @@ export default function HomePage() {
               <ScrollReveal variant="fade-up" delay={1}>
                 <h1 id="hero-heading" className="hero-statement">
                   I&apos;m Bintang. I build the{" "}
-                  <span className="hero-accent">systems</span> that products
-                  stand on.
+                  <span className="hero-accent">systems</span> everything else
+                  runs on.
                 </h1>
               </ScrollReveal>
 
