@@ -1379,20 +1379,60 @@
 
 /* ── NOT FOUND ────────────────────────────────────────────────────────────── */
 .notfound-root {
-  min-height: 60vh;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 70vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 1.5rem;
   padding: 5rem 1.5rem;
 }
 
-.notfound-lottie {
-  width: 180px;
-  height: 180px;
-  margin-bottom: -1rem;
+/* Immersive WebGL vignette behind the content. Faded top/bottom so it melts
+   into the page rather than ending in a hard edge. */
+.notfound-scene {
+  z-index: 0;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 14%,
+    black 86%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 14%,
+    black 86%,
+    transparent 100%
+  );
+}
+
+/* Content sits above the canvas; a soft radial backdrop guarantees the 404,
+   message, and button stay legible over the moving stars (WCAG AA). */
+.notfound-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.notfound-inner::before {
+  content: "";
+  position: absolute;
+  inset: -3rem -2.5rem;
+  z-index: -1;
+  background: radial-gradient(
+    62% 62% at 50% 50%,
+    color-mix(in srgb, var(--color-background) 82%, transparent) 0%,
+    color-mix(in srgb, var(--color-background) 32%, transparent) 56%,
+    transparent 100%
+  );
+  pointer-events: none;
 }
 
 .notfound-code {

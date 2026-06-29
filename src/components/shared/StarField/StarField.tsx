@@ -54,8 +54,6 @@ import {
   STARFIELD_MAX_PIXEL_RATIO,
   STARFIELD_HIGHLIGHT_RATIO,
   STARFIELD_SPRITE_SIZE,
-  STARFIELD_SPRITE_GLOW_POWER,
-  STARFIELD_SPRITE_MAX_CHANNEL,
   STARFIELD_OPACITY_DARK,
   STARFIELD_OPACITY_LIGHT,
   STARFIELD_CORE_DENSITY_POWER,
@@ -63,6 +61,7 @@ import {
 } from "@/constants";
 import type { StarFieldProps } from "./StarField.types";
 import { starFieldContainer } from "./StarField.style";
+import { createStarTexture } from "@/lib/three/star-texture";
 
 type ThreeModule = typeof import("three");
 
@@ -95,47 +94,6 @@ function readPaletteColor(THREE: ThreeModule, varName: string) {
     color.setRGB(1, 1, 1);
   }
   return color;
-}
-
-/**
- * Builds a soft, round star sprite as a luminance mask (white RGB, radial
- * alpha falloff) on an offscreen canvas. Authored channel-by-channel so no CSS
- * color string is needed; the per-point vertex colours tint it at draw time.
- */
-function createStarTexture(THREE: ThreeModule) {
-  const size = STARFIELD_SPRITE_SIZE;
-  const canvas = document.createElement("canvas");
-  canvas.width = size;
-  canvas.height = size;
-  const ctx = canvas.getContext("2d");
-  const texture = new THREE.CanvasTexture(canvas);
-
-  if (!ctx) return texture;
-
-  const image = ctx.createImageData(size, size);
-  const data = image.data;
-  const centre = (size - 1) * HALF;
-  const maxDist = centre;
-  const channel = STARFIELD_SPRITE_MAX_CHANNEL;
-
-  for (let y = 0; y < size; y++) {
-    for (let x = 0; x < size; x++) {
-      const dx = x - centre;
-      const dy = y - centre;
-      const dist = Math.sqrt(dx * dx + dy * dy) / maxDist;
-      const falloff = Math.max(0, 1 - dist);
-      const alpha = Math.pow(falloff, STARFIELD_SPRITE_GLOW_POWER);
-      const i = (y * size + x) * 4;
-      data[i] = channel;
-      data[i + 1] = channel;
-      data[i + 2] = channel;
-      data[i + 3] = Math.round(alpha * channel);
-    }
-  }
-
-  ctx.putImageData(image, 0, 0);
-  texture.needsUpdate = true;
-  return texture;
 }
 
 export function StarField({ className }: StarFieldProps) {
@@ -243,7 +201,7 @@ export function StarField({ className }: StarFieldProps) {
         new THREE.BufferAttribute(colorArray, XYZ),
       );
 
-      const starTexture = createStarTexture(THREE);
+      const starTexture = createStarTexture(THREE, STARFIELD_SPRITE_SIZE);
       const material = new THREE.PointsMaterial({
         size: STARFIELD_STAR_SIZE,
         sizeAttenuation: true,
