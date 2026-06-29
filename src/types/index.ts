@@ -10,6 +10,7 @@ export type {
   EducationEntry,
   PersonalProject,
   ProfessionalProject,
+  SaasProject,
   Project,
   ContentObject,
   Collection,

@@ -44,6 +44,7 @@ import type {
   ExperienceEntry,
   PersonalProject,
   ProfessionalProject,
+  SaasProject,
 } from "@/types";
 
 /**
@@ -62,6 +63,8 @@ export type ContentOf<C extends Collection> = C extends "blog"
   ? PersonalProject
   : C extends "professional-project"
   ? ProfessionalProject
+  : C extends "saas-project"
+  ? SaasProject
   : never;
 
 /**
@@ -128,6 +131,7 @@ const COLLECTIONS_WITH_BODY: ReadonlySet<Collection> = new Set<Collection>([
   "blog",
   "personal-project",
   "professional-project",
+  "saas-project",
 ]);
 
 /**

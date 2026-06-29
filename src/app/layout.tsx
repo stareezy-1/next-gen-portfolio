@@ -93,7 +93,7 @@ export const metadata: Metadata = {
         url: OG_IMAGE_PATH,
         width: OG_IMAGE_WIDTH,
         height: OG_IMAGE_HEIGHT,
-        alt: `${AUTHOR_NAME} — Senior Front-End & Mobile Engineer`,
+        alt: `${AUTHOR_NAME} — Front-End & AI-Native Engineer`,
         type: "image/svg+xml",
       },
     ],

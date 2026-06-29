@@ -18,12 +18,14 @@ import { experienceSchema } from "@/content/schemas/experience";
 import { educationSchema } from "@/content/schemas/education";
 import { personalProjectSchema } from "@/content/schemas/personal-project";
 import { professionalProjectSchema } from "@/content/schemas/professional-project";
+import { saasProjectSchema } from "@/content/schemas/saas-project";
 
 export { blogSchema } from "@/content/schemas/blog";
 export { experienceSchema } from "@/content/schemas/experience";
 export { educationSchema } from "@/content/schemas/education";
 export { personalProjectSchema } from "@/content/schemas/personal-project";
 export { professionalProjectSchema } from "@/content/schemas/professional-project";
+export { saasProjectSchema } from "@/content/schemas/saas-project";
 
 export {
   isoDateString,
@@ -42,4 +44,5 @@ export const COLLECTION_SCHEMAS: Record<Collection, ZodTypeAny> = {
   education: educationSchema,
   "personal-project": personalProjectSchema,
   "professional-project": professionalProjectSchema,
+  "saas-project": saasProjectSchema,
 };

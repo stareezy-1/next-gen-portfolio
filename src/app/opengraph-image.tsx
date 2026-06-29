@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { SITE_URL, AUTHOR_NAME } from "@/constants/seo";
 
 export const runtime = "edge";
-export const alt = `${AUTHOR_NAME} — Senior Front-End & Mobile Engineer`;
+export const alt = `${AUTHOR_NAME} — Front-End & AI-Native Engineer`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -136,7 +136,7 @@ export default function OgImage() {
             fontWeight: 500,
           }}
         >
-          Senior Front-End &amp; Mobile Engineer
+          Front-End &amp; AI-Native Engineer
         </span>
 
         {/* Tech pills */}

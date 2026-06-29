@@ -1,0 +1,51 @@
+---
+kind: "saas"
+slug: "vega"
+title: "Vega"
+description: "Distribute one video to 300+ TikTok accounts in a single click — schedule posts and watch analytics from one dashboard. Every post goes through TikTok's official Content Posting and Data APIs over OAuth 2.0 with PKCE. No bots, no scraping, no stored passwords."
+image: "https://res.cloudinary.com/diwktkaxv/image/upload/v1782715344/Screenshot_2026-06-29_at_13.41.53_ziodsd.png"
+technologies:
+  - "Next.js"
+  - "React"
+  - "TypeScript"
+  - "Hono"
+  - "Cloudflare Workers"
+  - "D1"
+  - "R2"
+  - "Queues"
+  - "TikTok API"
+  - "OAuth 2.0 / PKCE"
+  - "Fly.io"
+featured: false
+startDate: "2026-03-01"
+status: "development"
+overview: "Vega is a single-operator distribution console for TikTok at scale. Connect many TikTok accounts via official OAuth, push one video to all of them (or a group, or a manual selection up to 500), schedule up to a year ahead, and monitor views/likes/shares/comments centrally — all through TikTok's sanctioned APIs."
+problem: "Posting the same video across hundreds of TikTok accounts by hand is impossible to do reliably, and the tools that promise it lean on bots, scraping, or stored credentials — which get accounts banned and put data at risk."
+solution: "A compliant fan-out engine: OAuth 2.0 + PKCE connections with AES-GCM-encrypted tokens, a queue that creates one job per account, rate limiting (≤6 publishes/min, daily caps per account), and exponential-backoff retries. A separate upload worker streams the video from R2 and chunk-uploads it to TikTok's Content Posting API."
+architecture: "pnpm + Turborepo monorepo: Next.js 15 frontend, a Hono API on Cloudflare Workers (D1 + Drizzle, KV, R2, Queues, Cron), and a Node upload worker on Fly.io that pulls from R2 and pushes chunked uploads to TikTok. Better Auth (Google OAuth + Magic Link) with invite-only allowlist; tokens encrypted at rest and only decrypted in-memory at publish time."
+challenges:
+  - "Compliant TikTok integration — OAuth 2.0 + PKCE (S256), official Content Posting + Data APIs, zero scraping"
+  - "Fan-out distribution to up to 500 accounts via Cloudflare Queues with per-account rate limits and daily caps"
+  - "Chunked video upload from R2 through a dedicated Fly.io worker, with 5× exponential-backoff retries"
+  - "Encrypted token lifecycle (AES-GCM) that never writes a secret to a log"
+results:
+  - "One-click distribution of a single video to 300+ accounts via official TikTok APIs"
+  - "Scheduling up to 365 days ahead with real-time job status (queued → uploading → published)"
+  - "Centralized analytics polled every 6 hours from the TikTok Data API"
+  - "Invite-only access, RBAC (Owner / Member), and an append-only audit log"
+lessonsLearned: "Staying entirely within TikTok's official API surface — PKCE, sanctioned endpoints, encrypted tokens — trades short-term convenience for an integration that won't get accounts banned. The hard part isn't posting one video; it's posting it 300 times within rate limits without tripping a single platform guardrail."
+---
+
+Vega is a single-client TikTok multi-distribution platform, built and operated solo. Sole engineer. Currently in active development (pending TikTok App Review).
+
+## What it does
+
+- **Mass distribution** — one video to all accounts, a group, or a manual selection (up to 500)
+- **Scheduling** up to 365 days ahead, with real-time job status
+- **Centralized analytics** — views, likes, shares, comments polled every 6 hours
+- **Compliant by design** — official TikTok Content Posting + Data APIs, OAuth 2.0 + PKCE, no bots or scraping
+- Invite-only auth (Google + Magic Link), RBAC, encrypted tokens, append-only audit log
+
+## Stack
+
+Next.js 15 · Hono on Cloudflare Workers · D1 + Drizzle · R2 · Queues · Cron · a Fly.io upload worker · TikTok SDK · Better Auth.

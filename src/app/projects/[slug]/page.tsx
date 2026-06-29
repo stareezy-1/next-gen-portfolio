@@ -30,10 +30,18 @@ import type { Project } from "@/types/content";
 
 const RELATED_MAX = 3;
 
+/** Human label for a project's kind, shown in badges and the sidebar. */
+const KIND_LABEL: Record<Project["kind"], string> = {
+  personal: "Personal",
+  professional: "Professional",
+  saas: "Personal SaaS",
+};
+
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const { items: personal } = loadAll("personal-project");
   const { items: professional } = loadAll("professional-project");
-  return [...personal, ...professional].map((p) => ({ slug: p.slug }));
+  const { items: saas } = loadAll("saas-project");
+  return [...personal, ...professional, ...saas].map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
@@ -50,7 +58,8 @@ export async function generateMetadata({
 function findProject(slug: string): Project | undefined {
   const { items: personal } = loadAll("personal-project");
   const { items: professional } = loadAll("professional-project");
-  return [...personal, ...professional].find((p) => p.slug === slug);
+  const { items: saas } = loadAll("saas-project");
+  return [...personal, ...professional, ...saas].find((p) => p.slug === slug);
 }
 
 export default async function ProjectDetailPage({
@@ -64,14 +73,15 @@ export default async function ProjectDetailPage({
 
   const { items: personal } = loadAll("personal-project");
   const { items: professional } = loadAll("professional-project");
+  const { items: saas } = loadAll("saas-project");
   const related = getRelatedProjects(
-    [...personal, ...professional],
+    [...personal, ...professional, ...saas],
     slug,
   ).slice(0, RELATED_MAX);
 
-  const isPersonal = project.kind === "personal";
+  const exposesSource = project.kind !== "professional";
   const liveUrl = project.liveUrl;
-  const githubUrl = isPersonal ? project.githubUrl : undefined;
+  const githubUrl = exposesSource ? project.githubUrl : undefined;
 
   const projectUrl = canonicalUrl(`${ROUTES.PROJECTS}/${project.slug}`);
   const creativeWorkLd = creativeWorkJsonLd(project, projectUrl);
@@ -139,6 +149,12 @@ export default async function ProjectDetailPage({
             <div className="pd-masthead-badges">
               {project.kind === "professional" && (
                 <Badge variant="secondary">Professional</Badge>
+              )}
+              {project.kind === "saas" && (
+                <Badge variant="secondary">Personal SaaS</Badge>
+              )}
+              {project.kind === "saas" && project.status && (
+                <Badge variant="outline">{project.status.toUpperCase()}</Badge>
               )}
               {project.featured && <Badge variant="outline">Featured</Badge>}
             </div>
@@ -214,7 +230,7 @@ export default async function ProjectDetailPage({
             ))}
 
             {/* Challenges */}
-            {isPersonal &&
+            {exposesSource &&
               project.challenges &&
               project.challenges.length > 0 && (
                 <MotionWrapper variant="sectionReveal">
@@ -234,7 +250,7 @@ export default async function ProjectDetailPage({
               )}
 
             {/* Results */}
-            {isPersonal && project.results && project.results.length > 0 && (
+            {exposesSource && project.results && project.results.length > 0 && (
               <MotionWrapper variant="sectionReveal">
                 <section aria-labelledby="results-heading">
                   <h2 id="results-heading" className="detail-section-h2">
@@ -307,7 +323,7 @@ export default async function ProjectDetailPage({
               </CardHeader>
               <CardContent className="px-5 pb-5 pt-0">
                 <div className="sidebar-info">
-                  {isPersonal && project.startDate && (
+                  {exposesSource && project.startDate && (
                     <div>
                       <p className="sidebar-info-label">Started</p>
                       <p className="sidebar-info-val">
@@ -315,7 +331,7 @@ export default async function ProjectDetailPage({
                       </p>
                     </div>
                   )}
-                  {isPersonal && project.endDate && (
+                  {exposesSource && project.endDate && (
                     <div>
                       <p className="sidebar-info-label">Completed</p>
                       <p className="sidebar-info-val">
@@ -323,10 +339,26 @@ export default async function ProjectDetailPage({
                       </p>
                     </div>
                   )}
+                  {project.kind === "saas" && project.status && (
+                    <div>
+                      <p className="sidebar-info-label">Status</p>
+                      <p className="sidebar-info-val sidebar-info-val--plain">
+                        {project.status}
+                      </p>
+                    </div>
+                  )}
+                  {project.kind === "saas" && project.pricingModel && (
+                    <div>
+                      <p className="sidebar-info-label">Pricing</p>
+                      <p className="sidebar-info-val sidebar-info-val--plain">
+                        {project.pricingModel}
+                      </p>
+                    </div>
+                  )}
                   <div>
                     <p className="sidebar-info-label">Type</p>
                     <p className="sidebar-info-val sidebar-info-val--plain">
-                      {project.kind}
+                      {KIND_LABEL[project.kind]}
                     </p>
                   </div>
                 </div>

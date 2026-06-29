@@ -29,9 +29,9 @@ import { personJsonLd, websiteJsonLd } from "@/services/seo/structured-data";
 import { Badge } from "@/components/ui/shadcn/badge";
 
 export const metadata: Metadata = {
-  title: "M Bintang Al Akbar — Senior Front-End & Mobile Engineer",
+  title: "M Bintang Al Akbar — Front-End & AI-Native Engineer",
   description:
-    "Senior Front-End and Mobile Engineer building cross-platform products, design systems, and the tooling underneath them. WSA Global Winner 2025.",
+    "Front-End and AI-Native Engineer building products, design systems, and the edge tooling underneath them with React, Cloudflare Workers, and Hono. WSA Global Winner 2025.",
   alternates: { canonical: "https://stareezy.tech" },
   openGraph: {
     url: "https://stareezy.tech",
@@ -114,7 +114,9 @@ function catalogNumber(index: number): string {
 export default function HomePage() {
   const { items: personalProjects } = loadAll("personal-project");
   const { items: professionalProjects } = loadAll("professional-project");
+  const { items: saasProjects } = loadAll("saas-project");
   const featuredProjects = getFeaturedProjects([
+    ...saasProjects,
     ...personalProjects,
     ...professionalProjects,
   ]);
@@ -158,7 +160,7 @@ export default function HomePage() {
                   <li>
                     <span className="hero-rail-key">role</span>
                     <span className="hero-rail-val">
-                      Senior Front-End &amp; Mobile Engineer
+                      Front-End &amp; AI-Native Engineer
                     </span>
                   </li>
                   <li>
@@ -185,10 +187,13 @@ export default function HomePage() {
 
               <ScrollReveal variant="fade-up" delay={2}>
                 <p className="hero-lead">
-                  Design token systems, an O(1) CSS runtime, a build-time
-                  compiler, and a WSA-winning waste-management ERP. Six years of
-                  shipping React, React Native, and Go across web and mobile
-                  from one codebase.
+                  Front-End and AI-Native Engineer, four years deep in the React
+                  ecosystem. I&apos;ve shipped a cross-platform design token
+                  system, an O(1) CSS runtime, a build-time compiler, and a
+                  WSA-winning waste-management ERP. Front-end first, but I
+                  follow the work down the stack: Go and .NET services
+                  (Framework and Core), deployed to the edge on Cloudflare
+                  Workers and Hono, with AWS EC2 when the job calls for it.
                 </p>
               </ScrollReveal>
 

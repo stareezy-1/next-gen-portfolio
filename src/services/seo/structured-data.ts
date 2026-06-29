@@ -5,11 +5,7 @@
 
 import { structuredData } from "./index";
 import type { JsonLd } from "@/types/seo";
-import type {
-  BlogPost,
-  PersonalProject,
-  ProfessionalProject,
-} from "@/types/content";
+import type { BlogPost, Project } from "@/types/content";
 import {
   SITE_URL,
   AUTHOR_NAME,
@@ -36,7 +32,7 @@ export function personJsonLd(data?: {
     url: data?.url ?? SITE_URL,
     description: data?.description ?? SITE_DESCRIPTION,
     email: AUTHOR_EMAIL,
-    jobTitle: "Senior Front-End & Mobile Engineer",
+    jobTitle: "Front-End & AI-Native Engineer",
     worksFor: {
       "@type": "Organization",
       name: "Rekosistem",
@@ -127,10 +123,7 @@ export function blogPostingJsonLd(post: BlogPost, url: string): JsonLd {
 // CreativeWork
 // ---------------------------------------------------------------------------
 
-export function creativeWorkJsonLd(
-  project: PersonalProject | ProfessionalProject,
-  url: string,
-): JsonLd {
+export function creativeWorkJsonLd(project: Project, url: string): JsonLd {
   return structuredData("CreativeWork", {
     "@id": url,
     name: project.title,
@@ -147,10 +140,10 @@ export function creativeWorkJsonLd(
       name: AUTHOR_NAME,
     },
     keywords: project.technologies.join(", "),
-    ...(project.kind === "personal" && project.githubUrl
+    ...(project.kind !== "professional" && project.githubUrl
       ? { codeRepository: project.githubUrl }
       : {}),
-    ...(project.kind === "personal" && project.liveUrl
+    ...(project.kind !== "professional" && project.liveUrl
       ? { sameAs: project.liveUrl }
       : {}),
     ...(project.image ? { image: project.image } : {}),
