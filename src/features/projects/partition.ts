@@ -13,20 +13,22 @@
 import type {
   PersonalProject,
   ProfessionalProject,
+  SaasProject,
   Project,
 } from "@/types/content";
 
 /**
- * Partitions a mixed array of projects into distinct personal and professional
+ * Partitions a mixed array of projects into personal, professional, and SaaS
  * groupings.
  *
  * Every {@link PersonalProject} (kind === "personal") ends up in `personal`;
- * every {@link ProfessionalProject} (kind === "professional") ends up in
- * `professional`. No project appears in both groups, and every project is
- * accounted for (personal.length + professional.length === projects.length).
+ * every {@link ProfessionalProject} (kind === "professional") in `professional`;
+ * every {@link SaasProject} (kind === "saas") in `saas`. No project appears in
+ * more than one group, and every project is accounted for
+ * (personal.length + professional.length + saas.length === projects.length).
  *
  * @param projects - The mixed array to partition.
- * @returns An object with `personal` and `professional` arrays.
+ * @returns An object with `personal`, `professional`, and `saas` arrays.
  *
  * @see Requirements 11.1
  * @see Property 13
@@ -34,19 +36,23 @@ import type {
 export function partitionProjects(projects: Project[]): {
   personal: PersonalProject[];
   professional: ProfessionalProject[];
+  saas: SaasProject[];
 } {
   const personal: PersonalProject[] = [];
   const professional: ProfessionalProject[] = [];
+  const saas: SaasProject[] = [];
 
   for (const p of projects) {
     if (p.kind === "personal") {
       personal.push(p);
+    } else if (p.kind === "saas") {
+      saas.push(p);
     } else {
       professional.push(p);
     }
   }
 
-  return { personal, professional };
+  return { personal, professional, saas };
 }
 
 /**

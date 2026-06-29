@@ -19,7 +19,7 @@ import { ROUTES, NAV_LABELS } from "@/constants/routes";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Get in touch with Muhammad Bintang Al Akbar, Senior Front-End and Mobile Engineer based in Jakarta. Open to freelance, consulting, and full-time work.",
+    "Get in touch with Muhammad Bintang Al Akbar, Front-End and AI-Native Engineer based in Jakarta. Open to freelance, consulting, and full-time work.",
   alternates: { canonical: "https://stareezy.tech/contact" },
 };
 

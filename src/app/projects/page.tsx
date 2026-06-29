@@ -34,9 +34,11 @@ function catalogNumber(index: number): string {
 export default async function ProjectsPage() {
   const { items: personalProjects } = loadAll("personal-project");
   const { items: professionalProjects } = loadAll("professional-project");
-  const { personal, professional } = partitionProjects([
+  const { items: saasProjects } = loadAll("saas-project");
+  const { personal, professional, saas } = partitionProjects([
     ...personalProjects,
     ...professionalProjects,
+    ...saasProjects,
   ]);
 
   const breadcrumbLd = breadcrumbListJsonLd([
@@ -65,6 +67,91 @@ export default async function ProjectsPage() {
           </p>
         </ScrollReveal>
       </section>
+
+      {/* ── Personal SaaS — shipped products ──────────────────────────── */}
+      {saas.length > 0 && (
+        <section aria-labelledby="saas-heading" className="page-section">
+          <ScrollReveal variant="fade-up">
+            <h2 id="saas-heading" className="section-h2">
+              Personal SaaS
+            </h2>
+            <p className="page-head-sub" style={{ marginTop: "0.875rem" }}>
+              Products I build, ship, and run end to end.
+            </p>
+          </ScrollReveal>
+
+          <ol className="work-index" style={{ marginTop: "2.5rem" }}>
+            {saas.map((project, i) => (
+              <ScrollReveal
+                key={project.slug}
+                variant="fade-up"
+                delay={((i % 3) + 1) as 1 | 2 | 3}
+                as="li"
+              >
+                <TrackedProjectCard
+                  href={`${ROUTES.PROJECTS}/${project.slug}`}
+                  slug={project.slug}
+                  aria-label={`View ${project.title}`}
+                >
+                  <div className="work-row">
+                    <div className="work-row-media">
+                      <div className="work-row-thumb">
+                        {project.image ? (
+                          <Image
+                            src={project.image}
+                            alt={project.title}
+                            fill
+                            className="work-row-img"
+                            sizes="(max-width: 640px) 5rem, 11rem"
+                          />
+                        ) : (
+                          <span
+                            className="work-row-placeholder"
+                            aria-hidden="true"
+                          >
+                            {catalogNumber(i)}
+                          </span>
+                        )}
+                      </div>
+                      <span className="work-row-num" aria-hidden="true">
+                        {catalogNumber(i)}
+                      </span>
+                    </div>
+                    <div className="work-row-body">
+                      {(project.status || project.pricingModel) && (
+                        <p className="proj-work-meta">
+                          {[project.status?.toUpperCase(), project.pricingModel]
+                            .filter(Boolean)
+                            .join(" · ")}
+                        </p>
+                      )}
+                      <h3 className="work-row-title">{project.title}</h3>
+                      <p className="work-row-desc">{project.description}</p>
+                      <div className="work-row-tags">
+                        {project.technologies.slice(0, 5).map((tech) => (
+                          <span key={tech} className="tech-tag">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                      {(project.githubUrl || project.liveUrl) && (
+                        <div className="work-row-links">
+                          {project.githubUrl && (
+                            <span className="work-row-link">GitHub ↗</span>
+                          )}
+                          {project.liveUrl && (
+                            <span className="work-row-link">Live ↗</span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </TrackedProjectCard>
+              </ScrollReveal>
+            ))}
+          </ol>
+        </section>
+      )}
 
       {/* ── Personal & open source — numbered catalog ────────────────── */}
       <section aria-labelledby="personal-heading" className="page-section">

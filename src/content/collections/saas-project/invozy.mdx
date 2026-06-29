@@ -1,0 +1,56 @@
+---
+kind: "saas"
+slug: "invozy"
+title: "Invozy"
+description: "Invoice-to-cash for Indonesian agencies and professional services. Build an invoice with a live A4 preview, send it over email and WhatsApp in one click, and let Smart Collections chase payment automatically — turning a 45-day collection cycle into under 14."
+image: "https://res.cloudinary.com/diwktkaxv/image/upload/v1782715344/Screenshot_2026-06-29_at_13.41.14_alowz6.png"
+technologies:
+  - "Next.js"
+  - "React"
+  - "TypeScript"
+  - "Hono"
+  - "Cloudflare Workers"
+  - "D1"
+  - "Drizzle ORM"
+  - "R2"
+  - "Queues"
+  - "DOKU"
+  - "Resend"
+featured: false
+startDate: "2026-02-01"
+status: "development"
+pricingModel: "Freemium · Pro Rp99rb/bln · Business Rp299rb/bln"
+overview: "Invozy is a self-owned B2B SaaS that compresses the invoice-to-cash loop for Indonesian agencies, studios, and consultants. Owners build an invoice against a real-time A4 preview, dispatch it across email and WhatsApp, and the system runs scheduled reminders (D-3, D-1, D+1, D+7) until it's paid — with status tracking from Draft to Sent to Viewed to Paid."
+problem: "Agencies and professional services in Indonesia average ~45 days to collect (DSO). The workflow is manual end to end: invoice in Word/Excel, email it one by one, chase over WhatsApp, check bank mutations daily, confirm by hand. Nobody even knows if an invoice was opened."
+solution: "One product that owns invoicing, multi-channel delivery, and automated collection. Point-in-time issuer/customer snapshots keep historical invoices immutable; idempotent financial writes and an append-only audit log keep the money trail trustworthy. Planned Phase 2 adds DOKU pay-in links, an active balance, and bank payout — mirroring the architecture proven in Lyra."
+architecture: "Next.js frontend; Hono API on Cloudflare Workers with D1 (SQLite) + Drizzle, KV sessions, R2 for PDFs and brand assets, and Queues for delivery + reminder fan-out. Email + password auth with email verification, per-tenant isolation at the app layer, AES-256-GCM encryption for PII (phone, NPWP, bank details), and client-supplied idempotency keys on every financial write."
+challenges:
+  - "Immutable invoice snapshots so editing a contact or company profile never rewrites history"
+  - "Smart Collections as cancellable, idempotent delayed jobs that stop the instant an invoice is marked paid"
+  - "Atomic invoice numbering (INV-YYYYMM-NNNN) via a D1 counter under concurrency"
+  - "Company-scoped subscriptions and a referral program adapted from Lyra, with DOKU pay-in/payout planned"
+results:
+  - "Target: cut DSO from ~45 days to under 14"
+  - "Multi-channel delivery (email + WhatsApp) with Draft → Sent → Viewed → Paid tracking"
+  - "Automated D-3/D-1/D+1/D+7 reminders that self-cancel on payment"
+  - "Freemium model (Free / Pro / Business) reusing Lyra's battle-tested DOKU + referral stack"
+lessonsLearned: "Reusing Lyra's payment architecture means inheriting its hard-won lessons up front — DGPC virtual accounts, QRIS mall IDs, account-inquiry-before-payout, and business-responseCode error classification — so Invozy's money layer starts where Lyra's ended rather than repeating the same integration debugging."
+---
+
+Invozy is a payment-aware invoicing and collections SaaS for the Indonesian market, built and operated solo. Founder and sole engineer. Currently in active development (Phase 1 MVP).
+
+## What it does
+
+- Invoice builder with a **live A4 preview** and reusable templates
+- **Multi-channel delivery** — email + WhatsApp in one click
+- **Smart Collections** — automated D-3 / D-1 / D+1 / D+7 reminders that cancel on payment
+- Status tracking: **Draft → Sent → Viewed → Paid**, with a public invoice link
+- Company profile, brand assets, staff roles (Owner / Staff), and an append-only audit log
+
+## Planned (Phase 2)
+
+DOKU pay-in links so clients pay invoices directly, an active balance, and bank payout via Kirim DOKU — plus Free / Pro / Business subscriptions and a referral program, reusing Lyra's production payment stack.
+
+## Stack
+
+Next.js · Hono on Cloudflare Workers · D1 + Drizzle · KV · R2 · Queues · Resend · DOKU (planned).

@@ -23,7 +23,7 @@ import { ROUTES, NAV_LABELS } from "@/constants/routes";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Muhammad Bintang Al Akbar, Senior Front-End and Mobile Engineer based in Jakarta. WSA Global Winner 2025. Six years building cross-platform products with React, React Native, and TypeScript.",
+    "Muhammad Bintang Al Akbar, Front-End and AI-Native Engineer based in Jakarta. WSA Global Winner 2025. Four years building cross-platform products with React, TypeScript, and the Cloudflare edge.",
   alternates: { canonical: "https://stareezy.tech/about" },
 };
 
@@ -112,7 +112,7 @@ const ABOUT_SECTIONS: { id: string; title: string; content: string }[] = [
     id: "who-i-am",
     title: "Who I am",
     content:
-      'A Senior Front-End and Mobile Engineer who builds premium digital experiences at the intersection of performance, design, and developer ergonomics. I care about the whole craft, from the architecture decisions that shape a system to the micro-interactions that make an interface feel alive. I bring a product mindset to every technical problem, understanding the "why" before reaching for the "how".',
+      'A Front-End and AI-Native Engineer who builds premium digital experiences at the intersection of performance, design, and developer ergonomics. I care about the whole craft, from the architecture decisions that shape a system to the micro-interactions that make an interface feel alive. I bring a product mindset to every technical problem, understanding the "why" before reaching for the "how".',
   },
   {
     id: "my-journey",
@@ -191,12 +191,12 @@ export default function AboutPage() {
                 Muhammad Bintang Al Akbar
               </h1>
               <p className="about-intro-role">
-                Senior Front-End &amp; Mobile Engineer
+                Front-End &amp; AI-Native Engineer
               </p>
               <p className="about-intro-lead">
                 I build cross-platform products and the systems underneath them,
-                then sweat the details until they feel effortless. Six years in,
-                still asking questions.
+                then sweat the details until they feel effortless. Four years
+                in, still asking questions.
               </p>
               <ul className="about-intro-meta" aria-label="Quick facts">
                 <li>

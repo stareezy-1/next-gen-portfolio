@@ -105,8 +105,8 @@ export function Footer() {
                 Bintang<span className="ftr-wordmark-dot">.</span>
               </span>
               <p className="ftr-bio">
-                Senior Front-End and Mobile Engineer. I build cross-platform
-                products and the systems underneath them.
+                Front-End and AI-Native Engineer. I build products and the
+                systems underneath them.
               </p>
               <div className="ftr-social">
                 {SOCIAL_LINKS.map(({ label, href, icon }) => (

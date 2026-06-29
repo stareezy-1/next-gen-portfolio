@@ -1,0 +1,54 @@
+---
+kind: "saas"
+slug: "lyra"
+title: "Lyra"
+description: "A form builder for Indonesia with payments built in. Create a form, collect answers, and accept money on the same screen — Virtual Account, QRIS, and e-wallets render inline, settle to a creator wallet, and pay out to any bank. Built solo, end to end."
+image: "https://res.cloudinary.com/diwktkaxv/image/upload/v1782715345/Screenshot_2026-06-29_at_13.41.26_hkasau.png"
+technologies:
+  - "Next.js"
+  - "React"
+  - "TypeScript"
+  - "Hono"
+  - "Cloudflare Workers"
+  - "D1"
+  - "Drizzle ORM"
+  - "DOKU SNAP"
+  - "Tailwind CSS"
+  - "Zustand"
+  - "TanStack Query"
+featured: true
+startDate: "2026-01-01"
+status: "live"
+pricingModel: "Freemium · Pro Rp35rb/bln"
+liveUrl: "https://lyra.stareezy.tech"
+overview: "Lyra is a self-owned SaaS: a form builder where collecting a payment is a first-class field, not a bolt-on. A respondent fills a public form and pays inline — no redirect to a hosted checkout — and the creator sees the money land in a wallet they can withdraw to any Indonesian bank. I designed, built, deployed, and operate the whole stack myself."
+problem: "Indonesian creators who sell through forms stitch together a form tool, a payment link, and a spreadsheet. Payments bounce users to a hosted page, reconciliation is manual, and there's no clean path from 'money received' to 'money in my bank'."
+solution: "A single product that owns the full loop: build the form, accept payment inline (DOKU SNAP Direct — Virtual Account and QRIS rendered in Lyra's own UI), confirm via webhook, credit a creator wallet, and disburse on demand. A countdown and live status keep the payer informed; a referral system rewards growth."
+architecture: "Next.js frontend deployed to Cloudflare via OpenNext; Hono API on Cloudflare Workers with D1 (SQLite) + Drizzle, KV for caching and locks, R2 for receipts, and Queues for async notifications. Auth via Better Auth (Google OAuth) with Turnstile. Payments use DOKU SNAP with RSA B2B tokens and HMAC-SHA512 request signatures; webhooks reconcile VA/QRIS/Checkout in one endpoint. PWA-enabled."
+challenges:
+  - "True SNAP Direct so VA and QRIS render inline instead of a hosted redirect — RSA + HMAC-SHA512 signing on Workers' WebCrypto, with WIB-correct timestamps"
+  - "DGPC virtual accounts: DOKU generates the number from a per-bank partnerServiceId + customer prefix, validated live against six banks"
+  - "Webhook reconciliation accepting both Checkout (HMAC-256) and SNAP (HMAC-512) formats on a single notification URL"
+  - "Creator wallet, referral commissions, and bank disbursement with idempotent, retry-safe queue processing"
+results:
+  - "Inline VA for BCA, Mandiri, BRI, BNI, Permata, CIMB plus QRIS — no hosted-checkout redirect"
+  - "Webhook-driven activation with a live countdown and auto-confirming pending-payment UI"
+  - "Subscriptions (Free + Pro), a referral system crediting the creator wallet, and on-demand withdrawals"
+  - "Runs entirely on Cloudflare's edge — Workers, D1, KV, R2, Queues — operated single-handedly"
+lessonsLearned: "Payment gateways are 80% edge cases: provisioning, signature formats, timestamp zones, and transient-vs-permanent error classification matter more than the happy path. Verifying every assumption against the live sandbox — not the docs alone — was what made the integration actually ship."
+---
+
+Lyra is a payment-native form builder for the Indonesian market, built and operated solo as a personal SaaS. Founder and sole engineer.
+
+## What it does
+
+- Drag-to-build forms with a **payment field** as a first-class block
+- **Inline payment** — Virtual Account and QRIS rendered in Lyra's own UI via DOKU SNAP Direct (no hosted-checkout redirect)
+- Live **countdown + auto-confirming** pending-payment experience, driven by DOKU webhooks
+- **Creator wallet** with transaction history, plus on-demand **withdrawals** to any Indonesian bank
+- **Subscriptions** (Free + Pro) and a **referral system** that credits commissions to the wallet
+- Email + WhatsApp notifications, PDF receipts, and a PWA install experience
+
+## Stack
+
+Next.js (OpenNext on Cloudflare) · Hono on Cloudflare Workers · D1 + Drizzle · KV · R2 · Queues · Better Auth + Google OAuth · DOKU SNAP payments and Kirim DOKU payouts.

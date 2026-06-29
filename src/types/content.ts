@@ -107,7 +107,44 @@ export interface ProfessionalProject {
 }
 
 /** Discriminated union of project content, keyed on `kind`. */
-export type Project = PersonalProject | ProfessionalProject;
+export type Project = PersonalProject | ProfessionalProject | SaasProject;
+
+/**
+ * A self-owned SaaS product (e.g. Lyra). Like a personal project it MAY expose
+ * a live URL and source, but it adds product-lifecycle and business fields
+ * (status, pricing) that distinguish a shipped product from an experiment.
+ */
+export interface SaasProject {
+  kind: "saas";
+  slug: string;
+  title: string;
+  description: string;
+  image: string;
+  technologies: string[];
+  featured: boolean;
+  /** ISO-8601 date string. */
+  startDate: string;
+  /** Live product URL. */
+  liveUrl?: string;
+  /** Optional — a SaaS product may be closed-source. */
+  githubUrl?: string;
+  /** ISO-8601 date string. */
+  endDate?: string;
+  /** Product lifecycle, surfaced as a status badge. */
+  status?: "live" | "beta" | "development";
+  /** One-line pricing / business model, e.g. "Freemium · Pro Rp35k/mo". */
+  pricingModel?: string;
+  challenges?: string[];
+  solutions?: string[];
+  results?: string[];
+  // Detail-page sections.
+  overview?: string;
+  problem?: string;
+  solution?: string;
+  architecture?: string;
+  lessonsLearned?: string;
+  gallery?: string[];
+}
 
 /** Any validated content object produced by the Content_Loader. */
 export type ContentObject =
@@ -122,7 +159,8 @@ export type Collection =
   | "experience"
   | "education"
   | "personal-project"
-  | "professional-project";
+  | "professional-project"
+  | "saas-project";
 
 /** Result of splitting an MDX source file into frontmatter and body. */
 export interface ParsedFile {

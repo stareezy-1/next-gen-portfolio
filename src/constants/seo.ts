@@ -8,16 +8,16 @@ export const SITE_HANDLE = "@stareezy";
 export const SITE_LOCALE = "en_US";
 
 export const SITE_TITLE_DEFAULT =
-  "M Bintang Al Akbar — Senior Front-End & Mobile Engineer";
+  "M Bintang Al Akbar — Front-End & AI-Native Engineer";
 export const SITE_TITLE_TEMPLATE = "%s | Bintang Al Akbar";
 
 export const SITE_DESCRIPTION =
-  "Senior Front-End & Mobile Engineer with 3+ years building cross-platform enterprise products. WSA Global Winner 2025. Specializing in React, React Native, TypeScript, and design token systems.";
+  "Front-End & AI-Native Engineer with 4+ years in the React ecosystem, building cross-platform products and the edge systems beneath them. WSA Global Winner 2025. React, TypeScript, Cloudflare Workers, Hono, and design token systems.";
 
 export const SITE_KEYWORDS = [
   "Muhammad Bintang Al Akbar",
-  "Senior Front-End Engineer",
-  "Mobile Engineer",
+  "Front-End Engineer",
+  "AI-Native Engineer",
   "React Developer",
   "React Native Developer",
   "TypeScript Engineer",

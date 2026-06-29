@@ -4,7 +4,7 @@
  * Enumerates every indexable Platform URL:
  *   - All six primary routes
  *   - Every published blog post URL
- *   - Every project URL (personal + professional)
+ *   - Every project URL (personal + professional + SaaS)
  *
  * @see Requirements 18.1, 18.6
  */
@@ -21,10 +21,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const { items: personal } = loadAll("personal-project");
   const { items: professional } = loadAll("professional-project");
+  const { items: saas } = loadAll("saas-project");
 
   const entries = sitemapEntries({
     blogSlugs: published.map((p) => p.slug),
-    projectSlugs: [...personal, ...professional].map((p) => p.slug),
+    projectSlugs: [...personal, ...professional, ...saas].map((p) => p.slug),
   });
 
   return entries.map((e) => ({
