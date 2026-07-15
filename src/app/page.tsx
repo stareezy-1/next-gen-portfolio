@@ -182,9 +182,8 @@ export default function HomePage() {
 
               <ScrollReveal variant="fade-up" delay={1}>
                 <h1 id="hero-heading" className="hero-statement">
-                  I&apos;m Bintang. I build the{" "}
-                  <span className="hero-accent">systems</span> everything else
-                  runs on.
+                  I&apos;m Bintang. I build complete products, front-end to the{" "}
+                  <span className="hero-accent">edge</span>.
                 </h1>
               </ScrollReveal>
 
