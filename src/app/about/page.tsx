@@ -23,7 +23,7 @@ import { ROUTES, NAV_LABELS } from "@/constants/routes";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Muhammad Bintang Al Akbar, Front-End and AI-Native Engineer based in Jakarta. WSA Global Winner 2025. Four years building cross-platform products with React, TypeScript, and the Cloudflare edge.",
+    "Muhammad Bintang Al Akbar, Front-End and AI-Native Engineer based in Jakarta. WSA Global Winner 2025. Four years building cross-platform products with React, TypeScript, and the Cloudflare edge, plus an MCP server and open-source Claude skills.",
   alternates: { canonical: "https://stareezy.tech/about" },
 };
 
@@ -90,6 +90,17 @@ const CAPABILITIES: { label: string; items: string[] }[] = [
     ],
   },
   {
+    label: "AI & developer tooling",
+    items: [
+      "MCP Servers",
+      "Claude Skills",
+      "LLM Integration",
+      "Prompt Engineering",
+      "RAG",
+      "AI-Assisted Workflows",
+    ],
+  },
+  {
     label: "Working with teams",
     items: [
       "Technical Leadership",
@@ -112,31 +123,31 @@ const ABOUT_SECTIONS: { id: string; title: string; content: string }[] = [
     id: "who-i-am",
     title: "Who I am",
     content:
-      'A Front-End and AI-Native Engineer who builds premium digital experiences at the intersection of performance, design, and developer ergonomics. I care about the whole craft, from the architecture decisions that shape a system to the micro-interactions that make an interface feel alive. I bring a product mindset to every technical problem, understanding the "why" before reaching for the "how".',
+      "I build cross-platform products and the systems under them, and I ship them solo, end to end. That runs from token systems and build-time compilers on one side to Cloudflare Workers and live payment integrations on the other. I reach for the smallest thing that survives production over the cleverest thing on paper.",
   },
   {
     id: "my-journey",
     title: "My journey",
     content:
-      "My path started with curiosity, tinkering with HTML and wondering how the web worked. That grew into a career spanning frontend, backend, mobile, and cloud engineering. I have shipped production systems used by thousands, led cross-functional teams, and earned a WSA Global Winner 2025 title for digital innovation. Along the way I learned that the best engineers never stop asking questions.",
+      "I started by tinkering with HTML and wondering how the web held together. That turned into a career across frontend, backend, mobile, and the edge. I co-architected a waste-management ERP that won WSA Global 2025, and I now build and operate my own SaaS products in the open. The throughline is the same as day one: figure out how it actually works.",
   },
   {
     id: "how-i-think",
     title: "How I think",
     content:
-      "I approach problems by first understanding the constraints, technical, business, and human. Good solutions are rarely the most clever ones. They are the ones that are clear, maintainable, and appropriate for the context. I favour systems thinking over local optimisation, and I treat writing code as an act of communication with future maintainers as much as with the machine.",
+      "Building Lyra's payment layer taught me the real work lives in the edge cases: signature formats, timezone-correct timestamps, telling a transient failure from a permanent one. So I verify every assumption against the live system, not just the docs. That habit is the difference between an integration that ships and one that stalls.",
   },
   {
     id: "what-i-build",
     title: "What I build",
     content:
-      "I specialise in cross-platform web and mobile applications, from token-driven design systems and component libraries to Go REST APIs, AWS Amplify microservices, and cloud-native infrastructure. My current focus is server-first React architectures with Next.js and React Server Components, and AI-augmented developer tooling.",
+      "I specialise in cross-platform web and mobile, from token-driven design systems to Go and Hono APIs on the Cloudflare edge. My AI-native work is concrete: an MCP server that exposes my design system as callable tools, and an open-source suite of Claude skills, published on skills.sh, that teach assistants my architecture and conventions. Current focus is server-first React with Next.js and Server Components.",
   },
   {
     id: "beyond-coding",
     title: "Beyond coding",
     content:
-      "When I am not building software I am usually reading, distributed systems papers, philosophy, history. The best mental models for engineering problems often come from unrelated fields. I also enjoy contributing to open source, writing technical articles, and mentoring engineers earlier in their careers.",
+      "Away from the editor I read, distributed-systems papers, philosophy, history, because the best models for an engineering problem usually come from somewhere unrelated. I also write about what I ship and mentor engineers earlier in their careers.",
   },
 ];
 

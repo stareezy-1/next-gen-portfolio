@@ -32,7 +32,7 @@ import { Badge } from "@/components/ui/shadcn/badge";
 export const metadata: Metadata = {
   title: "M Bintang Al Akbar — Front-End & AI-Native Engineer",
   description:
-    "Front-End and AI-Native Engineer building products, design systems, and the edge tooling underneath them with React, Cloudflare Workers, and Hono. WSA Global Winner 2025.",
+    "Front-End and AI-Native Engineer building products, design systems, and the edge tooling underneath them with React, Cloudflare Workers, and Hono. I ship an MCP server and open-source Claude skills on top. WSA Global Winner 2025.",
   alternates: { canonical: "https://stareezy.tech" },
   openGraph: {
     url: "https://stareezy.tech",
@@ -99,10 +99,11 @@ const CAPABILITIES: { label: string; items: string[] }[] = [
     items: [
       "Cloudflare",
       "AWS Amplify",
-      "LLMs",
+      "MCP Servers",
+      "Claude Skills",
+      "LLM Integration",
       "Prompt Engineering",
       "RAG",
-      "Embeddings",
     ],
   },
 ];
@@ -152,7 +153,7 @@ export default function HomePage() {
         brand rule, never as a floating card or spinning ring.
       */}
       <section aria-labelledby="hero-heading" className="hero">
-        <StarField className="hero-starfield" />
+        {/* <StarField className="hero-starfield" /> */}
         <ContentWidth className="hero-content">
           <div className="hero-layout">
             {/* Left: metadata rail + statement */}
@@ -189,13 +190,12 @@ export default function HomePage() {
 
               <ScrollReveal variant="fade-up" delay={2}>
                 <p className="hero-lead">
-                  Front-End and AI-Native Engineer, four years deep in the React
-                  ecosystem. I&apos;ve shipped a cross-platform design token
-                  system, an O(1) CSS runtime, a build-time compiler, and a
-                  WSA-winning waste-management ERP. Front-end first, but I
-                  follow the work down the stack: Go and .NET services
-                  (Framework and Core), deployed to the edge on Cloudflare
-                  Workers and Hono, with AWS EC2 when the job calls for it.
+                  Front-end first, four years in the React ecosystem. I built a
+                  cross-platform design-token system with its own build-time
+                  compiler, co-architected the ERP that won WSA Global 2025, and
+                  ship solo SaaS on the Cloudflare edge. The AI-native part is
+                  concrete: an MCP server and open-source Claude skills that
+                  teach assistants how my systems actually work.
                 </p>
               </ScrollReveal>
 
@@ -505,8 +505,9 @@ export default function HomePage() {
                   Got something hard to build?
                 </h2>
                 <p className="cta-lead">
-                  I take on freelance work, full-time roles, and open-source
-                  collaboration. Tell me what you&apos;re making.
+                  I&apos;m looking for a senior front-end or systems role where
+                  I can own products end to end. Open to freelance and
+                  open-source too. Tell me what you&apos;re building.
                 </p>
                 <Link
                   href={ROUTES.CONTACT}

@@ -17,7 +17,7 @@ technologies:
   - "pnpm workspaces"
 featured: true
 startDate: "2024-01-01"
-githubUrl: "https://github.com/stareezy/stareezy-ui"
+githubUrl: "https://github.com/stareezy-1/stareezy-ui"
 liveUrl: "https://ui.stareezy.tech"
 overview: "A fully typed cross-platform design token component library for React Native and Web environments. Developed as the design system powering all Stareezy products."
 problem: "Maintaining consistent design across React Native and web requires duplicating styles and tokens, leading to drift and inconsistency across platforms."
@@ -27,7 +27,8 @@ results:
   - "O(1) runtime style evaluation via flat atomic CSS registry"
   - "Single token source of truth across React Native and web"
   - "Custom Babel and Vite compiler extensions for build-time extraction"
-  - "70+ cross-platform components shipped"
+  - "31+ cross-platform components shipped"
+  - "AI-native layer: an MCP server with 8 tools plus an open-source Claude skills collection"
 ---
 
 Stareezy UI is a design system built for cross-platform consistency. Lead Architect & Maintainer.
@@ -35,8 +36,15 @@ Stareezy UI is a design system built for cross-platform consistency. Lead Archit
 ## Packages
 
 - `@stareezy-ui/tokens` — zero-dependency token definitions
-- `@stareezy-ui/components` — 70+ cross-platform UI components
+- `@stareezy-ui/components` — 31+ cross-platform UI components
 - `@stareezy-ui/runtime` — O(1) style registry with web and RN adapters
 - `@stareezy-ui/compiler` — Babel/Vite build-time transform for atomic CSS
 - `@stareezy-ui/core` — utilities, hooks, platform helpers
 - `@stareezy-ui/stylesheet` — atomic CSS sheet management
+
+## AI integration layer
+
+I built the design system to be usable from inside an AI assistant, not just an editor:
+
+- An MCP (Model Context Protocol) server exposing 8 read-only tools (`list_components`, `get_token`, `scaffold_component`, `search_docs`, and more) so an assistant generates code against the real API instead of guessing
+- An open-source Claude skills collection (tokens, components, themes, best practices) that teaches assistants the three-file component convention and token-accessor rules

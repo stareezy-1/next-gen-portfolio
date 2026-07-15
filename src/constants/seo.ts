@@ -12,7 +12,7 @@ export const SITE_TITLE_DEFAULT =
 export const SITE_TITLE_TEMPLATE = "%s | Bintang Al Akbar";
 
 export const SITE_DESCRIPTION =
-  "Front-End & AI-Native Engineer with 4+ years in the React ecosystem, building cross-platform products and the edge systems beneath them. WSA Global Winner 2025. React, TypeScript, Cloudflare Workers, Hono, and design token systems.";
+  "Front-End & AI-Native Engineer, four years in the React ecosystem. WSA Global Winner 2025. I ship solo SaaS on the Cloudflare edge, maintain a cross-platform design-token system with its own compiler, and build the AI layer on top: an MCP server and open-source Claude skills.";
 
 export const SITE_KEYWORDS = [
   "Muhammad Bintang Al Akbar",
@@ -32,7 +32,7 @@ export const SITE_KEYWORDS = [
 
 export const AUTHOR_NAME = "Muhammad Bintang Al Akbar";
 export const AUTHOR_EMAIL = "bintangmuhammad12@gmail.com";
-export const AUTHOR_GITHUB = "https://github.com/stareezy";
+export const AUTHOR_GITHUB = "https://github.com/stareezy-1";
 export const AUTHOR_LINKEDIN =
   "https://www.linkedin.com/in/muhammad-bintang-al-akbar-72302812a/";
 export const AUTHOR_LOCATION = "Jakarta, Indonesia";

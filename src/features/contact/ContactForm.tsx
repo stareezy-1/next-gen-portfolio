@@ -91,24 +91,12 @@ export function ContactForm() {
     }
   }
 
-  // Success state — beautiful confirmation UI
+  // Success state — quiet confirmation that matches the site's editorial voice.
   if (status === "success") {
     return (
-      <div
-        role="status"
-        aria-live="polite"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          textAlign: "center",
-          padding: "2rem 1rem",
-          gap: "1.25rem",
-          animation: "fadeInUp 0.5s cubic-bezier(0.16,1,0.3,1) both",
-        }}
-      >
+      <div role="status" aria-live="polite" className="contact-success">
         {/* Lottie send animation */}
-        <div style={{ width: "140px", height: "140px" }}>
+        <div className="contact-success-lottie">
           <AssetPlayer
             src="/lottie/send-message.json"
             name="Message sent animation"
@@ -119,86 +107,16 @@ export function ContactForm() {
         </div>
 
         {/* Checkmark badge */}
-        <div
-          style={{
-            width: "56px",
-            height: "56px",
-            borderRadius: "50%",
-            backgroundColor:
-              "color-mix(in srgb, var(--color-brand) 15%, transparent)",
-            border: "2px solid var(--color-brand)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "1.5rem",
-            boxShadow:
-              "0 0 24px color-mix(in srgb, var(--color-brand) 30%, transparent)",
-          }}
-        >
+        <div className="contact-success-badge" aria-hidden="true">
           ✓
         </div>
 
-        <div
-          style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}
-        >
-          <h3
-            style={{
-              margin: 0,
-              fontSize: "1.375rem",
-              fontWeight: 800,
-              color: "var(--color-text-primary)",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            Message sent!
-          </h3>
-          <p
-            style={{
-              margin: 0,
-              fontSize: "0.9375rem",
-              color: "var(--color-text-secondary)",
-              lineHeight: 1.6,
-              maxWidth: "320px",
-            }}
-          >
-            Thanks for reaching out. I&apos;ll get back to you within{" "}
-            <strong style={{ color: "var(--color-brand)" }}>24 hours</strong>.
+        <div className="contact-success-text">
+          <h3 className="contact-success-title">Message received</h3>
+          <p className="contact-success-body">
+            Thanks for reaching out. I&apos;ll reply within{" "}
+            <strong className="contact-success-highlight">24 hours</strong>.
           </p>
-        </div>
-
-        {/* Response time indicators */}
-        <div
-          style={{
-            display: "flex",
-            gap: "0.75rem",
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
-          {[
-            { icon: "📧", text: "Email confirmed" },
-            { icon: "⚡", text: "Quick response" },
-          ].map((item) => (
-            <div
-              key={item.text}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.375rem",
-                padding: "0.3rem 0.75rem",
-                borderRadius: "9999px",
-                backgroundColor:
-                  "color-mix(in srgb, var(--color-brand) 8%, transparent)",
-                border:
-                  "1px solid color-mix(in srgb, var(--color-brand) 20%, transparent)",
-                fontSize: "0.8125rem",
-                color: "var(--color-text-secondary)",
-              }}
-            >
-              <span>{item.icon}</span>
-              <span>{item.text}</span>
-            </div>
-          ))}
         </div>
 
         <button
@@ -209,18 +127,7 @@ export function ContactForm() {
             setGeneralError("");
             setStatus("idle");
           }}
-          style={{
-            marginTop: "0.5rem",
-            padding: "0.625rem 1.5rem",
-            borderRadius: "0.5rem",
-            border: "1px solid var(--color-border)",
-            backgroundColor: "var(--color-surface-elevated)",
-            color: "var(--color-text-secondary)",
-            fontSize: "0.875rem",
-            fontWeight: 600,
-            cursor: "pointer",
-            transition: "border-color 0.2s ease, color 0.2s ease",
-          }}
+          className="contact-success-reset"
         >
           Send another message
         </button>
@@ -232,22 +139,16 @@ export function ContactForm() {
     <form onSubmit={handleSubmit} noValidate aria-label="Contact form">
       {/* General / transport error */}
       {status === "error" && generalError && (
-        <div role="alert" aria-live="assertive">
+        <div role="alert" aria-live="assertive" className="contact-form-alert">
           <p>{generalError}</p>
         </div>
       )}
 
       {/* Name field */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          marginBottom: "1.25rem",
-        }}
-      >
+      <div className="contact-field">
         <label htmlFor="contact-name">
           Name{" "}
-          <span aria-hidden="true" style={{ color: "var(--color-error)" }}>
+          <span aria-hidden="true" className="contact-required">
             *
           </span>
         </label>
@@ -267,11 +168,7 @@ export function ContactForm() {
           <p
             id="contact-name-error"
             role="alert"
-            style={{
-              margin: "0.375rem 0 0",
-              fontSize: "0.8125rem",
-              color: "var(--color-error)",
-            }}
+            className="contact-field-error"
           >
             {fieldErrors.name}
           </p>
@@ -279,16 +176,10 @@ export function ContactForm() {
       </div>
 
       {/* Email field */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          marginBottom: "1.25rem",
-        }}
-      >
+      <div className="contact-field">
         <label htmlFor="contact-email">
           Email{" "}
-          <span aria-hidden="true" style={{ color: "var(--color-error)" }}>
+          <span aria-hidden="true" className="contact-required">
             *
           </span>
         </label>
@@ -310,11 +201,7 @@ export function ContactForm() {
           <p
             id="contact-email-error"
             role="alert"
-            style={{
-              margin: "0.375rem 0 0",
-              fontSize: "0.8125rem",
-              color: "var(--color-error)",
-            }}
+            className="contact-field-error"
           >
             {fieldErrors.email}
           </p>
@@ -322,16 +209,10 @@ export function ContactForm() {
       </div>
 
       {/* Subject field */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          marginBottom: "1.25rem",
-        }}
-      >
+      <div className="contact-field">
         <label htmlFor="contact-subject">
           Subject{" "}
-          <span aria-hidden="true" style={{ color: "var(--color-error)" }}>
+          <span aria-hidden="true" className="contact-required">
             *
           </span>
         </label>
@@ -352,11 +233,7 @@ export function ContactForm() {
           <p
             id="contact-subject-error"
             role="alert"
-            style={{
-              margin: "0.375rem 0 0",
-              fontSize: "0.8125rem",
-              color: "var(--color-error)",
-            }}
+            className="contact-field-error"
           >
             {fieldErrors.subject}
           </p>
@@ -364,16 +241,10 @@ export function ContactForm() {
       </div>
 
       {/* Message field */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          marginBottom: "1.5rem",
-        }}
-      >
+      <div className="contact-field contact-field--message">
         <label htmlFor="contact-message">
           Message{" "}
-          <span aria-hidden="true" style={{ color: "var(--color-error)" }}>
+          <span aria-hidden="true" className="contact-required">
             *
           </span>
         </label>
@@ -394,11 +265,7 @@ export function ContactForm() {
           <p
             id="contact-message-error"
             role="alert"
-            style={{
-              margin: "0.375rem 0 0",
-              fontSize: "0.8125rem",
-              color: "var(--color-error)",
-            }}
+            className="contact-field-error"
           >
             {fieldErrors.message}
           </p>
@@ -408,19 +275,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        style={{
-          width: "100%",
-          padding: "0.75rem 1.5rem",
-          borderRadius: "0.5rem",
-          backgroundColor: "var(--color-brand)",
-          color: "var(--color-background)",
-          fontWeight: 700,
-          fontSize: "0.9375rem",
-          border: "none",
-          cursor: status === "submitting" ? "not-allowed" : "pointer",
-          opacity: status === "submitting" ? 0.7 : 1,
-          transition: "opacity 0.2s ease",
-        }}
+        className="contact-submit"
       >
         {status === "submitting" ? "Sending…" : "Send message →"}
       </button>
