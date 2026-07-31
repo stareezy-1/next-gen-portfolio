@@ -118,7 +118,7 @@
     font-size="24" font-weight="500"
     fill="#888888"
     letter-spacing="0.5"
-  >Senior Front-End &amp; Mobile Engineer  ·  WSA Global Winner 2025</text>
+  >Front-End &amp; AI-Native Engineer  ·  Product systems from interface to edge</text>
 
   <!-- Divider -->
   <rect x="100" y="400" width="1000" height="1" fill="#1a1a2e"/>
@@ -153,9 +153,9 @@
     <!-- 9+ projects -->
     <text x="180" y="0" font-family="'SF Pro Display','Inter',system-ui,sans-serif" font-size="44" font-weight="900" fill="url(#brand)" letter-spacing="-1">9+</text>
     <text x="180" y="26" font-family="'SF Pro Display','Inter',system-ui,sans-serif" font-size="14" fill="#555566" letter-spacing="0.5">Projects Shipped</text>
-    <!-- WSA -->
-    <text x="360" y="0" font-family="'SF Pro Display','Inter',system-ui,sans-serif" font-size="44" font-weight="900" fill="url(#accent)" letter-spacing="-1">WSA</text>
-    <text x="360" y="26" font-family="'SF Pro Display','Inter',system-ui,sans-serif" font-size="14" fill="#555566" letter-spacing="0.5">Global Winner</text>
+    <!-- Open source -->
+    <text x="360" y="0" font-family="'SF Pro Display','Inter',system-ui,sans-serif" font-size="44" font-weight="900" fill="url(#accent)" letter-spacing="-1">OSS</text>
+    <text x="360" y="26" font-family="'SF Pro Display','Inter',system-ui,sans-serif" font-size="14" fill="#555566" letter-spacing="0.5">Systems &amp; Tooling</text>
   </g>
 
   <!-- Right side — large B lettermark -->

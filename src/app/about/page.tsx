@@ -23,7 +23,7 @@ import { ROUTES, NAV_LABELS } from "@/constants/routes";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Muhammad Bintang Al Akbar, Front-End and AI-Native Engineer based in Jakarta. WSA Global Winner 2025. Four years building cross-platform products with React, TypeScript, and the Cloudflare edge, plus an MCP server and open-source Claude skills.",
+    "Muhammad Bintang Al Akbar, Front-End and AI-Native Engineer based in Jakarta. Four years building cross-platform products with React, TypeScript, and the Cloudflare edge, plus an MCP server and open-source Claude skills.",
   alternates: { canonical: "https://stareezy.tech/about" },
 };
 
@@ -129,7 +129,7 @@ const ABOUT_SECTIONS: { id: string; title: string; content: string }[] = [
     id: "my-journey",
     title: "My journey",
     content:
-      "I started by tinkering with HTML and wondering how the web held together. That turned into a career across frontend, backend, mobile, and the edge. I co-architected a waste-management ERP that won WSA Global 2025, and I now build and operate my own SaaS products in the open. The throughline is the same as day one: figure out how it actually works.",
+      "I started by tinkering with HTML and wondering how the web held together. That turned into a career across frontend, backend, mobile, and the edge. I co-architected a waste-management ERP used across web and field operations, and I now build and operate my own SaaS products in the open. The throughline is the same as day one: figure out how it actually works.",
   },
   {
     id: "how-i-think",
@@ -190,10 +190,6 @@ export default function AboutPage() {
                   sizes="(max-width: 720px) 90vw, 300px"
                 />
               </div>
-              <figcaption className="about-portrait-cap">
-                <span className="about-portrait-award">WSA Global Winner</span>
-                <span className="about-portrait-year">2025</span>
-              </figcaption>
             </figure>
 
             <div className="about-intro-body">

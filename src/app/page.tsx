@@ -1,13 +1,5 @@
 /**
- * Home page (React Server Component).
- *
- * Direction: "The Logbook", an editorial-technical index. The hero is a
- * thesis (what he builds and why it matters), not a photo-card. Work is a
- * numbered catalog where the numbering encodes true chronology. A monospace
- * rail carries metadata; Space Grotesk carries the voice.
- *
- * Eyebrow budget: max 1 per 3 sections. Copy rewritten to be concrete and
- * specific. Zero em-dashes.
+ * Home page: a calm, product-led portfolio with one optical glass signature.
  */
 
 import Link from "next/link";
@@ -24,15 +16,16 @@ import {
 import { ContentWidth, MaxContentWidth } from "@/components/layouts";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { AssetPlayer } from "@/components/shared/AssetPlayer";
-import { StarField } from "@/components/shared/StarField";
+import { Badge } from "@/components/ui/shadcn/badge";
+import { Button } from "@/components/ui/shadcn/button";
+import { Card } from "@/components/ui/shadcn/card";
 import { ROUTES, BLOG_PREVIEW_COUNT } from "@/constants";
 import { personJsonLd, websiteJsonLd } from "@/services/seo/structured-data";
-import { Badge } from "@/components/ui/shadcn/badge";
 
 export const metadata: Metadata = {
-  title: "M Bintang Al Akbar — Front-End & AI-Native Engineer",
+  title: "M Bintang Al Akbar | Front-End & AI-Native Engineer",
   description:
-    "Front-End and AI-Native Engineer building products, design systems, and the edge tooling underneath them with React, Cloudflare Workers, and Hono. I ship an MCP server and open-source Claude skills on top. WSA Global Winner 2025.",
+    "Front-End and AI-Native Engineer building cross-platform products, design systems, edge services, and practical AI tooling.",
   alternates: { canonical: "https://stareezy.tech" },
   openGraph: {
     url: "https://stareezy.tech",
@@ -40,10 +33,6 @@ export const metadata: Metadata = {
   },
 };
 
-/**
- * Capability groups: the domains Bintang works across. Labels are plain and
- * scannable; the list under each is the real toolset (no skill "levels").
- */
 const CAPABILITIES: { label: string; items: string[] }[] = [
   {
     label: "Interface",
@@ -108,7 +97,6 @@ const CAPABILITIES: { label: string; items: string[] }[] = [
   },
 ];
 
-/** Two-digit catalog number for the work index (01, 02, ...). */
 function catalogNumber(index: number): string {
   return String(index + 1).padStart(2, "0");
 }
@@ -129,34 +117,23 @@ export default function HomePage() {
     publishedOnly(loadAll("blog").items),
     BLOG_PREVIEW_COUNT,
   );
-  const jsonLd = personJsonLd();
-  const websiteLd = websiteJsonLd();
 
   return (
-    <MaxContentWidth as="div">
+    <MaxContentWidth as="div" className="home-shell">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd()) }}
         suppressHydrationWarning
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
         suppressHydrationWarning
       />
 
-      {/* ── HERO — editorial thesis ──────────────────────────────────────── */}
-      {/*
-        The hero states what he builds, in his own voice. A monospace rail
-        on the left carries identity metadata; the statement headline carries
-        the message. The portrait sits in the right column, anchored by a thin
-        brand rule, never as a floating card or spinning ring.
-      */}
       <section aria-labelledby="hero-heading" className="hero">
-        {/* <StarField className="hero-starfield" /> */}
         <ContentWidth className="hero-content">
           <div className="hero-layout">
-            {/* Left: metadata rail + statement */}
             <div className="hero-main">
               <ScrollReveal variant="fade-up">
                 <ul className="hero-rail" aria-label="At a glance">
@@ -182,35 +159,35 @@ export default function HomePage() {
 
               <ScrollReveal variant="fade-up" delay={1}>
                 <h1 id="hero-heading" className="hero-statement">
-                  I&apos;m Bintang. I build complete products, front-end to the{" "}
+                  I build complete products, from interface to the{" "}
                   <span className="hero-accent">edge</span>.
                 </h1>
               </ScrollReveal>
 
               <ScrollReveal variant="fade-up" delay={2}>
                 <p className="hero-lead">
-                  Front-end first, four years in the React ecosystem. I built a
-                  cross-platform design-token system with its own build-time
-                  compiler, co-architected the ERP that won WSA Global 2025, and
-                  ship solo SaaS on the Cloudflare edge. The AI-native part is
-                  concrete: an MCP server and open-source Claude skills that
-                  teach assistants how my systems actually work.
+                  Cross-platform products, design systems, edge services, and AI
+                  tooling built as one coherent system.
                 </p>
               </ScrollReveal>
 
               <ScrollReveal variant="fade-up" delay={3}>
                 <div className="hero-actions">
-                  <Link href={ROUTES.PROJECTS} className="btn-primary">
-                    See the work
-                  </Link>
-                  <Link href={ROUTES.CONTACT} className="btn-ghost">
-                    Start a conversation
-                  </Link>
+                  <Button asChild size="lg" className="btn-primary">
+                    <Link href={ROUTES.PROJECTS}>See the work</Link>
+                  </Button>
+                  <Button
+                    asChild
+                    size="lg"
+                    variant="outline"
+                    className="btn-ghost"
+                  >
+                    <Link href={ROUTES.CONTACT}>Start a conversation</Link>
+                  </Button>
                 </div>
               </ScrollReveal>
             </div>
 
-            {/* Right: portrait, anchored by a thin brand rule */}
             <ScrollReveal variant="fade-left" delay={2} className="hero-aside">
               <figure className="hero-portrait">
                 <div className="hero-portrait-frame">
@@ -220,26 +197,16 @@ export default function HomePage() {
                     fill
                     className="hero-portrait-img"
                     priority
-                    sizes="(max-width: 860px) 240px, 360px"
+                    sizes="(max-width: 859px) 76vw, 360px"
                   />
+                  <span className="hero-edge-lens" aria-hidden="true" />
                 </div>
-                <figcaption className="hero-portrait-cap">
-                  <span className="hero-portrait-award">WSA Global Winner</span>
-                  <span className="hero-portrait-year">2025</span>
-                </figcaption>
               </figure>
             </ScrollReveal>
           </div>
         </ContentWidth>
       </section>
 
-      {/* ── Selected work — numbered catalog ─────────────────────────────── */}
-      {/*
-        The numbering (01, 02, 03) is true: it indexes the selected set. Each
-        entry is a full-bleed row, alternating image side, so the section never
-        reads as three identical cards.
-        Eyebrow budget: 1 of 3 used here.
-      */}
       <section aria-labelledby="work-heading" className="work">
         <ContentWidth>
           <ScrollReveal variant="fade-up">
@@ -247,12 +214,11 @@ export default function HomePage() {
               <div>
                 <p className="section-kicker">Selected work</p>
                 <h2 id="work-heading" className="section-h2">
-                  Things I designed and shipped
+                  Products shaped from system to surface
                 </h2>
               </div>
               <Link href={ROUTES.PROJECTS} className="section-link">
-                Full index
-                <span aria-hidden="true"> →</span>
+                Full index <span aria-hidden="true">→</span>
               </Link>
             </div>
           </ScrollReveal>
@@ -261,11 +227,11 @@ export default function HomePage() {
             <p className="empty-state">No featured projects yet.</p>
           ) : (
             <ol className="work-index">
-              {featuredProjects.map((project, i) => (
+              {featuredProjects.map((project, index) => (
                 <ScrollReveal
                   key={project.slug}
                   variant="fade-up"
-                  delay={((i % 3) + 1) as 1 | 2 | 3}
+                  delay={((index % 3) + 1) as 1 | 2 | 3}
                   as="li"
                 >
                   <Link
@@ -273,43 +239,45 @@ export default function HomePage() {
                     aria-label={`View ${project.title}`}
                     className="work-row"
                   >
-                    {/* Left zone: thumbnail + index */}
-                    <div className="work-row-media">
-                      <div className="work-row-thumb">
-                        {project.image ? (
-                          <Image
-                            src={project.image}
-                            alt={project.title}
-                            fill
-                            className="work-row-img"
-                            sizes="(max-width: 640px) 5rem, 11rem"
-                          />
-                        ) : (
-                          <span
-                            className="work-row-placeholder"
-                            aria-hidden="true"
-                          >
-                            {catalogNumber(i)}
-                          </span>
-                        )}
-                      </div>
-                      <span className="work-row-num" aria-hidden="true">
-                        {catalogNumber(i)}
-                      </span>
+                    <span className="work-row-num" aria-hidden="true">
+                      {catalogNumber(index)}
+                    </span>
+                    <div className="work-row-thumb">
+                      {project.image ? (
+                        <Image
+                          src={project.image}
+                          alt={project.title}
+                          fill
+                          className="work-row-img"
+                          sizes="(max-width: 599px) 72px, 176px"
+                        />
+                      ) : (
+                        <span
+                          className="work-row-placeholder"
+                          aria-hidden="true"
+                        >
+                          {catalogNumber(index)}
+                        </span>
+                      )}
                     </div>
-
-                    {/* Right zone: title, desc, tags */}
                     <div className="work-row-body">
                       <h3 className="work-row-title">{project.title}</h3>
                       <p className="work-row-desc">{project.description}</p>
                       <div className="work-row-tags">
                         {project.technologies.slice(0, 5).map((tech) => (
-                          <span key={tech} className="tech-tag">
+                          <Badge
+                            key={tech}
+                            variant="outline"
+                            className="tech-tag"
+                          >
                             {tech}
-                          </span>
+                          </Badge>
                         ))}
                       </div>
                     </div>
+                    <span className="work-row-arrow" aria-hidden="true">
+                      ↗
+                    </span>
                   </Link>
                 </ScrollReveal>
               ))}
@@ -318,83 +286,75 @@ export default function HomePage() {
         </ContentWidth>
       </section>
 
-      {/* ── Experience — vertical rail ───────────────────────────────────── */}
-      {/* No eyebrow (2nd section). */}
       <section aria-labelledby="exp-heading" className="exp">
         <ContentWidth>
           <ScrollReveal variant="fade-up">
             <div className="section-head">
-              <div>
-                <h2 id="exp-heading" className="section-h2">
-                  Where I&apos;ve been building
-                </h2>
-              </div>
+              <h2 id="exp-heading" className="section-h2">
+                Where I&apos;ve been building
+              </h2>
               <Link href={ROUTES.EXPERIENCE} className="section-link">
-                Full history
-                <span aria-hidden="true"> →</span>
+                Full history <span aria-hidden="true">→</span>
               </Link>
             </div>
           </ScrollReveal>
 
-          {/* Ledger header row */}
-          <div className="home-xp-header" aria-hidden="true">
-            <span className="home-xp-header-num">#</span>
-            <span className="home-xp-header-role">Role</span>
-            <span className="home-xp-header-date">Period</span>
-          </div>
+          <div className="home-xp-panel">
+            <div className="home-xp-header" aria-hidden="true">
+              <span>#</span>
+              <span>Role</span>
+              <span>Period</span>
+            </div>
+            <ol className="home-xp-ledger" aria-label="Recent experience">
+              {recentExperience.map((entry, index) => {
+                const isActive = !entry.endDate;
+                const dateRange = isActive
+                  ? `${entry.startDate.slice(0, 7)} to now`
+                  : `${entry.startDate.slice(0, 7)} to ${entry.endDate!.slice(
+                      0,
+                      7,
+                    )}`;
 
-          <ol className="home-xp-ledger" aria-label="Recent experience">
-            {recentExperience.map((entry, i) => {
-              const isActive = !entry.endDate;
-              const dateRange = isActive
-                ? `${entry.startDate.slice(0, 7)} to now`
-                : `${entry.startDate.slice(0, 7)} to ${entry.endDate!.slice(
-                    0,
-                    7,
-                  )}`;
-              return (
-                <ScrollReveal
-                  key={`${entry.company}-${i}`}
-                  variant="fade-up"
-                  delay={((i % 3) + 1) as 1 | 2 | 3}
-                  as="li"
-                >
-                  <article
-                    className={`home-xp-strip${
-                      isActive ? " home-xp-strip--active" : ""
-                    }`}
+                return (
+                  <ScrollReveal
+                    key={`${entry.company}-${index}`}
+                    variant="fade-up"
+                    delay={((index % 3) + 1) as 1 | 2 | 3}
+                    as="li"
                   >
-                    <span className="home-xp-strip-num" aria-hidden="true">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <div className="home-xp-strip-body">
-                      <div className="home-xp-strip-title-row">
-                        <h3 className="home-xp-strip-role">{entry.role}</h3>
-                        {isActive && (
-                          <span className="xp-live" aria-label="Current role">
-                            <span className="xp-live-dot" aria-hidden="true" />
-                            Now
+                    <article className="home-xp-strip">
+                      <span className="home-xp-strip-num" aria-hidden="true">
+                        {catalogNumber(index)}
+                      </span>
+                      <div className="home-xp-strip-body">
+                        <div className="home-xp-strip-title-row">
+                          <h3 className="home-xp-strip-role">{entry.role}</h3>
+                          {isActive && (
+                            <Badge
+                              className="xp-live"
+                              aria-label="Current role"
+                            >
+                              Now
+                            </Badge>
+                          )}
+                        </div>
+                        <p className="home-xp-strip-company">
+                          {entry.company}
+                          <span className="home-xp-strip-loc">
+                            {entry.location}
                           </span>
-                        )}
+                        </p>
                       </div>
-                      <p className="home-xp-strip-company">
-                        {entry.company}
-                        <span className="home-xp-strip-loc">
-                          {entry.location}
-                        </span>
-                      </p>
-                    </div>
-                    <code className="home-xp-strip-date">{dateRange}</code>
-                  </article>
-                </ScrollReveal>
-              );
-            })}
-          </ol>
+                      <time className="home-xp-strip-date">{dateRange}</time>
+                    </article>
+                  </ScrollReveal>
+                );
+              })}
+            </ol>
+          </div>
         </ContentWidth>
       </section>
 
-      {/* ── Capabilities — grouped columns ───────────────────────────────── */}
-      {/* No eyebrow (3rd section, budget reserved for the closing CTA). */}
       <section aria-labelledby="cap-heading" className="cap">
         <ContentWidth>
           <ScrollReveal variant="fade-up">
@@ -404,15 +364,14 @@ export default function HomePage() {
           </ScrollReveal>
 
           <div className="cap-grid">
-            {CAPABILITIES.map((group, i) => (
+            {CAPABILITIES.map((group, index) => (
               <ScrollReveal
                 key={group.label}
                 variant="fade-up"
-                delay={((i % 3) + 1) as 1 | 2 | 3}
-                as="div"
+                delay={((index % 3) + 1) as 1 | 2 | 3}
               >
-                <div className="cap-col">
-                  <p className="cap-col-label">{group.label}</p>
+                <Card className="cap-col">
+                  <h3 className="cap-col-label">{group.label}</h3>
                   <ul className="cap-list">
                     {group.items.map((item) => (
                       <li key={item} className="cap-list-item">
@@ -420,70 +379,74 @@ export default function HomePage() {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </Card>
               </ScrollReveal>
             ))}
           </div>
         </ContentWidth>
       </section>
 
-      {/* ── Writing — horizontal cards ───────────────────────────────────── */}
       {recentPosts.length > 0 && (
         <section aria-labelledby="writing-heading" className="writing">
           <ContentWidth>
             <ScrollReveal variant="fade-up">
               <div className="section-head">
-                <div>
-                  <h2 id="writing-heading" className="section-h2">
-                    Notes from the build
-                  </h2>
-                </div>
+                <h2 id="writing-heading" className="section-h2">
+                  Notes from the build
+                </h2>
                 <Link href={ROUTES.BLOG} className="section-link">
-                  All writing
-                  <span aria-hidden="true"> →</span>
+                  All writing <span aria-hidden="true">→</span>
                 </Link>
               </div>
             </ScrollReveal>
 
             <div className="post-list">
-              {recentPosts.map((post, i) => (
+              {recentPosts.map((post, index) => (
                 <ScrollReveal
                   key={post.slug}
                   variant="fade-up"
-                  delay={((i % 3) + 1) as 1 | 2 | 3}
-                  as="div"
+                  delay={((index % 3) + 1) as 1 | 2 | 3}
                 >
                   <Link
                     href={`${ROUTES.BLOG}/${post.slug}`}
                     aria-label={`Read ${post.title}`}
                     className="post-row"
                   >
-                    {post.heroImage && (
-                      <div className="post-row-media">
-                        <Image
-                          src={post.heroImage}
-                          alt={`Cover for ${post.title}`}
-                          fill
-                          className="post-row-img"
-                          sizes="(max-width: 768px) 100vw, 280px"
-                        />
+                    <Card className="post-card">
+                      {post.heroImage && (
+                        <div className="post-row-media">
+                          <Image
+                            src={post.heroImage}
+                            alt={`Cover for ${post.title}`}
+                            fill
+                            className="post-row-img"
+                            sizes="(max-width: 639px) 100vw, (max-width: 959px) 50vw, 33vw"
+                          />
+                        </div>
+                      )}
+                      <div className="post-row-body">
+                        <div className="post-row-meta">
+                          <Badge variant="outline" className="post-cat">
+                            {post.category}
+                          </Badge>
+                          <time
+                            dateTime={post.publishDate}
+                            className="post-date"
+                          >
+                            {new Date(post.publishDate).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                              },
+                            )}
+                          </time>
+                        </div>
+                        <h3 className="post-title">{post.title}</h3>
+                        <p className="post-desc">{post.description}</p>
                       </div>
-                    )}
-                    <div className="post-row-body">
-                      <div className="post-row-meta">
-                        <Badge variant="outline" className="post-cat">
-                          {post.category}
-                        </Badge>
-                        <time dateTime={post.publishDate} className="post-date">
-                          {new Date(post.publishDate).toLocaleDateString(
-                            "en-US",
-                            { year: "numeric", month: "short", day: "numeric" },
-                          )}
-                        </time>
-                      </div>
-                      <h3 className="post-title">{post.title}</h3>
-                      <p className="post-desc">{post.description}</p>
-                    </div>
+                    </Card>
                   </Link>
                 </ScrollReveal>
               ))}
@@ -492,8 +455,6 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* ── Closing CTA — statement + one orchestrated motion moment ─────── */}
-      {/* Eyebrow budget: final 1 of 3 used here. */}
       <section aria-labelledby="cta-heading" className="cta">
         <ContentWidth>
           <div className="cta-grid">
@@ -504,16 +465,12 @@ export default function HomePage() {
                   Got something hard to build?
                 </h2>
                 <p className="cta-lead">
-                  I&apos;m looking for a senior front-end or systems role where
-                  I can own products end to end. Open to freelance and
-                  open-source too. Tell me what you&apos;re building.
+                  I&apos;m open to senior product engineering roles, focused
+                  freelance work, and useful open-source collaboration.
                 </p>
-                <Link
-                  href={ROUTES.CONTACT}
-                  className="btn-primary btn-primary--lg"
-                >
-                  Start a conversation
-                </Link>
+                <Button asChild size="lg" className="btn-primary">
+                  <Link href={ROUTES.CONTACT}>Start a conversation</Link>
+                </Button>
               </div>
             </ScrollReveal>
             <ScrollReveal variant="fade-left" delay={1}>

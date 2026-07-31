@@ -1,16 +1,8 @@
 "use client";
 
-/**
- * ThemeControl — mode cycle + palette switcher.
- */
-
-import { useTheme, useThemeControl } from "@/providers/ThemeProvider";
+import { useEffect, useState } from "react";
 import { THEME_PALETTES } from "@/constants";
-import {
-  themeControlButtonStyles,
-  themeControlIconStyles,
-  themeControlWrapperStyles,
-} from "./ThemeControl.style";
+import { useTheme, useThemeControl } from "@/providers/ThemeProvider";
 import {
   THEME_MODE_CYCLE,
   THEME_MODE_ICONS,
@@ -18,17 +10,8 @@ import {
 } from "./ThemeControl.types";
 import type { ThemeControlProps } from "./ThemeControl.types";
 import type { ThemePalette } from "@/types";
-import { useEffect, useState } from "react";
+import "./ThemeControl.style.css";
 
-/** Visual accent color shown in the palette dot. */
-const PALETTE_COLORS: Record<ThemePalette, string> = {
-  aurora: "#2dd4a7",
-  dark: "#1b5ed3",
-  light: "#1a1a2e",
-  "steins-gate": "#4a9eff",
-};
-
-/** Display labels for each palette. */
 const PALETTE_LABELS: Record<ThemePalette, string> = {
   aurora: "Aurora",
   dark: "Dark",
@@ -37,12 +20,11 @@ const PALETTE_LABELS: Record<ThemePalette, string> = {
 };
 
 export function ThemeControl({ className }: ThemeControlProps) {
-  const { mode, palette } = useTheme();
+  const { mode, palette, resolved } = useTheme();
   const { setMode, setPalette } = useThemeControl();
   const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+
+  useEffect(() => setMounted(true), []);
 
   function handleModeClick() {
     const currentIndex = THEME_MODE_CYCLE.indexOf(mode);
@@ -54,98 +36,57 @@ export function ThemeControl({ className }: ThemeControlProps) {
   const nextIndex =
     (THEME_MODE_CYCLE.indexOf(mode) + 1) % THEME_MODE_CYCLE.length;
   const nextMode = THEME_MODE_CYCLE[nextIndex];
-  const nextLabel = nextMode !== undefined ? THEME_MODE_LABELS[nextMode] : "";
+  const nextLabel = nextMode ? THEME_MODE_LABELS[nextMode] : "";
+  const visiblePalettes = THEME_PALETTES.filter((candidate) => {
+    if (
+      resolved === "dark" &&
+      (candidate === "dark" || candidate === "light")
+    ) {
+      return false;
+    }
+    return !(resolved === "light" && candidate === "light");
+  });
 
   return (
-    <div
-      style={{ ...themeControlWrapperStyles, gap: "0.5rem" }}
-      className={className}
-    >
-      {/* Palette dots — only after hydration to avoid SSR mismatch */}
+    <div className={["theme-control", className].filter(Boolean).join(" ")}>
       {mounted && (
         <>
-          <div
-            style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}
-          >
-            {THEME_PALETTES.filter((p) => {
-              // Remove: dark palette in dark mode, light palette in dark mode, light palette in light mode
-              const resolvedMode =
-                mode === "system"
-                  ? typeof window !== "undefined" &&
-                    window.matchMedia("(prefers-color-scheme: dark)").matches
-                    ? "dark"
-                    : "light"
-                  : mode;
-              if (resolvedMode === "dark" && (p === "dark" || p === "light"))
-                return false;
-              if (resolvedMode === "light" && p === "light") return false;
-              return true;
-            }).map((p) => {
-              const active = palette === p;
+          <div className="theme-palette-list" aria-label="Color palette">
+            {visiblePalettes.map((candidate) => {
+              const active = palette === candidate;
               return (
                 <button
-                  key={p}
+                  key={candidate}
                   type="button"
-                  onClick={() => setPalette(p)}
-                  aria-label={`Switch to ${PALETTE_LABELS[p]} palette`}
-                  title={PALETTE_LABELS[p]}
-                  style={{
-                    width: "24px",
-                    height: "24px",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    background: "none",
-                    border: "none",
-                    borderRadius: "9999px",
-                    cursor: "pointer",
-                    padding: 0,
-                    flexShrink: 0,
-                  }}
+                  onClick={() => setPalette(candidate)}
+                  aria-label={`Switch to ${PALETTE_LABELS[candidate]} palette`}
+                  aria-pressed={active}
+                  title={PALETTE_LABELS[candidate]}
+                  className="theme-palette-button"
                 >
                   <span
                     aria-hidden="true"
-                    style={{
-                      width: active ? "20px" : "12px",
-                      height: "12px",
-                      borderRadius: "9999px",
-                      backgroundColor: PALETTE_COLORS[p],
-                      border: active
-                        ? `2px solid ${PALETTE_COLORS[p]}`
-                        : "2px solid transparent",
-                      outline: active
-                        ? `2px solid ${PALETTE_COLORS[p]}`
-                        : "none",
-                      outlineOffset: "2px",
-                      transition: "width 0.2s ease, outline 0.15s ease",
-                      opacity: active ? 1 : 0.45,
-                    }}
+                    className={`theme-palette-dot theme-palette-dot--${candidate}${
+                      active ? " theme-palette-dot--active" : ""
+                    }`}
                   />
                 </button>
               );
             })}
           </div>
-          <span
-            style={{
-              width: "1px",
-              height: "16px",
-              backgroundColor: "var(--color-border)",
-              flexShrink: 0,
-            }}
-            aria-hidden="true"
-          />
+
+          <span className="theme-control-separator" aria-hidden="true" />
         </>
       )}
 
-      {/* Mode cycle button */}
       <button
         type="button"
         onClick={handleModeClick}
-        style={themeControlButtonStyles}
+        className="theme-mode-button"
         aria-label={`Switch to ${nextLabel.toLowerCase()} mode`}
-        title={`Current: ${THEME_MODE_LABELS[mode]} — click to switch to ${nextLabel}`}
+        title={`Current: ${THEME_MODE_LABELS[mode]}. Switch to ${nextLabel}.`}
       >
-        <span style={themeControlIconStyles} aria-hidden="true">
+        <span className="theme-mode-icon" aria-hidden="true">
           {THEME_MODE_ICONS[mode]}
         </span>
         <span>{THEME_MODE_LABELS[mode]}</span>

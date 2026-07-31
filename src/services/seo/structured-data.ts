@@ -57,7 +57,6 @@ export function personJsonLd(data?: {
       "@type": "CollegeOrUniversity",
       name: "Universitas Gunadarma",
     },
-    award: "World Summit Awards (WSA) Global Winner — Digital Innovation",
     nationality: { "@type": "Country", name: "Indonesia" },
   });
 }
