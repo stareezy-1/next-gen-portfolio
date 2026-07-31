@@ -12,7 +12,7 @@ export const SITE_TITLE_DEFAULT =
 export const SITE_TITLE_TEMPLATE = "%s | Bintang Al Akbar";
 
 export const SITE_DESCRIPTION =
-  "Front-End & AI-Native Engineer, four years in the React ecosystem. WSA Global Winner 2025. I ship solo SaaS on the Cloudflare edge, maintain a cross-platform design-token system with its own compiler, and build the AI layer on top: an MCP server and open-source Claude skills.";
+  "Front-End & AI-Native Engineer building cross-platform products, design systems, edge services, and practical AI tooling.";
 
 export const SITE_KEYWORDS = [
   "Muhammad Bintang Al Akbar",
@@ -24,7 +24,6 @@ export const SITE_KEYWORDS = [
   "Expo Developer",
   "Next.js Developer",
   "Jakarta Indonesia",
-  "WSA Global Winner 2025",
   "Design Token Systems",
   "Cross-platform Engineer",
   "stareezy",

@@ -178,7 +178,7 @@ export default function OgImage() {
           {[
             { value: "3+", label: "Years Experience" },
             { value: "9+", label: "Projects Shipped" },
-            { value: "WSA", label: "Global Winner" },
+            { value: "OSS", label: "Systems & Tooling" },
           ].map((stat) => (
             <div
               key={stat.label}

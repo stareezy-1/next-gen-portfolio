@@ -23,7 +23,7 @@ import { ROUTES, NAV_LABELS } from "@/constants/routes";
 export const metadata: Metadata = {
   title: "Experience",
   description:
-    "Professional experience of Muhammad Bintang Al Akbar, Front-End and AI-Native Engineer. WSA Global Winner 2025 at Rekosistem. Four years across React, React Native, Expo, TypeScript, and the Cloudflare edge.",
+    "Professional experience of Muhammad Bintang Al Akbar, Front-End and AI-Native Engineer. Four years across React, React Native, Expo, TypeScript, and the Cloudflare edge.",
   alternates: { canonical: "https://stareezy.tech/experience" },
 };
 
