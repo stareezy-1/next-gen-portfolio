@@ -37,7 +37,7 @@ export const AUTHOR_LINKEDIN =
   "https://www.linkedin.com/in/muhammad-bintang-al-akbar-72302812a/";
 export const AUTHOR_LOCATION = "Jakarta, Indonesia";
 
-export const OG_IMAGE_PATH = "/og-image.svg";
+export const OG_IMAGE_PATH = "/opengraph-image";
 export const OG_IMAGE_WIDTH = 1200;
 export const OG_IMAGE_HEIGHT = 630;
 

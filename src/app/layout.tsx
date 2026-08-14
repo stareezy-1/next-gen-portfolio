@@ -94,7 +94,7 @@ export const metadata: Metadata = {
         width: OG_IMAGE_WIDTH,
         height: OG_IMAGE_HEIGHT,
         alt: `${AUTHOR_NAME} — Front-End & AI-Native Engineer`,
-        type: "image/svg+xml",
+        type: "image/png",
       },
     ],
   },
