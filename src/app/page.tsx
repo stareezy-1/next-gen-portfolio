@@ -329,13 +329,13 @@ export default async function HomePage() {
           <ScrollReveal variant="fade-up">
             <div className="section-head">
               <div>
-                <p className="section-kicker">Accepted upstream</p>
+                <p className="section-kicker">Open-source record</p>
                 <h2 id="open-source-heading" className="section-h2">
-                  Small patches, real product surfaces
+                  Merged outside my own repositories
                 </h2>
               </div>
               <Link href={ROUTES.OPEN_SOURCE} className="section-link">
-                Contribution index <span aria-hidden="true">→</span>
+                Every accepted change <span aria-hidden="true">→</span>
               </Link>
             </div>
           </ScrollReveal>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { GitPullRequest } from "lucide-react";
+import { ArrowUpRight, GitPullRequest } from "lucide-react";
 
 import { ContentWidth } from "@/components/layouts";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
@@ -49,30 +49,52 @@ export default async function OpenSourcePage() {
         suppressHydrationWarning
       />
 
-      <section aria-labelledby="open-source-page-heading" className="page-head oss-page-head">
+      <section
+        aria-labelledby="open-source-page-heading"
+        className="oss-masthead"
+      >
         <ScrollReveal variant="fade-up">
-          <p className="section-kicker">Open-source field notes</p>
-          <h1 id="open-source-page-heading" className="page-head-title">
-            Accepted upstream.
-          </h1>
-          <p className="page-head-sub">
-            Merged work in public repositories I do not own. Each entry links
-            to the upstream pull request, where the code, discussion, and
-            review history remain visible.
-          </p>
+          <div className="oss-masthead-grid">
+            <p className="oss-masthead-index" aria-hidden="true">
+              OSS <span>/ 01</span>
+            </p>
+
+            <div className="oss-masthead-copy">
+              <p className="section-kicker">Public engineering record</p>
+              <h1 id="open-source-page-heading" className="oss-masthead-title">
+                Code that made it upstream.
+              </h1>
+            </div>
+
+            <div className="oss-masthead-note">
+              <p>
+                Merged work in public repositories I do not own. Every entry
+                links to the code, discussion, and review that accepted it.
+              </p>
+              <a
+                href="https://github.com/stareezy-1"
+                target="_blank"
+                rel="noreferrer"
+              >
+                github.com/stareezy-1
+                <ArrowUpRight size={15} strokeWidth={1.7} aria-hidden="true" />
+              </a>
+            </div>
+          </div>
         </ScrollReveal>
 
         <ScrollReveal variant="fade-up" delay={1}>
-          <dl className="oss-summary" aria-label="Contribution summary">
-            <div>
-              <dt>Merged patches</dt>
+          <dl className="oss-vitals" aria-label="Contribution summary">
+            <div className="oss-vitals-primary">
+              <dt>Accepted patches</dt>
               <dd>{snapshot.contributions.length}</dd>
+              <span>Merged / public / externally owned</span>
             </div>
-            <div>
-              <dt>Upstream projects</dt>
+            <div className="oss-vitals-secondary">
+              <dt>Upstream repositories</dt>
               <dd>{snapshot.repositoryCount}</dd>
             </div>
-            <div>
+            <div className="oss-vitals-secondary">
               <dt>Latest acceptance</dt>
               <dd>
                 {latestMerge
@@ -90,11 +112,16 @@ export default async function OpenSourcePage() {
       >
         <ScrollReveal variant="fade-up">
           <div className="oss-index-intro">
-            <div>
-              <p className="section-kicker">Contribution index</p>
-              <h2 id="contribution-index-heading" className="section-h2">
-                Evidence over activity
-              </h2>
+            <div className="oss-index-heading">
+              <span className="oss-section-number" aria-hidden="true">
+                02
+              </span>
+              <div>
+                <p className="section-kicker">Contribution index</p>
+                <h2 id="contribution-index-heading" className="section-h2">
+                  The accepted changes
+                </h2>
+              </div>
             </div>
             {snapshot.generatedAt && (
               <p className="oss-refreshed">

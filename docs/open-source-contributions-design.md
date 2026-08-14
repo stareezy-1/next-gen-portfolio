@@ -5,7 +5,7 @@
 - Add a dedicated `/open-source` page and a compact homepage section.
 - Showcase only merged pull requests authored by `stareezy-1` in public repositories owned by someone else.
 - Keep the GitHub credential on the server and never expose it to browser JavaScript.
-- Match the existing editorial, cosmic-glass portfolio direction.
+- Match the existing editorial "Logbook" portfolio direction.
 - Prefer accepted engineering evidence over contribution streaks or vanity charts.
 
 ## Assumptions
@@ -23,6 +23,20 @@
 4. Share one contribution-ledger component between the homepage preview and the full page.
 5. Group the full index by upstream repository and show direct pull-request evidence.
 6. Add the route to primary navigation and the sitemap.
+7. Present the record as an asymmetric upstream changelog: one large accepted-patch
+   signal, ruled metadata, split repository ledgers, and unboxed pull-request rows.
+8. Keep motion limited to existing scroll reveals and transform-only hover feedback.
+
+## Design refresh
+
+The first draft repeated equal metric boxes, rounded repository containers, and
+icon bubbles. The accepted revision removes those generic card patterns and uses
+spacing, type scale, and hairline rules to express hierarchy. The homepage and
+full page still share the same server-rendered ledger component.
+
+Design review used the imported `design-taste-frontend-v2` workflow from
+`sickn33/antigravity-awesome-skills` at source commit
+`9bad53f2426e310c33ef5bacf9f845855197be6a`.
 
 ## Data flow
 

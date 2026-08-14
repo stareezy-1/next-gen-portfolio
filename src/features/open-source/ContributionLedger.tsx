@@ -33,8 +33,9 @@ function ContributionRow({
         className="oss-contribution-row"
         aria-label={`${contribution.title}, pull request ${contribution.number} in ${contribution.repository.nameWithOwner}`}
       >
-        <span className="oss-merge-node" aria-hidden="true">
-          <GitMerge size={16} strokeWidth={1.8} />
+        <span className="oss-pr-ref" aria-hidden="true">
+          <GitMerge size={14} strokeWidth={1.7} />
+          <span>#{contribution.number}</span>
         </span>
         <span className="oss-contribution-copy">
           {showRepository && (
@@ -44,7 +45,6 @@ function ContributionRow({
           )}
           <span className="oss-contribution-title">{contribution.title}</span>
           <span className="oss-contribution-meta">
-            <span>PR #{contribution.number}</span>
             <time dateTime={contribution.mergedAt}>
               {DATE_FORMATTER.format(new Date(contribution.mergedAt))}
             </time>
@@ -92,10 +92,13 @@ export function ContributionLedger({
           className="oss-repository"
           aria-labelledby={`repository-${index}`}
         >
-          <div className="oss-repository-head">
-            <span className="oss-repository-index" aria-hidden="true">
-              {String(index + 1).padStart(2, "0")}
-            </span>
+          <header className="oss-repository-head">
+            <p className="oss-repository-index">
+              <span aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              Upstream repository
+            </p>
             <div className="oss-repository-copy">
               <h2 id={`repository-${index}`} className="oss-repository-title">
                 <a
@@ -125,7 +128,7 @@ export function ContributionLedger({
                 {group.contributions.length} merged
               </span>
             </div>
-          </div>
+          </header>
           <ol className="oss-contribution-list">
             {group.contributions.map((contribution) => (
               <ContributionRow
@@ -140,4 +143,3 @@ export function ContributionLedger({
     </div>
   );
 }
-
