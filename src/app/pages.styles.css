@@ -54,6 +54,395 @@
   padding-bottom: clamp(5rem, 11vh, 8rem);
 }
 
+/* ── OPEN SOURCE — accepted-upstream ledger ─────────────────────────────── */
+.oss-page-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(2.5rem, 6vw, 5rem);
+}
+
+.oss-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: var(--color-surface);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+}
+
+.oss-summary > div {
+  min-width: 0;
+  padding: 1.25rem;
+}
+
+.oss-summary > div + div {
+  border-left: 1px solid var(--color-border);
+}
+
+.oss-summary dt,
+.oss-refreshed,
+.oss-repository-index,
+.oss-repository-facts,
+.oss-contribution-repo,
+.oss-contribution-meta {
+  font-family: var(--font-mono), monospace;
+}
+
+.oss-summary dt {
+  color: var(--color-text-muted);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.oss-summary dd {
+  margin: 0.55rem 0 0;
+  color: var(--color-text-primary);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.25rem, 2.4vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.oss-index-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+}
+
+.oss-refreshed {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+}
+
+.oss-repository-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.oss-repository {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  background: var(--color-surface);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+  backdrop-filter: blur(10px) saturate(110%);
+  -webkit-backdrop-filter: blur(10px) saturate(110%);
+}
+
+.oss-repository::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(
+    to bottom,
+    var(--color-brand),
+    color-mix(in srgb, var(--color-brand) 12%, transparent)
+  );
+}
+
+.oss-repository-head {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.oss-repository-index {
+  color: var(--color-brand);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.oss-repository-copy {
+  min-width: 0;
+}
+
+.oss-repository-title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.oss-repository-title a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.oss-repository-title a:hover {
+  color: var(--color-brand);
+}
+
+.oss-repository-description {
+  max-width: 64ch;
+  margin: 0.5rem 0 0;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.oss-repository-facts {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.875rem;
+  color: var(--color-text-muted);
+  font-size: 0.6875rem;
+}
+
+.oss-repository-facts span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.oss-contribution-list {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.oss-contribution-list::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 2rem;
+  width: 1px;
+  background: var(--color-border);
+}
+
+.oss-contribution-list > li + li {
+  border-top: 1px solid var(--color-border);
+}
+
+.oss-contribution-list--preview {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: var(--color-surface);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+  backdrop-filter: blur(10px) saturate(110%);
+  -webkit-backdrop-filter: blur(10px) saturate(110%);
+}
+
+.oss-contribution-row {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr) 1.25rem;
+  align-items: center;
+  gap: 1rem;
+  min-height: 7rem;
+  padding: 1.125rem 1.5rem;
+  color: inherit;
+  text-decoration: none;
+  transition: background-color 180ms ease;
+}
+
+.oss-contribution-row:hover,
+.oss-contribution-row:focus-visible {
+  background: var(--color-surface-elevated);
+}
+
+.oss-merge-node {
+  position: relative;
+  z-index: 1;
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--color-brand) 42%, var(--color-border));
+  border-radius: 50%;
+  background: var(--color-surface-elevated);
+  color: var(--color-brand);
+}
+
+.oss-contribution-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.oss-contribution-repo {
+  color: var(--color-brand);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.oss-contribution-title {
+  color: var(--color-text-primary);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
+}
+
+.oss-contribution-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.9rem;
+  color: var(--color-text-muted);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.oss-additions {
+  color: var(--color-brand);
+}
+
+.oss-deletions {
+  color: var(--color-text-secondary);
+}
+
+.oss-contribution-arrow {
+  color: var(--color-text-muted);
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.oss-contribution-row:hover .oss-contribution-arrow {
+  color: var(--color-brand);
+  transform: translate(2px, -2px);
+}
+
+.oss-unavailable {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.25rem;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: var(--color-surface);
+  color: var(--color-brand);
+}
+
+.oss-unavailable h2 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.125rem;
+}
+
+.oss-unavailable p {
+  max-width: 58ch;
+  margin: 0.4rem 0 0;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+@media (min-width: 860px) {
+  .oss-page-head {
+    grid-template-columns: minmax(0, 7fr) minmax(320px, 5fr);
+    align-items: end;
+  }
+}
+
+@media (max-width: 720px) {
+  .oss-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .oss-summary > div + div {
+    border-top: 1px solid var(--color-border);
+    border-left: none;
+  }
+
+  .oss-index-intro {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .oss-repository-head {
+    grid-template-columns: 2rem minmax(0, 1fr);
+  }
+
+  .oss-repository-facts {
+    grid-column: 2;
+    justify-content: flex-start;
+  }
+
+  .oss-contribution-list::before {
+    left: 1.875rem;
+  }
+
+  .oss-contribution-row {
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .oss-merge-node {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .oss-contribution-arrow {
+    display: none;
+  }
+
+  .oss-unavailable {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+}
+
+@supports not (
+  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+) {
+  .oss-repository,
+  .oss-contribution-list--preview,
+  .oss-unavailable {
+    background: var(--color-surface-elevated);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .oss-repository,
+  .oss-contribution-list--preview,
+  .oss-unavailable {
+    background: var(--color-surface-elevated);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oss-contribution-row,
+  .oss-contribution-arrow {
+    transition: none;
+  }
+
+  .oss-contribution-row:hover .oss-contribution-arrow {
+    transform: none;
+  }
+}
+
 /* ── ABOUT — intro (portrait + identity) ──────────────────────────────────── */
 .about-intro {
   display: grid;

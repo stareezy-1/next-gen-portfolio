@@ -1,7 +1,7 @@
 /**
  * Route paths and primary navigation labels.
  *
- * These are the single source of truth for the six primary routes
+ * These are the single source of truth for the seven primary routes
  * (Requirement 2.5) and the primary navigation links and labels
  * (Requirement 6.1). Use sites import these constants rather than inlining
  * path or label literals (Requirements 26.4, 26.5).
@@ -13,6 +13,7 @@ export const ROUTES = {
   ABOUT: "/about",
   EXPERIENCE: "/experience",
   PROJECTS: "/projects",
+  OPEN_SOURCE: "/open-source",
   BLOG: "/blog",
   CONTACT: "/contact",
 } as const;
@@ -26,6 +27,7 @@ export const NAV_KEYS = {
   ABOUT: "about",
   EXPERIENCE: "experience",
   PROJECTS: "projects",
+  OPEN_SOURCE: "open-source",
   BLOG: "blog",
   CONTACT: "contact",
 } as const;
@@ -39,6 +41,7 @@ export const NAV_LABELS = {
   ABOUT: "About",
   EXPERIENCE: "Experience",
   PROJECTS: "Projects",
+  OPEN_SOURCE: "Open Source",
   BLOG: "Blog",
   CONTACT: "Contact",
 } as const;
@@ -55,7 +58,7 @@ export interface NavItem {
  *
  * Drives the primary navigation component (Requirement 6.1) and guarantees a
  * link exists for every defined route (Requirement 6.2). Ordered Home → About
- * → Experience → Projects → Blog → Contact.
+ * → Experience → Projects → Open Source → Blog → Contact.
  */
 export const PRIMARY_NAV_ITEMS: readonly NavItem[] = [
   { key: NAV_KEYS.HOME, label: NAV_LABELS.HOME, path: ROUTES.HOME },
@@ -66,6 +69,11 @@ export const PRIMARY_NAV_ITEMS: readonly NavItem[] = [
     path: ROUTES.EXPERIENCE,
   },
   { key: NAV_KEYS.PROJECTS, label: NAV_LABELS.PROJECTS, path: ROUTES.PROJECTS },
+  {
+    key: NAV_KEYS.OPEN_SOURCE,
+    label: NAV_LABELS.OPEN_SOURCE,
+    path: ROUTES.OPEN_SOURCE,
+  },
   { key: NAV_KEYS.BLOG, label: NAV_LABELS.BLOG, path: ROUTES.BLOG },
   { key: NAV_KEYS.CONTACT, label: NAV_LABELS.CONTACT, path: ROUTES.CONTACT },
 ] as const;

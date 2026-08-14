@@ -6,7 +6,7 @@
 // For any set of blog slugs and project slugs:
 //   1. Every blog slug appears in the sitemap as an absolute URL
 //   2. Every project slug appears in the sitemap as an absolute URL
-//   3. All six primary routes appear in the sitemap
+//   3. All seven primary routes appear in the sitemap
 //   4. All URLs are absolute (start with SITE_URL)
 //   5. No duplicate URLs exist in the sitemap
 //
@@ -46,7 +46,7 @@ const slugPairArb: fc.Arbitrary<{
 // Helpers
 // ---------------------------------------------------------------------------
 
-/** All six primary route paths. */
+/** All seven primary route paths. */
 const PRIMARY_ROUTES = Object.values(ROUTES) as string[];
 
 // ---------------------------------------------------------------------------
@@ -97,9 +97,9 @@ describe("Property 28: Sitemap enumerates every indexable URL", () => {
   });
 
   // -------------------------------------------------------------------------
-  // Property 3: All six primary routes appear in the sitemap
+  // Property 3: All seven primary routes appear in the sitemap
   // -------------------------------------------------------------------------
-  it("all six primary routes appear in the sitemap", () => {
+  it("all seven primary routes appear in the sitemap", () => {
     fc.assert(
       fc.property(slugPairArb, ({ blogSlugs, projectSlugs }) => {
         const entries = sitemapEntries({ blogSlugs, projectSlugs });
@@ -167,6 +167,7 @@ describe("Property 28: Sitemap enumerates every indexable URL", () => {
       expect(urls).toContain(`${SITE_URL}/about`);
       expect(urls).toContain(`${SITE_URL}/experience`);
       expect(urls).toContain(`${SITE_URL}/projects`);
+      expect(urls).toContain(`${SITE_URL}/open-source`);
       expect(urls).toContain(`${SITE_URL}/blog`);
       expect(urls).toContain(`${SITE_URL}/contact`);
     });
@@ -193,7 +194,9 @@ describe("Property 28: Sitemap enumerates every indexable URL", () => {
       const blogSlugs = ["post-1", "post-2"];
       const projectSlugs = ["proj-a", "proj-b", "proj-c"];
       const entries = sitemapEntries({ blogSlugs, projectSlugs });
-      expect(entries.length).toBe(6 + blogSlugs.length + projectSlugs.length);
+      expect(entries.length).toBe(
+        PRIMARY_ROUTES.length + blogSlugs.length + projectSlugs.length,
+      );
     });
   });
 });

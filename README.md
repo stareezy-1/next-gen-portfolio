@@ -41,8 +41,12 @@ Copy `.env.example` to `.env.local` and fill in values:
 | `NEXT_PUBLIC_OPENPANEL_CLIENT_ID` | OpenPanel analytics                     |
 | `RESEND_API_KEY`                  | Contact form email delivery             |
 | `CONTACT_TO_EMAIL`                | Email that receives contact submissions |
+| `GITHUB_PORTFOLIO_TOKEN`          | Server-only public GitHub contribution feed |
 
-The app works fully without any of these — analytics silently no-ops and the contact form falls back gracefully.
+The core app works without these values. Analytics silently no-ops, the contact
+form falls back gracefully, and the open-source page displays an unavailable
+state until `GITHUB_PORTFOLIO_TOKEN` is configured. Keep that token server-only;
+it does not need write permissions.
 
 ---
 

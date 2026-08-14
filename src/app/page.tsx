@@ -25,6 +25,8 @@ import { ContentWidth, MaxContentWidth } from "@/components/layouts";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { AssetPlayer } from "@/components/shared/AssetPlayer";
 import { StarField } from "@/components/shared/StarField";
+import { ContributionLedger } from "@/features/open-source";
+import { getOpenSourceContributions } from "@/features/open-source/server";
 import { ROUTES, BLOG_PREVIEW_COUNT } from "@/constants";
 import { personJsonLd, websiteJsonLd } from "@/services/seo/structured-data";
 import { Badge } from "@/components/ui/shadcn/badge";
@@ -113,7 +115,9 @@ function catalogNumber(index: number): string {
   return String(index + 1).padStart(2, "0");
 }
 
-export default function HomePage() {
+export const revalidate = 21_600;
+
+export default async function HomePage() {
   const { items: personalProjects } = loadAll("personal-project");
   const { items: professionalProjects } = loadAll("professional-project");
   const { items: saasProjects } = loadAll("saas-project");
@@ -129,6 +133,8 @@ export default function HomePage() {
     publishedOnly(loadAll("blog").items),
     BLOG_PREVIEW_COUNT,
   );
+  const contributionSnapshot = await getOpenSourceContributions();
+  const contributionPreview = contributionSnapshot.contributions.slice(0, 4);
   const jsonLd = personJsonLd();
   const websiteLd = websiteJsonLd();
 
@@ -314,6 +320,42 @@ export default function HomePage() {
                 </ScrollReveal>
               ))}
             </ol>
+          )}
+        </ContentWidth>
+      </section>
+
+      <section aria-labelledby="open-source-heading" className="oss-home">
+        <ContentWidth>
+          <ScrollReveal variant="fade-up">
+            <div className="section-head">
+              <div>
+                <p className="section-kicker">Accepted upstream</p>
+                <h2 id="open-source-heading" className="section-h2">
+                  Small patches, real product surfaces
+                </h2>
+              </div>
+              <Link href={ROUTES.OPEN_SOURCE} className="section-link">
+                Contribution index <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </ScrollReveal>
+
+          {contributionSnapshot.status === "ready" &&
+          contributionPreview.length > 0 ? (
+            <ScrollReveal variant="fade-up" delay={1}>
+              <ContributionLedger
+                contributions={contributionPreview}
+                variant="preview"
+              />
+            </ScrollReveal>
+          ) : (
+            <div className="oss-home-empty">
+              <p>
+                The live contribution ledger is temporarily unavailable. The
+                full index will return when GitHub is reachable.
+              </p>
+              <Link href={ROUTES.OPEN_SOURCE}>Open the contribution page</Link>
+            </div>
           )}
         </ContentWidth>
       </section>

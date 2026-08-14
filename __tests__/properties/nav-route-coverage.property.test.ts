@@ -84,7 +84,7 @@ const NON_ROOT_ROUTES = ALL_ROUTES.filter((r) => r !== "/");
 // ---------------------------------------------------------------------------
 
 /**
- * Generates one of the six primary route paths.
+ * Generates one of the seven primary route paths.
  */
 const primaryRouteArb: fc.Arbitrary<string> = fc.constantFrom(...ALL_ROUTES);
 
