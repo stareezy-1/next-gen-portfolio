@@ -105,6 +105,7 @@ const PRIMARY_SITEMAP_ROUTES: Array<{
   { path: ROUTES.ABOUT, changeFrequency: "monthly", priority: 0.8 },
   { path: ROUTES.EXPERIENCE, changeFrequency: "monthly", priority: 0.7 },
   { path: ROUTES.PROJECTS, changeFrequency: "weekly", priority: 0.9 },
+  { path: ROUTES.OPEN_SOURCE, changeFrequency: "weekly", priority: 0.8 },
   { path: ROUTES.BLOG, changeFrequency: "daily", priority: 0.9 },
   { path: ROUTES.CONTACT, changeFrequency: "yearly", priority: 0.6 },
 ];
@@ -117,7 +118,7 @@ const PRIMARY_SITEMAP_ROUTES: Array<{
  * Build sitemap entries for all indexable pages.
  *
  * Includes:
- *   - All six primary routes (Home, About, Experience, Projects, Blog, Contact)
+ *   - All seven primary routes (including Open Source)
  *   - All blog post URLs: `/blog/${slug}` for each slug
  *   - All project URLs: `/projects/${slug}` for each slug
  *

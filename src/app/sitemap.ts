@@ -2,7 +2,7 @@
  * Next.js sitemap route — generates `sitemap.xml` at build time.
  *
  * Enumerates every indexable Platform URL:
- *   - All six primary routes
+ *   - All seven primary routes
  *   - Every published blog post URL
  *   - Every project URL (personal + professional + SaaS)
  *
