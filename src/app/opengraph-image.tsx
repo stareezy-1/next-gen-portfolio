@@ -1,218 +1,242 @@
 import { ImageResponse } from "next/og";
-import { SITE_URL, AUTHOR_NAME } from "@/constants/seo";
+
+import { AUTHOR_NAME } from "@/constants/seo";
 
 export const runtime = "edge";
 export const alt = `${AUTHOR_NAME} — Front-End & AI-Native Engineer`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+const COLORS = {
+  background: "#071016",
+  border: "#1B3041",
+  brand: "#2DD4A7",
+  primary: "#E9F2F1",
+  secondary: "#93A8AD",
+  muted: "#8497A0",
+} as const;
+
+const MONO = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+const DISPLAY = "Arial, Helvetica, sans-serif";
+
 export default function OgImage() {
   return new ImageResponse(
     (
       <div
         style={{
+          position: "relative",
+          display: "flex",
           width: "100%",
           height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          justifyContent: "center",
-          background:
-            "linear-gradient(135deg, #050505 0%, #0a0a1a 50%, #050505 100%)",
-          padding: "80px",
-          fontFamily: "system-ui, -apple-system, sans-serif",
-          position: "relative",
           overflow: "hidden",
+          backgroundColor: COLORS.background,
+          color: COLORS.primary,
+          fontFamily: DISPLAY,
         }}
       >
-        {/* Grid pattern */}
         <div
           style={{
             position: "absolute",
-            inset: 0,
-            backgroundImage:
-              "linear-gradient(rgba(0,255,136,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,136,0.04) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
+            top: "56px",
+            left: "72px",
+            right: "72px",
+            height: "1px",
             display: "flex",
+            backgroundColor: COLORS.border,
           }}
         />
-
-        {/* Top accent bar */}
         <div
           style={{
             position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            height: "4px",
-            background: "linear-gradient(90deg, #00ff88, #7c3aed)",
+            bottom: "56px",
+            left: "72px",
+            right: "72px",
+            height: "1px",
             display: "flex",
+            backgroundColor: COLORS.border,
           }}
         />
-
-        {/* Glow orb */}
         <div
           style={{
             position: "absolute",
-            top: "-100px",
-            right: "-100px",
-            width: "500px",
-            height: "500px",
-            borderRadius: "50%",
-            background:
-              "radial-gradient(circle, rgba(0,255,136,0.12) 0%, transparent 70%)",
+            top: "96px",
+            bottom: "96px",
+            left: "72px",
+            width: "4px",
             display: "flex",
+            backgroundColor: COLORS.brand,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            top: "56px",
+            bottom: "56px",
+            left: "824px",
+            width: "1px",
+            display: "flex",
+            backgroundColor: COLORS.border,
           }}
         />
 
-        {/* Available badge */}
         <div
           style={{
+            position: "absolute",
+            top: "92px",
+            left: "104px",
             display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            padding: "8px 20px",
-            border: "1px solid rgba(0,255,136,0.4)",
-            borderRadius: "9999px",
-            backgroundColor: "rgba(0,255,136,0.08)",
-            marginBottom: "32px",
+            color: COLORS.brand,
+            fontFamily: MONO,
+            fontSize: "16px",
+            fontWeight: 600,
+            letterSpacing: "4px",
           }}
         >
-          <div
-            style={{
-              width: "8px",
-              height: "8px",
-              borderRadius: "50%",
-              backgroundColor: "#00ff88",
-              display: "flex",
-            }}
-          />
-          <span style={{ color: "#00ff88", fontSize: "16px", fontWeight: 600 }}>
-            Available for new projects
-          </span>
+          PORTFOLIO / 01
         </div>
 
-        {/* Name */}
         <div
           style={{
+            position: "absolute",
+            top: "196px",
+            left: "104px",
+            display: "flex",
+            color: COLORS.muted,
+            fontFamily: MONO,
+            fontSize: "15px",
+            fontWeight: 600,
+            letterSpacing: "3px",
+          }}
+        >
+          FRONT-END · FULL-STACK · OPEN SOURCE
+        </div>
+
+        <div
+          style={{
+            position: "absolute",
+            top: "244px",
+            left: "104px",
             display: "flex",
             flexDirection: "column",
-            gap: "8px",
-            marginBottom: "24px",
+            fontSize: "72px",
+            fontWeight: 700,
+            letterSpacing: "-3px",
+            lineHeight: 1.08,
           }}
         >
-          <span
-            style={{
-              fontSize: "72px",
-              fontWeight: 900,
-              color: "#ffffff",
-              letterSpacing: "-2px",
-              lineHeight: 1,
-            }}
-          >
-            Muhammad Bintang
-          </span>
-          <span
-            style={{
-              fontSize: "72px",
-              fontWeight: 900,
-              background: "linear-gradient(90deg, #00ff88, #00cc6a)",
-              backgroundClip: "text",
-              color: "transparent",
-              letterSpacing: "-2px",
-              lineHeight: 1,
-            }}
-          >
-            Al Akbar
-          </span>
-        </div>
-
-        {/* Role */}
-        <span
-          style={{
-            fontSize: "28px",
-            color: "#aaaaaa",
-            marginBottom: "48px",
-            fontWeight: 500,
-          }}
-        >
-          Front-End &amp; AI-Native Engineer
-        </span>
-
-        {/* Tech pills */}
-        <div
-          style={{
-            display: "flex",
-            gap: "12px",
-            flexWrap: "wrap",
-            marginBottom: "48px",
-          }}
-        >
-          {[
-            "React",
-            "React Native",
-            "TypeScript",
-            "Next.js",
-            "Expo",
-            "AWS Amplify",
-          ].map((tech) => (
-            <div
-              key={tech}
+          <span>Muhammad Bintang</span>
+          <div style={{ display: "flex", alignItems: "flex-end" }}>
+            <span>Al Akbar</span>
+            <span
               style={{
-                padding: "8px 20px",
-                backgroundColor: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.12)",
-                borderRadius: "9999px",
-                color: "#aaaaaa",
-                fontSize: "18px",
+                width: "16px",
+                height: "16px",
+                marginBottom: "11px",
+                marginLeft: "8px",
                 display: "flex",
+                borderRadius: "50%",
+                backgroundColor: COLORS.brand,
               }}
-            >
-              {tech}
-            </div>
-          ))}
+            />
+          </div>
         </div>
 
-        {/* Stats */}
-        <div style={{ display: "flex", gap: "48px" }}>
-          {[
-            { value: "3+", label: "Years Experience" },
-            { value: "9+", label: "Projects Shipped" },
-            { value: "WSA", label: "Global Winner" },
-          ].map((stat) => (
-            <div
-              key={stat.label}
-              style={{ display: "flex", flexDirection: "column", gap: "4px" }}
-            >
-              <span
-                style={{
-                  fontSize: "40px",
-                  fontWeight: 800,
-                  color: "#00ff88",
-                  lineHeight: 1,
-                }}
-              >
-                {stat.value}
-              </span>
-              <span style={{ fontSize: "16px", color: "#666666" }}>
-                {stat.label}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* URL bottom right */}
         <div
           style={{
             position: "absolute",
-            bottom: "48px",
-            right: "80px",
-            color: "#444444",
-            fontSize: "20px",
+            top: "425px",
+            left: "104px",
             display: "flex",
+            color: COLORS.secondary,
+            fontSize: "23px",
           }}
         >
-          stareezy.tech
+          I build complete products, front end to the edge.
+        </div>
+
+        <div
+          style={{
+            position: "absolute",
+            bottom: "77px",
+            left: "104px",
+            display: "flex",
+            color: COLORS.muted,
+            fontFamily: MONO,
+            fontSize: "14px",
+            letterSpacing: "2px",
+          }}
+        >
+          JAKARTA, INDONESIA
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            right: "606px",
+            bottom: "77px",
+            display: "flex",
+            color: COLORS.brand,
+            fontFamily: MONO,
+            fontSize: "14px",
+            letterSpacing: "2px",
+          }}
+        >
+          STAREEZY.TECH
+        </div>
+
+        <div
+          style={{
+            position: "absolute",
+            top: "92px",
+            left: "862px",
+            display: "flex",
+            color: COLORS.muted,
+            fontFamily: MONO,
+            fontSize: "16px",
+            fontWeight: 600,
+            letterSpacing: "4px",
+          }}
+        >
+          MB / ENGINEER
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            top: "168px",
+            left: "850px",
+            display: "flex",
+            alignItems: "flex-end",
+            fontSize: "244px",
+            fontWeight: 700,
+            letterSpacing: "-18px",
+            lineHeight: 1,
+          }}
+        >
+          <span>B</span>
+          <span
+            style={{
+              width: "36px",
+              height: "36px",
+              marginBottom: "27px",
+              marginLeft: "8px",
+              display: "flex",
+              borderRadius: "50%",
+              backgroundColor: COLORS.brand,
+            }}
+          />
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            bottom: "77px",
+            left: "862px",
+            display: "flex",
+            color: COLORS.muted,
+            fontFamily: MONO,
+            fontSize: "14px",
+            letterSpacing: "2px",
+          }}
+        >
+          BUILD / SHIP / CONTRIBUTE
         </div>
       </div>
     ),
