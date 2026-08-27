@@ -28,3 +28,10 @@ export const BLOG_PREVIEW_COUNT = 3 as const;
  * reading time from its body word count (Requirement 14.2).
  */
 export const READING_TIME_WPM = 200 as const;
+
+/**
+ * Number of merged open-source contributions shown in the Home preview.
+ * The preview leads with the most starred upstream repositories, then the
+ * newest merge inside each repository.
+ */
+export const OPEN_SOURCE_PREVIEW_COUNT = 4 as const;

@@ -127,11 +127,16 @@ export function normalizeOpenSourceContributions(
   }
 
   return contributions.sort(
-    (left, right) =>
-      Date.parse(right.mergedAt) - Date.parse(left.mergedAt),
+    (left, right) => Date.parse(right.mergedAt) - Date.parse(left.mergedAt),
   );
 }
 
+/**
+ * Group contributions per upstream repository.
+ * Repositories are ordered by stargazer count (most starred first) so the page
+ * leads with the highest-signal upstreams; contributions inside each repository
+ * stay ordered by merge date, newest first.
+ */
 export function groupOpenSourceContributions(
   contributions: readonly OpenSourceContribution[],
 ): OpenSourceContributionGroup[] {
@@ -147,9 +152,40 @@ export function groupOpenSourceContributions(
     }
   }
 
-  return [...groups.values()].map((items) => ({
-    repository: items[0]!.repository,
-    contributions: items,
-  }));
+  return [...groups.values()]
+    .map((items) => ({
+      repository: items[0]!.repository,
+      contributions: [...items].sort(
+        (left, right) => Date.parse(right.mergedAt) - Date.parse(left.mergedAt),
+      ),
+    }))
+    .sort((left, right) => {
+      const byStars =
+        right.repository.stargazerCount - left.repository.stargazerCount;
+      if (byStars !== 0) return byStars;
+
+      const byRecency =
+        Date.parse(right.contributions[0]!.mergedAt) -
+        Date.parse(left.contributions[0]!.mergedAt);
+      if (byRecency !== 0) return byRecency;
+
+      return left.repository.nameWithOwner.localeCompare(
+        right.repository.nameWithOwner,
+        "en",
+      );
+    });
 }
 
+/**
+ * Pick the preview contributions shown on the home page.
+ * Ordering follows the open-source page: most starred upstream first, then
+ * newest merge inside each repository.
+ */
+export function selectOpenSourceHighlights(
+  contributions: readonly OpenSourceContribution[],
+  limit: number,
+): OpenSourceContribution[] {
+  return groupOpenSourceContributions(contributions)
+    .flatMap((group) => group.contributions)
+    .slice(0, Math.max(limit, 0));
+}

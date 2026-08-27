@@ -25,9 +25,16 @@ import { ContentWidth, MaxContentWidth } from "@/components/layouts";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { AssetPlayer } from "@/components/shared/AssetPlayer";
 import { StarField } from "@/components/shared/StarField";
-import { ContributionLedger } from "@/features/open-source";
+import {
+  ContributionLedger,
+  selectOpenSourceHighlights,
+} from "@/features/open-source";
 import { getOpenSourceContributions } from "@/features/open-source/server";
-import { ROUTES, BLOG_PREVIEW_COUNT } from "@/constants";
+import {
+  ROUTES,
+  BLOG_PREVIEW_COUNT,
+  OPEN_SOURCE_PREVIEW_COUNT,
+} from "@/constants";
 import { personJsonLd, websiteJsonLd } from "@/services/seo/structured-data";
 import { Badge } from "@/components/ui/shadcn/badge";
 
@@ -134,7 +141,10 @@ export default async function HomePage() {
     BLOG_PREVIEW_COUNT,
   );
   const contributionSnapshot = await getOpenSourceContributions();
-  const contributionPreview = contributionSnapshot.contributions.slice(0, 4);
+  const contributionPreview = selectOpenSourceHighlights(
+    contributionSnapshot.contributions,
+    OPEN_SOURCE_PREVIEW_COUNT,
+  );
   const jsonLd = personJsonLd();
   const websiteLd = websiteJsonLd();
 
