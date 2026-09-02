@@ -37,3 +37,5 @@ next-env.d.ts.timestamp
 
 # local npm cache (used to avoid shared-cache permission conflicts)
 /.npm-cache
+
+.kiro
