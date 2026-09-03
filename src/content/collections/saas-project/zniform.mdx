@@ -1,0 +1,54 @@
+---
+kind: "saas"
+slug: "zniform"
+title: "ZniForm"
+description: "Forms that get paid. Build and publish a form, launch secure PayPal checkout from the same link, and let reconciliation, receipts, and notifications run automatically. Built and operated solo, end to end."
+image: "https://res.cloudinary.com/diwktkaxv/image/upload/v1788364760/Screenshot_2026-09-02_at_22.57.57_akf1zr.png"
+technologies:
+  - "Next.js"
+  - "React"
+  - "TypeScript"
+  - "Hono"
+  - "Cloudflare Workers"
+  - "D1"
+  - "Drizzle ORM"
+  - "PayPal"
+  - "Tailwind CSS"
+  - "Zustand"
+  - "TanStack Query"
+featured: true
+startDate: "2026-01-01"
+status: "live"
+pricingModel: "Free to start · 1.5% platform fee on Free"
+liveUrl: "https://zniform.com"
+overview: "ZniForm, formerly Lyra, is a self-owned SaaS for creating forms that can collect information and launch secure PayPal checkout from the same public link. PayPal confirmation drives payment status, while the product handles reconciliation, receipts, notifications, and the creator balance. I designed, built, deployed, and operate the product and its Cloudflare-native stack myself."
+problem: "Creators and small organizations often stitch together a form tool, a separate payment link, and a spreadsheet. That fragments the respondent journey and leaves the creator manually matching submissions to payments, producing receipts, and following up on status changes."
+solution: "One product owns the workflow from form creation to settlement: publish a form or commerce flow, accept payment through PayPal, confirm the authoritative capture, update the submission automatically, generate a receipt, notify the right people, and record the creator's balance. The same platform also supports event tickets and check-in, workspaces, analytics, and integrations."
+architecture: "A Next.js frontend runs on Cloudflare through OpenNext, backed by a Hono API on Cloudflare Workers. D1 and Drizzle store product and ledger data; KV provides caching, locks, and rate limits; R2 stores generated files; Queues and Cron handle asynchronous notifications and scheduled work. Better Auth provides authentication, while PayPal Orders v2 is the active gateway for payments and subscriptions."
+challenges:
+  - "Keep PayPal's USD charge authoritative while presenting a useful IDR estimate and preserving the exchange-rate snapshot used for each transaction"
+  - "Reconcile captures, provider fees, platform fees, creator balances, and payouts without double-crediting or double-paying when retries occur"
+  - "Keep payment credentials inside PayPal-hosted surfaces while maintaining a cohesive checkout experience from the public form"
+  - "Enforce workspace roles and plan entitlements across forms, money, team operations, and connected surfaces without deleting data on downgrade"
+results:
+  - "Live at zniform.com with English and Indonesian product surfaces"
+  - "Form, payment-link, event-ticket, catalog, booking, and digital-product flows share one submission and payment foundation"
+  - "PayPal-confirmed status updates feed automatic reconciliation, server-generated PDF receipts, and email or WhatsApp notifications"
+  - "Runs on Cloudflare Workers, D1, KV, R2, Queues, and Cron as a product I operate end to end"
+lessonsLearned: "Financial products are mostly boundary work: provider currency rules, authoritative capture data, idempotency, fee transparency, and recovery after partial failure. ZniForm reinforced that every money movement needs one source of truth, a durable retry strategy, and copy that says exactly what the active provider can do."
+---
+
+ZniForm is a form builder with payments built in, created and operated solo as a personal SaaS. It was previously named Lyra.
+
+## What it does
+
+- Builds and publishes forms for registrations, orders, bookings, payment links, and digital products
+- Launches secure **PayPal checkout** from the same public form link
+- Reconciles payment status from authoritative PayPal capture events
+- Generates PDF receipts and sends email or WhatsApp notifications
+- Supports creator balances, withdrawals, workspaces, analytics, QR e-tickets, and door check-in
+- Provides business integrations including API keys, webhooks, custom domains, memberships, and an embed/share kit
+
+## Stack
+
+Next.js and React · Hono on Cloudflare Workers · D1 and Drizzle · KV · R2 · Queues and Cron · Better Auth · PayPal Orders v2 · Tailwind CSS · Zustand · TanStack Query

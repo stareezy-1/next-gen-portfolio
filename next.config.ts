@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "picsum.photos" },
       { protocol: "https", hostname: "placehold.co" },
       { protocol: "https", hostname: "example.com" },
+      { protocol: "https", hostname: "zniform.com" },
     ],
     // Aggressive caching for production
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
@@ -77,6 +78,11 @@ const nextConfig: NextConfig = {
       {
         source: "/resume",
         destination: "/about",
+        permanent: true,
+      },
+      {
+        source: "/projects/lyra",
+        destination: "/projects/zniform",
         permanent: true,
       },
     ];

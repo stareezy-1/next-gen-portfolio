@@ -135,7 +135,7 @@ const ABOUT_SECTIONS: { id: string; title: string; content: string }[] = [
     id: "how-i-think",
     title: "How I think",
     content:
-      "Building Lyra's payment layer taught me the real work lives in the edge cases: signature formats, timezone-correct timestamps, telling a transient failure from a permanent one. So I verify every assumption against the live system, not just the docs. That habit is the difference between an integration that ships and one that stalls.",
+      "Building ZniForm's payment layer taught me the real work lives in the edge cases: provider currency rules, authoritative capture data, idempotent settlement, and telling a transient failure from a permanent one. So I verify every assumption against the live system, not just the docs. That habit is the difference between an integration that ships and one that stalls.",
   },
   {
     id: "what-i-build",

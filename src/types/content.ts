@@ -110,7 +110,7 @@ export interface ProfessionalProject {
 export type Project = PersonalProject | ProfessionalProject | SaasProject;
 
 /**
- * A self-owned SaaS product (e.g. Lyra). Like a personal project it MAY expose
+ * A self-owned SaaS product (e.g. ZniForm). Like a personal project it MAY expose
  * a live URL and source, but it adds product-lifecycle and business fields
  * (status, pricing) that distinguish a shipped product from an experiment.
  */
