@@ -1,11 +1,4 @@
-/**
- * Blog index page — React Server Component, "The Logbook" direction.
- *
- * Horizontal post rows (home .post-* primitives) with an outline category Badge
- * and mono date + reading time. Pagination uses .btn-ghost with a mono page
- * indicator. The stars-sparkle empty state is preserved. BlogSearch is untouched.
- * Zero em-dashes; mono carries dates and counts.
- */
+/** Portfolio studio presentation; content and routes preserved. */
 
 import { Suspense } from "react";
 import Image from "next/image";
@@ -94,7 +87,7 @@ export default async function BlogPage({
   ]);
 
   return (
-    <ContentWidth as="main">
+    <ContentWidth as="div">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}

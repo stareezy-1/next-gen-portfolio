@@ -1,12 +1,4 @@
-/**
- * Projects index page — React Server Component, "The Logbook" direction.
- *
- * Personal and open-source work is a numbered catalog (home .work-* primitives)
- * with alternating media sides and mono GitHub/Live indicators. Professional
- * work uses a deliberately different layout: horizontal cards with an image on
- * the left and a company.role meta line. Eyebrow budget: 1 ("Index").
- * Zero em-dashes; mono carries numbers and labels.
- */
+/** Portfolio studio presentation; content and routes preserved. */
 
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -47,7 +39,7 @@ export default async function ProjectsPage() {
   ]);
 
   return (
-    <ContentWidth as="main">
+    <ContentWidth as="div">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
@@ -102,7 +94,7 @@ export default async function ProjectsPage() {
                             alt={project.title}
                             fill
                             className="work-row-img"
-                            sizes="(max-width: 640px) 5rem, 11rem"
+                            sizes="(max-width: 700px) 100vw, 50vw"
                           />
                         ) : (
                           <span
@@ -187,7 +179,7 @@ export default async function ProjectsPage() {
                             alt={project.title}
                             fill
                             className="work-row-img"
-                            sizes="(max-width: 640px) 5rem, 11rem"
+                            sizes="(max-width: 700px) 100vw, 50vw"
                           />
                         ) : (
                           <span
@@ -270,7 +262,7 @@ export default async function ProjectsPage() {
                             alt={project.title}
                             fill
                             className="work-row-img"
-                            sizes="(max-width: 640px) 5rem, 11rem"
+                            sizes="(max-width: 700px) 100vw, 50vw"
                           />
                         ) : (
                           <span

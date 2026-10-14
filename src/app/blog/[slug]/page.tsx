@@ -1,12 +1,4 @@
-/**
- * Blog detail page — React Server Component, "The Logbook" direction.
- *
- * Full-width hero banner with a gradient scrim and breadcrumb. Title block
- * carries a category Badge, tag Badges, Space Grotesk title, description, and a
- * byline with Avatar + mono date and reading time. A two-column body (prose
- * article + sticky mono TOC) sits below, then share buttons and related posts.
- * Zero em-dashes; mono carries dates and reading time.
- */
+/** Portfolio studio presentation; content and routes preserved. */
 
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -149,7 +141,7 @@ export default async function BlogDetailPage({
         </nav>
       </div>
 
-      <ContentWidth as="main">
+      <ContentWidth as="div">
         {/* ── Typographic masthead — breadcrumb + title + byline ────── */}
         <ScrollReveal variant="fade-up">
           <div className="article-head">

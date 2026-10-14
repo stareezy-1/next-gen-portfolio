@@ -1,10 +1,4 @@
-/**
- * Contact page — React Server Component, "The Logbook" direction.
- *
- * Headline-only header. Direct channels are a list with a brand left-border on
- * hover and mono handles. A location item sits beneath. The form is wrapped in
- * a shadcn Card. Zero em-dashes; mono carries the handles and locale.
- */
+/** Portfolio studio presentation; content and routes preserved. */
 
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
@@ -62,7 +56,7 @@ export default function ContactPage() {
   ]);
 
   return (
-    <ContentWidth as="main">
+    <ContentWidth as="div">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
