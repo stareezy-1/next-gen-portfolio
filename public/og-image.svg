@@ -1,105 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
-  <title>Muhammad Bintang Al Akbar portfolio</title>
-  <desc>Front-End and AI-Native Engineer in Jakarta, Indonesia.</desc>
-
-  <rect width="1200" height="630" fill="#071016"/>
-
-  <path d="M72 56H1128" fill="none" stroke="#1B3041"/>
-  <path d="M72 574H1128" fill="none" stroke="#1B3041"/>
-  <path d="M824 56V574" fill="none" stroke="#1B3041"/>
-  <path d="M72 96V534" fill="none" stroke="#2DD4A7" stroke-width="4"/>
-
-  <text
-    x="104"
-    y="112"
-    fill="#2DD4A7"
-    font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
-    font-size="16"
-    font-weight="600"
-    letter-spacing="4"
-  >PORTFOLIO / 01</text>
-
-  <text
-    x="104"
-    y="215"
-    fill="#8497A0"
-    font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
-    font-size="15"
-    font-weight="600"
-    letter-spacing="3"
-  >FRONT-END · FULL-STACK · OPEN SOURCE</text>
-
-  <text
-    x="104"
-    y="300"
-    fill="#E9F2F1"
-    font-family="Arial, Helvetica, sans-serif"
-    font-size="72"
-    font-weight="700"
-    letter-spacing="-3"
-  >Muhammad Bintang</text>
-  <text
-    x="104"
-    y="380"
-    fill="#E9F2F1"
-    font-family="Arial, Helvetica, sans-serif"
-    font-size="72"
-    font-weight="700"
-    letter-spacing="-3"
-  >Al Akbar</text>
-  <circle cx="388" cy="368" r="8" fill="#2DD4A7"/>
-
-  <text
-    x="104"
-    y="446"
-    fill="#93A8AD"
-    font-family="Arial, Helvetica, sans-serif"
-    font-size="23"
-  >I build complete products, front end to the edge.</text>
-
-  <text
-    x="104"
-    y="541"
-    fill="#8497A0"
-    font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
-    font-size="14"
-    letter-spacing="2"
-  >JAKARTA, INDONESIA</text>
-  <text
-    x="594"
-    y="541"
-    fill="#2DD4A7"
-    font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
-    font-size="14"
-    letter-spacing="2"
-    text-anchor="end"
-  >STAREEZY.TECH</text>
-
-  <text
-    x="862"
-    y="132"
-    fill="#8497A0"
-    font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
-    font-size="16"
-    font-weight="600"
-    letter-spacing="4"
-  >MB / ENGINEER</text>
-  <text
-    x="848"
-    y="452"
-    fill="#E9F2F1"
-    font-family="Arial, Helvetica, sans-serif"
-    font-size="244"
-    font-weight="700"
-    letter-spacing="-18"
-  >B</text>
-  <circle cx="1081" cy="427" r="18" fill="#2DD4A7"/>
-  <text
-    x="862"
-    y="541"
-    fill="#8497A0"
-    font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
-    font-size="14"
-    letter-spacing="2"
-  >BUILD / SHIP / CONTRIBUTE</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<title>Bintang — Front-End and AI-Native Engineer</title>
+<rect width="1200" height="630" fill="#111214"/>
+<g fill="none" stroke="#333438" stroke-width="1"><ellipse cx="600" cy="315" rx="590" ry="195" transform="rotate(-23 600 315)"/><ellipse cx="600" cy="315" rx="380" ry="365" transform="rotate(28 600 315)"/><path d="M40 78H1160M40 550H1160"/></g>
+<path d="M820 60Q1050 140 1100 310" fill="none" stroke="#8694ea" opacity=".6"/>
+<g font-family="monospace" font-size="13" letter-spacing="2" fill="#b0b0b4"><text x="52" y="49">FRONT-END &amp; AI-NATIVE ENGINEER</text><text x="1148" y="49" text-anchor="end">JAKARTA, INDONESIA</text><text x="52" y="591">WSA GLOBAL WINNER · 2025</text><text x="1148" y="591" text-anchor="end">STAREEZY.TECH</text></g>
+<text x="198" y="308" fill="#f3f2ee" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="166" letter-spacing="-12">BINTANG</text>
+<g stroke="#f3f2ee" stroke-width="6" transform="translate(965 251)"><path d="M0-43V43M-43 0H43M-30-30L30 30M-30 30L30-30"/></g>
+<text x="600" y="398" fill="#f3f2ee" font-family="Arial, Helvetica, sans-serif" font-size="32" text-anchor="middle">I build complete products, front-end to the <tspan font-family="Georgia,serif" font-style="italic">edge.</tspan></text>
+<text x="600" y="448" fill="#909096" font-family="Arial, Helvetica, sans-serif" font-size="20" text-anchor="middle">Muhammad Bintang Al Akbar</text>
 </svg>

@@ -69,3 +69,15 @@ npm run typecheck  # tsc --noEmit
 - **Testing:** Vitest + fast-check (47 property-based tests)
 - **SEO:** sitemap, robots, RSS, JSON-LD, OG image, PWA manifest
 - **Analytics:** Google Analytics 4, Microsoft Clarity, OpenPanel
+
+## Portfolio studio redesign
+
+The ArtCraft-inspired redesign follows the specification in [requirements](.kiro/specs/artcraft-portfolio-revamp/requirements.md), [design](.kiro/specs/artcraft-portfolio-revamp/design.md), and [tasks](.kiro/specs/artcraft-portfolio-revamp/tasks.md). See [validation](.kiro/specs/artcraft-portfolio-revamp/validation.md) for content-integrity, browser, test and build evidence. All existing MDX content is preserved.
+
+If Turbopack cannot resolve packages on an external drive, use `npm run dev -- --webpack`. The verified production build command is `npm run build -- --webpack`, followed by `npm run start`.
+
+The studio includes a scroll-reactive hero, a section index and progressive heading reveals. Motion respects reduced-motion preferences; native scrolling and server-rendered content remain available.
+
+Public contributions work without a GitHub token using public REST. Optional `GITHUB_PORTFOLIO_TOKEN` enables GraphQL. A dated, verified snapshot is used when GitHub is unavailable. Refresh it with `node_modules/.bin/vite-node scripts/refresh-contributions.ts`.
+
+Regenerate the vector/raster public brand assets with `node scripts/build-brand-assets.mjs`. The shared mark/palette lives in `src/constants/brand.json`; the generated OG endpoint uses the bundled, OFL-licensed Space Grotesk font in `public/fonts`.

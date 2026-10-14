@@ -1,0 +1,368 @@
+{
+  "status": "ready",
+  "contributions": [
+    {
+      "id": "PR_kwDOQJ4fn88AAAABDafa0A",
+      "number": 282,
+      "title": "feat(task): support reboot startup trigger",
+      "url": "https://github.com/gocronx-team/gocron/pull/282",
+      "mergedAt": "2026-10-02T07:16:54Z",
+      "additions": 65,
+      "deletions": 0,
+      "changedFiles": 8,
+      "repository": {
+        "name": "gocron",
+        "nameWithOwner": "gocronx-team/gocron",
+        "owner": "gocronx-team",
+        "url": "https://github.com/gocronx-team/gocron",
+        "description": "distributed scheduled task management system ",
+        "primaryLanguage": "Go",
+        "stargazerCount": 805
+      }
+    },
+    {
+      "id": "PR_kwDOGF6u2s8AAAABBHcptg",
+      "number": 30553,
+      "title": "[In the Time Zone] Respect system time format",
+      "url": "https://github.com/raycast/extensions/pull/30553",
+      "mergedAt": "2026-08-31T15:33:42Z",
+      "additions": 61,
+      "deletions": 13,
+      "changedFiles": 7,
+      "repository": {
+        "name": "extensions",
+        "nameWithOwner": "raycast/extensions",
+        "owner": "raycast",
+        "url": "https://github.com/raycast/extensions",
+        "description": "Everything you need to extend Raycast.",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 7785
+      }
+    },
+    {
+      "id": "PR_kwDOGF6u2s8AAAABBHeksg",
+      "number": 30554,
+      "title": "[GitHub] Split viewer stats GraphQL queries",
+      "url": "https://github.com/raycast/extensions/pull/30554",
+      "mergedAt": "2026-08-29T17:35:56Z",
+      "additions": 112,
+      "deletions": 47,
+      "changedFiles": 6,
+      "repository": {
+        "name": "extensions",
+        "nameWithOwner": "raycast/extensions",
+        "owner": "raycast",
+        "url": "https://github.com/raycast/extensions",
+        "description": "Everything you need to extend Raycast.",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 7785
+      }
+    },
+    {
+      "id": "PR_kwDOGF6u2s8AAAABBJ_JTQ",
+      "number": 30566,
+      "title": "[Slack] Keep Set Status responsive in large workspaces",
+      "url": "https://github.com/raycast/extensions/pull/30566",
+      "mergedAt": "2026-08-29T16:57:36Z",
+      "additions": 62,
+      "deletions": 30,
+      "changedFiles": 4,
+      "repository": {
+        "name": "extensions",
+        "nameWithOwner": "raycast/extensions",
+        "owner": "raycast",
+        "url": "https://github.com/raycast/extensions",
+        "description": "Everything you need to extend Raycast.",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 7785
+      }
+    },
+    {
+      "id": "PR_kwDOGF6u2s8AAAABBHZweA",
+      "number": 30550,
+      "title": "[Clean Keyboard] Fix Forever duration",
+      "url": "https://github.com/raycast/extensions/pull/30550",
+      "mergedAt": "2026-08-29T15:49:15Z",
+      "additions": 17,
+      "deletions": 10,
+      "changedFiles": 3,
+      "repository": {
+        "name": "extensions",
+        "nameWithOwner": "raycast/extensions",
+        "owner": "raycast",
+        "url": "https://github.com/raycast/extensions",
+        "description": "Everything you need to extend Raycast.",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 7785
+      }
+    },
+    {
+      "id": "PR_kwDOGF6u2s8AAAABBHqDLA",
+      "number": 30557,
+      "title": "[Quit Applications] Quit the selected application bundle",
+      "url": "https://github.com/raycast/extensions/pull/30557",
+      "mergedAt": "2026-08-27T20:52:39Z",
+      "additions": 71,
+      "deletions": 32,
+      "changedFiles": 2,
+      "repository": {
+        "name": "extensions",
+        "nameWithOwner": "raycast/extensions",
+        "owner": "raycast",
+        "url": "https://github.com/raycast/extensions",
+        "description": "Everything you need to extend Raycast.",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 7785
+      }
+    },
+    {
+      "id": "PR_kwDOGF6u2s8AAAABBJ_88Q",
+      "number": 30567,
+      "title": "[Amphetamine] Restore Configure Session defaults",
+      "url": "https://github.com/raycast/extensions/pull/30567",
+      "mergedAt": "2026-08-27T05:17:04Z",
+      "additions": 49,
+      "deletions": 5,
+      "changedFiles": 2,
+      "repository": {
+        "name": "extensions",
+        "nameWithOwner": "raycast/extensions",
+        "owner": "raycast",
+        "url": "https://github.com/raycast/extensions",
+        "description": "Everything you need to extend Raycast.",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 7785
+      }
+    },
+    {
+      "id": "PR_kwDOGF6u2s8AAAABBKAb6A",
+      "number": 30568,
+      "title": "[Todoist] Use background-safe menu bar notifications",
+      "url": "https://github.com/raycast/extensions/pull/30568",
+      "mergedAt": "2026-08-27T04:45:06Z",
+      "additions": 23,
+      "deletions": 17,
+      "changedFiles": 2,
+      "repository": {
+        "name": "extensions",
+        "nameWithOwner": "raycast/extensions",
+        "owner": "raycast",
+        "url": "https://github.com/raycast/extensions",
+        "description": "Everything you need to extend Raycast.",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 7785
+      }
+    },
+    {
+      "id": "PR_kwDOGF6u2s8AAAABBKBJWQ",
+      "number": 30569,
+      "title": "[Google Calendar] Fix AI contact search caching",
+      "url": "https://github.com/raycast/extensions/pull/30569",
+      "mergedAt": "2026-08-27T04:40:19Z",
+      "additions": 20,
+      "deletions": 16,
+      "changedFiles": 2,
+      "repository": {
+        "name": "extensions",
+        "nameWithOwner": "raycast/extensions",
+        "owner": "raycast",
+        "url": "https://github.com/raycast/extensions",
+        "description": "Everything you need to extend Raycast.",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 7785
+      }
+    },
+    {
+      "id": "PR_kwDOGF6u2s8AAAABBHafAg",
+      "number": 30551,
+      "title": "[Search npm] Add Aube package manager support",
+      "url": "https://github.com/raycast/extensions/pull/30551",
+      "mergedAt": "2026-08-27T04:19:14Z",
+      "additions": 18,
+      "deletions": 1,
+      "changedFiles": 3,
+      "repository": {
+        "name": "extensions",
+        "nameWithOwner": "raycast/extensions",
+        "owner": "raycast",
+        "url": "https://github.com/raycast/extensions",
+        "description": "Everything you need to extend Raycast.",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 7785
+      }
+    },
+    {
+      "id": "PR_kwDOGF6u2s8AAAABBHbOMQ",
+      "number": 30552,
+      "title": "[AeroSpace] Show focused workspace first",
+      "url": "https://github.com/raycast/extensions/pull/30552",
+      "mergedAt": "2026-08-26T20:19:23Z",
+      "additions": 15,
+      "deletions": 5,
+      "changedFiles": 2,
+      "repository": {
+        "name": "extensions",
+        "nameWithOwner": "raycast/extensions",
+        "owner": "raycast",
+        "url": "https://github.com/raycast/extensions",
+        "description": "Everything you need to extend Raycast.",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 7785
+      }
+    },
+    {
+      "id": "PR_kwDOGW5OAc77MRlu",
+      "number": 15044,
+      "title": "[wrangler] fix: normalize CRLF before sending D1 commands to the remote query API",
+      "url": "https://github.com/cloudflare/workers-sdk/pull/15044",
+      "mergedAt": "2026-08-15T11:13:37Z",
+      "additions": 178,
+      "deletions": 5,
+      "changedFiles": 5,
+      "repository": {
+        "name": "workers-sdk",
+        "nameWithOwner": "cloudflare/workers-sdk",
+        "owner": "cloudflare",
+        "url": "https://github.com/cloudflare/workers-sdk",
+        "description": "⛅️ Home to Wrangler, the CLI for Cloudflare Workers®",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 4620
+      }
+    },
+    {
+      "id": "PR_kwDOA-tE4c76ZFuW",
+      "number": 48471,
+      "title": "[notifications]: suppress onUserLeaveHint from forwarder activity",
+      "url": "https://github.com/expo/expo/pull/48471",
+      "mergedAt": "2026-08-13T19:50:53Z",
+      "additions": 2,
+      "deletions": 1,
+      "changedFiles": 2,
+      "repository": {
+        "name": "expo",
+        "nameWithOwner": "expo/expo",
+        "owner": "expo",
+        "url": "https://github.com/expo/expo",
+        "description": "An open-source framework for making universal native apps with React. Expo runs on Android, iOS, and the web.",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 52692
+      }
+    },
+    {
+      "id": "PR_kwDOGF6u2s76hzIX",
+      "number": 29963,
+      "title": "[OSS Insight] Update trending repositories API",
+      "url": "https://github.com/raycast/extensions/pull/29963",
+      "mergedAt": "2026-08-06T04:48:52Z",
+      "additions": 29,
+      "deletions": 22,
+      "changedFiles": 4,
+      "repository": {
+        "name": "extensions",
+        "nameWithOwner": "raycast/extensions",
+        "owner": "raycast",
+        "url": "https://github.com/raycast/extensions",
+        "description": "Everything you need to extend Raycast.",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 7785
+      }
+    },
+    {
+      "id": "PR_kwDOGF6u2s76hze_",
+      "number": 29964,
+      "title": "[Search npm] Add npmx.dev search results provider",
+      "url": "https://github.com/raycast/extensions/pull/29964",
+      "mergedAt": "2026-08-06T04:05:20Z",
+      "additions": 34,
+      "deletions": 6,
+      "changedFiles": 3,
+      "repository": {
+        "name": "extensions",
+        "nameWithOwner": "raycast/extensions",
+        "owner": "raycast",
+        "url": "https://github.com/raycast/extensions",
+        "description": "Everything you need to extend Raycast.",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 7785
+      }
+    },
+    {
+      "id": "PR_kwDOGF6u2s76hy1C",
+      "number": 29962,
+      "title": "[Asana] Preserve apostrophes in task descriptions",
+      "url": "https://github.com/raycast/extensions/pull/29962",
+      "mergedAt": "2026-08-06T03:55:27Z",
+      "additions": 5,
+      "deletions": 6,
+      "changedFiles": 2,
+      "repository": {
+        "name": "extensions",
+        "nameWithOwner": "raycast/extensions",
+        "owner": "raycast",
+        "url": "https://github.com/raycast/extensions",
+        "description": "Everything you need to extend Raycast.",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 7785
+      }
+    },
+    {
+      "id": "PR_kwDOGF6u2s76hyhw",
+      "number": 29961,
+      "title": "[OSS Insight] Fix truncated contributor usernames",
+      "url": "https://github.com/raycast/extensions/pull/29961",
+      "mergedAt": "2026-08-05T07:27:20Z",
+      "additions": 11,
+      "deletions": 3,
+      "changedFiles": 3,
+      "repository": {
+        "name": "extensions",
+        "nameWithOwner": "raycast/extensions",
+        "owner": "raycast",
+        "url": "https://github.com/raycast/extensions",
+        "description": "Everything you need to extend Raycast.",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 7785
+      }
+    },
+    {
+      "id": "PR_kwDOGF6u2s76ivZV",
+      "number": 29967,
+      "title": "[Tempo] Prefill remaining estimate",
+      "url": "https://github.com/raycast/extensions/pull/29967",
+      "mergedAt": "2026-08-05T05:48:48Z",
+      "additions": 25,
+      "deletions": 3,
+      "changedFiles": 3,
+      "repository": {
+        "name": "extensions",
+        "nameWithOwner": "raycast/extensions",
+        "owner": "raycast",
+        "url": "https://github.com/raycast/extensions",
+        "description": "Everything you need to extend Raycast.",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 7785
+      }
+    },
+    {
+      "id": "PR_kwDOGF6u2s76aZAR",
+      "number": 29955,
+      "title": "fix(downdetector): handle 403 from search URL by falling through to status page",
+      "url": "https://github.com/raycast/extensions/pull/29955",
+      "mergedAt": "2026-08-04T09:46:47Z",
+      "additions": 8,
+      "deletions": 1,
+      "changedFiles": 2,
+      "repository": {
+        "name": "extensions",
+        "nameWithOwner": "raycast/extensions",
+        "owner": "raycast",
+        "url": "https://github.com/raycast/extensions",
+        "description": "Everything you need to extend Raycast.",
+        "primaryLanguage": "TypeScript",
+        "stargazerCount": 7785
+      }
+    }
+  ],
+  "repositoryCount": 4,
+  "generatedAt": "2026-10-14T03:58:00.187Z"
+}

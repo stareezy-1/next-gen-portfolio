@@ -14,7 +14,7 @@ import { ROUTES } from "@/constants";
 
 export default function NotFound() {
   return (
-    <ContentWidth as="main">
+    <ContentWidth as="div">
       <div className="notfound-root">
         <CosmicDrift className="notfound-scene" />
         <div className="notfound-inner">

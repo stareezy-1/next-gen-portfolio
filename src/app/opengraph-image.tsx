@@ -1,245 +1,158 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
-
 import { AUTHOR_NAME } from "@/constants/seo";
+import brand from "@/constants/brand.json";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const alt = `${AUTHOR_NAME} — Front-End & AI-Native Engineer`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const COLORS = {
-  background: "#071016",
-  border: "#1B3041",
-  brand: "#2DD4A7",
-  primary: "#E9F2F1",
-  secondary: "#93A8AD",
-  muted: "#8497A0",
-} as const;
-
-const MONO = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
-const DISPLAY = "Arial, Helvetica, sans-serif";
-
-export default function OgImage() {
+export default async function OgImage() {
+  const font = await readFile(
+    join(process.cwd(), "public/fonts/SpaceGrotesk-Bold.ttf"),
+  );
   return new ImageResponse(
-    (
+    <div
+      style={{
+        display: "flex",
+        position: "relative",
+        width: "100%",
+        height: "100%",
+        overflow: "hidden",
+        background: brand.background,
+        color: brand.foreground,
+        fontFamily: "sans-serif",
+      }}
+    >
+      <svg
+        width="1200"
+        height="630"
+        viewBox="0 0 1200 630"
+        style={{ position: "absolute", top: 0, left: 0 }}
+      >
+        <g fill="none" stroke={brand.border} strokeWidth="1">
+          <ellipse
+            cx="600"
+            cy="315"
+            rx="590"
+            ry="195"
+            transform="rotate(-23 600 315)"
+          />
+          <ellipse
+            cx="600"
+            cy="315"
+            rx="380"
+            ry="365"
+            transform="rotate(28 600 315)"
+          />
+          <path d="M40 78H1160M40 550H1160" />
+        </g>
+        <path
+          d="M820 60Q1050 140 1100 310"
+          fill="none"
+          stroke={brand.accent}
+          opacity=".6"
+        />
+      </svg>
       <div
         style={{
-          position: "relative",
           display: "flex",
-          width: "100%",
-          height: "100%",
-          overflow: "hidden",
-          backgroundColor: COLORS.background,
-          color: COLORS.primary,
-          fontFamily: DISPLAY,
+          position: "absolute",
+          top: 30,
+          left: 52,
+          right: 52,
+          justifyContent: "space-between",
+          fontSize: 13,
+          letterSpacing: 2,
+          color: brand.secondary,
         }}
       >
-        <div
-          style={{
-            position: "absolute",
-            top: "56px",
-            left: "72px",
-            right: "72px",
-            height: "1px",
-            display: "flex",
-            backgroundColor: COLORS.border,
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: "56px",
-            left: "72px",
-            right: "72px",
-            height: "1px",
-            display: "flex",
-            backgroundColor: COLORS.border,
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            top: "96px",
-            bottom: "96px",
-            left: "72px",
-            width: "4px",
-            display: "flex",
-            backgroundColor: COLORS.brand,
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            top: "56px",
-            bottom: "56px",
-            left: "824px",
-            width: "1px",
-            display: "flex",
-            backgroundColor: COLORS.border,
-          }}
-        />
-
-        <div
-          style={{
-            position: "absolute",
-            top: "92px",
-            left: "104px",
-            display: "flex",
-            color: COLORS.brand,
-            fontFamily: MONO,
-            fontSize: "16px",
-            fontWeight: 600,
-            letterSpacing: "4px",
-          }}
-        >
-          PORTFOLIO / 01
-        </div>
-
-        <div
-          style={{
-            position: "absolute",
-            top: "196px",
-            left: "104px",
-            display: "flex",
-            color: COLORS.muted,
-            fontFamily: MONO,
-            fontSize: "15px",
-            fontWeight: 600,
-            letterSpacing: "3px",
-          }}
-        >
-          FRONT-END · FULL-STACK · OPEN SOURCE
-        </div>
-
-        <div
-          style={{
-            position: "absolute",
-            top: "244px",
-            left: "104px",
-            display: "flex",
-            flexDirection: "column",
-            fontSize: "72px",
-            fontWeight: 700,
-            letterSpacing: "-3px",
-            lineHeight: 1.08,
-          }}
-        >
-          <span>Muhammad Bintang</span>
-          <div style={{ display: "flex", alignItems: "flex-end" }}>
-            <span>Al Akbar</span>
-            <span
-              style={{
-                width: "16px",
-                height: "16px",
-                marginBottom: "11px",
-                marginLeft: "8px",
-                display: "flex",
-                borderRadius: "50%",
-                backgroundColor: COLORS.brand,
-              }}
-            />
-          </div>
-        </div>
-
-        <div
-          style={{
-            position: "absolute",
-            top: "425px",
-            left: "104px",
-            display: "flex",
-            color: COLORS.secondary,
-            fontSize: "23px",
-          }}
-        >
-          I build complete products, front end to the edge.
-        </div>
-
-        <div
-          style={{
-            position: "absolute",
-            bottom: "77px",
-            left: "104px",
-            display: "flex",
-            color: COLORS.muted,
-            fontFamily: MONO,
-            fontSize: "14px",
-            letterSpacing: "2px",
-          }}
-        >
-          JAKARTA, INDONESIA
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            right: "606px",
-            bottom: "77px",
-            display: "flex",
-            color: COLORS.brand,
-            fontFamily: MONO,
-            fontSize: "14px",
-            letterSpacing: "2px",
-          }}
-        >
-          STAREEZY.TECH
-        </div>
-
-        <div
-          style={{
-            position: "absolute",
-            top: "92px",
-            left: "862px",
-            display: "flex",
-            color: COLORS.muted,
-            fontFamily: MONO,
-            fontSize: "16px",
-            fontWeight: 600,
-            letterSpacing: "4px",
-          }}
-        >
-          MB / ENGINEER
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            top: "168px",
-            left: "850px",
-            display: "flex",
-            alignItems: "flex-end",
-            fontSize: "244px",
-            fontWeight: 700,
-            letterSpacing: "-18px",
-            lineHeight: 1,
-          }}
-        >
-          <span>B</span>
-          <span
-            style={{
-              width: "36px",
-              height: "36px",
-              marginBottom: "27px",
-              marginLeft: "8px",
-              display: "flex",
-              borderRadius: "50%",
-              backgroundColor: COLORS.brand,
-            }}
-          />
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            bottom: "77px",
-            left: "862px",
-            display: "flex",
-            color: COLORS.muted,
-            fontFamily: MONO,
-            fontSize: "14px",
-            letterSpacing: "2px",
-          }}
-        >
-          BUILD / SHIP / CONTRIBUTE
-        </div>
+        <span>FRONT-END &amp; AI-NATIVE ENGINEER</span>
+        <span>JAKARTA, INDONESIA</span>
       </div>
-    ),
-    { ...size },
+      <div
+        style={{
+          display: "flex",
+          position: "absolute",
+          top: 175,
+          left: 80,
+          right: 80,
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: 158,
+          fontFamily: "Space Grotesk",
+          fontWeight: 700,
+          letterSpacing: -10,
+          lineHeight: 1,
+        }}
+      >
+        <span>BINTANG</span>
+        <svg
+          width="95"
+          height="95"
+          viewBox="0 0 100 100"
+          style={{ marginLeft: 24, marginTop: 18 }}
+        >
+          <path
+            d="M50 5V95M5 50H95M18 18L82 82M18 82L82 18"
+            fill="none"
+            stroke={brand.foreground}
+            strokeWidth="5"
+          />
+        </svg>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          position: "absolute",
+          top: 370,
+          left: 60,
+          right: 60,
+          justifyContent: "center",
+          fontSize: 32,
+          letterSpacing: -1,
+        }}
+      >
+        I build complete products, front-end to the edge.
+      </div>
+      <div
+        style={{
+          display: "flex",
+          position: "absolute",
+          top: 432,
+          left: 60,
+          right: 60,
+          justifyContent: "center",
+          fontSize: 20,
+          color: brand.muted,
+        }}
+      >
+        {AUTHOR_NAME}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          position: "absolute",
+          bottom: 30,
+          left: 52,
+          right: 52,
+          justifyContent: "space-between",
+          fontSize: 13,
+          letterSpacing: 2,
+          color: brand.secondary,
+        }}
+      >
+        <span>WSA GLOBAL WINNER · 2025</span>
+        <span>STAREEZY.TECH</span>
+      </div>
+    </div>,
+    {
+      ...size,
+      fonts: [
+        { name: "Space Grotesk", data: font, weight: 700, style: "normal" },
+      ],
+    },
   );
 }

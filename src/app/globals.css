@@ -389,27 +389,6 @@ a:hover article {
 }
 
 /* ---------------------------------------------------------------------------
- * Nav responsive — desktop links hidden on mobile, hamburger shown
- * --------------------------------------------------------------------------- */
-.nav-desktop-links {
-  display: flex;
-}
-
-.nav-hamburger {
-  display: none !important;
-}
-
-@media (max-width: 768px) {
-  .nav-desktop-links {
-    display: none !important;
-  }
-
-  .nav-hamburger {
-    display: flex !important;
-  }
-}
-
-/* ---------------------------------------------------------------------------
  * Prose styles for blog post body
  * --------------------------------------------------------------------------- */
 .prose {

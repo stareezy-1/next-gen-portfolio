@@ -1,15 +1,4 @@
-/**
- * Experience and Education page — React Server Component.
- *
- * Work history: full-width logbook rows. Each row splits into three zones:
- * mono index+date column left, editorial role/company center, tech tags right.
- * Hairlines divide rows. Hover sweeps a brand wash. Active role is always lit.
- * No rail, no dots, no card borders — the typography IS the structure.
- *
- * Education: two-column grid where each card is a tall typographic block,
- * not a bordered container. School name as the visual anchor, degree + date
- * in the secondary voice.
- */
+/** Portfolio studio presentation; content and routes preserved. */
 
 import type { Metadata } from "next";
 import { loadAll } from "@/content/loader";
@@ -49,7 +38,7 @@ export default function ExperiencePage() {
   ]);
 
   return (
-    <ContentWidth as="main">
+    <ContentWidth as="div">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}

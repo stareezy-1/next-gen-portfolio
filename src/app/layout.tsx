@@ -27,6 +27,7 @@ import "./theme.generated.css";
 import "./globals.css";
 import "./home.styles.css";
 import "./pages.styles.css";
+import "./studio.styles.css";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -51,8 +52,8 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#070f16" },
-    { media: "(prefers-color-scheme: light)", color: "#f3f7f7" },
+    { media: "(prefers-color-scheme: dark)", color: "#111214" },
+    { media: "(prefers-color-scheme: light)", color: "#f5f4f0" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -112,11 +113,15 @@ export const metadata: Metadata = {
   // ── Icons ───────────────────────────────────────────────────────────────
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon.png", sizes: "64x64", type: "image/png" },
+      { url: "/favicon.svg?v=studio", type: "image/svg+xml" },
+      { url: "/favicon.png?v=studio", sizes: "64x64", type: "image/png" },
     ],
-    apple: [{ url: "/icon-192.svg", sizes: "192x192", type: "image/svg+xml" }],
-    other: [{ rel: "mask-icon", url: "/favicon.svg", color: "#2dd4a7" }],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    other: [
+      { rel: "mask-icon", url: "/favicon.svg?v=studio", color: "#18191c" },
+    ],
   },
 
   // ── Web app manifest ────────────────────────────────────────────────────
@@ -171,9 +176,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://clarity.ms" />
       </head>
-      <body
-        style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
-      >
+      <body className="studio-site">
         <ThemeProvider>
           <AnalyticsProvider>
             <a href="#main-content" className="skip-to-main">
@@ -182,9 +185,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <header role="banner">
               <Nav />
             </header>
-            <main id="main-content" style={{ flex: "1 1 auto" }}>
-              {children}
-            </main>
+            <main id="main-content">{children}</main>
             <Footer />
           </AnalyticsProvider>
         </ThemeProvider>

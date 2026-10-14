@@ -52,3 +52,11 @@ Design review used the imported `design-taste-frontend-v2` workflow from
 - Property tests cover privacy, ownership filtering, merge filtering, ordering, and grouping.
 - Existing navigation and sitemap properties cover the new primary route.
 - Typecheck, the focused tests, the full test suite, and a production build must pass.
+
+## 2026-10-14 reliability update
+
+The redesign preview exposed a missing local `GITHUB_PORTFOLIO_TOKEN`. Public contributions now use authenticated GraphQL when configured and public REST otherwise. REST search is followed by verified PR and repository lookups with bounded concurrency; missing statistics, wrong authors, private/self-owned repositories, incomplete search results and failed responses are rejected. Successful snapshots are cached for six hours. Failures fall back to a checked-in, dated record and are visibly marked as a last-verified snapshot.
+
+Refresh that public fallback with `node_modules/.bin/vite-node scripts/refresh-contributions.ts`. The initial snapshot contains 19 merged contributions in four external repositories, fetched and verified on October 14, 2026. No credential is stored with the snapshot.
+
+Fresh build-time snapshots follow the same six-hour freshness window as the server cache, avoiding duplicate anonymous API requests at startup. Expired snapshots trigger live refresh; failures keep the dated record visible. The homepage and full index use five-minute page revalidation to retry failures sooner without reducing the six-hour successful-data cache.

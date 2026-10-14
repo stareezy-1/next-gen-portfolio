@@ -22,7 +22,7 @@ import { useEffect, useState } from "react";
 
 /** Visual accent color shown in the palette dot. */
 const PALETTE_COLORS: Record<ThemePalette, string> = {
-  aurora: "#2dd4a7",
+  aurora: "var(--color-text-primary)",
   dark: "#1b5ed3",
   light: "#1a1a2e",
   "steins-gate": "#4a9eff",

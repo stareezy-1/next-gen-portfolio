@@ -26,7 +26,7 @@ export interface OpenSourceContributionGroup {
 }
 
 export interface OpenSourceContributionSnapshot {
-  readonly status: "ready" | "unavailable";
+  readonly status: "ready" | "stale" | "unavailable";
   readonly contributions: readonly OpenSourceContribution[];
   readonly repositoryCount: number;
   readonly generatedAt: string | null;

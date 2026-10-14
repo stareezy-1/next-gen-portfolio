@@ -47,16 +47,7 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      // Long-lived cache for static assets
-      {
-        source: "/_next/static/(.*)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
+      // Next.js manages hashed asset caching; overriding it caches stale dev chunks.
       // Cache public assets (icons, manifest, etc.)
       {
         source:

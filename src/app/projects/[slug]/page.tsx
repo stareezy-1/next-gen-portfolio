@@ -1,12 +1,4 @@
-/**
- * Project detail page — React Server Component, "The Logbook" direction.
- *
- * Full-width banner with a gradient scrim and breadcrumb. Title block carries a
- * kind Badge, large Space Grotesk title, company.role meta when professional,
- * and action buttons. A two-column body (content sections with a brand
- * left-border + sticky sidebar cards) sits below, then related projects.
- * MotionWrapper usage is preserved. Zero em-dashes; mono carries dates.
- */
+/** Portfolio studio presentation; content and routes preserved. */
 
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -16,7 +8,7 @@ import Link from "next/link";
 import { loadAll } from "@/content/loader";
 import { getRelatedProjects } from "@/features/projects/partition";
 import { ContentWidth } from "@/components/layouts";
-import { MotionWrapper } from "@/components/shared/MotionWrapper";
+import { ScrollReveal } from "@/components/shared/ScrollReveal";
 import { ProjectDemoSection } from "@/components/shared/ProjectDemoSection";
 import { Card, CardHeader, CardContent } from "@/components/ui/shadcn/card";
 import { Badge } from "@/components/ui/shadcn/badge";
@@ -133,8 +125,8 @@ export default async function ProjectDetailPage({
       />
 
       {/* ── Masthead — title-first, breadcrumb + mono spec rail ──────── */}
-      <ContentWidth as="main">
-        <MotionWrapper variant="heroWordReveal">
+      <ContentWidth as="div">
+        <ScrollReveal variant="fade-up">
           <div className="pd-masthead">
             <nav className="pd-crumb" aria-label="Breadcrumb">
               <Link href={ROUTES.PROJECTS} className="pd-crumb-link">
@@ -192,11 +184,11 @@ export default async function ProjectDetailPage({
               )}
             </div>
           </div>
-        </MotionWrapper>
+        </ScrollReveal>
 
         {/* ── Showcase image — framed, after the title ─────────────────── */}
         {project.image && (
-          <MotionWrapper variant="sectionReveal">
+          <ScrollReveal variant="fade-up">
             <div className="pd-showcase">
               <Image
                 loading="eager"
@@ -209,14 +201,14 @@ export default async function ProjectDetailPage({
                 sizes="(max-width: 1200px) 100vw, 1100px"
               />
             </div>
-          </MotionWrapper>
+          </ScrollReveal>
         )}
 
         {/* ── Two-column: content + sidebar ──────────────────────────── */}
         <div className="detail-layout two-col-layout">
           <div className="detail-main">
             {sections.map((section) => (
-              <MotionWrapper key={section.id} variant="sectionReveal">
+              <ScrollReveal key={section.id} variant="fade-up">
                 <section aria-labelledby={`${section.id}-heading`}>
                   <h2
                     id={`${section.id}-heading`}
@@ -226,14 +218,14 @@ export default async function ProjectDetailPage({
                   </h2>
                   <p className="detail-section-text">{section.content}</p>
                 </section>
-              </MotionWrapper>
+              </ScrollReveal>
             ))}
 
             {/* Challenges */}
             {exposesSource &&
               project.challenges &&
               project.challenges.length > 0 && (
-                <MotionWrapper variant="sectionReveal">
+                <ScrollReveal variant="fade-up">
                   <section aria-labelledby="challenges-heading">
                     <h2 id="challenges-heading" className="detail-section-h2">
                       Challenges
@@ -246,12 +238,12 @@ export default async function ProjectDetailPage({
                       ))}
                     </ul>
                   </section>
-                </MotionWrapper>
+                </ScrollReveal>
               )}
 
             {/* Results */}
             {exposesSource && project.results && project.results.length > 0 && (
-              <MotionWrapper variant="sectionReveal">
+              <ScrollReveal variant="fade-up">
                 <section aria-labelledby="results-heading">
                   <h2 id="results-heading" className="detail-section-h2">
                     Results
@@ -264,12 +256,12 @@ export default async function ProjectDetailPage({
                     ))}
                   </div>
                 </section>
-              </MotionWrapper>
+              </ScrollReveal>
             )}
 
             {/* Gallery */}
             {project.gallery && project.gallery.length > 0 && (
-              <MotionWrapper variant="sectionReveal">
+              <ScrollReveal variant="fade-up">
                 <section aria-labelledby="gallery-heading">
                   <h2 id="gallery-heading" className="detail-section-h2">
                     Gallery
@@ -289,14 +281,14 @@ export default async function ProjectDetailPage({
                     ))}
                   </div>
                 </section>
-              </MotionWrapper>
+              </ScrollReveal>
             )}
 
             {/* Live demo iframe */}
             {liveUrl && (
-              <MotionWrapper variant="sectionReveal">
+              <ScrollReveal variant="fade-up">
                 <ProjectDemoSection liveUrl={liveUrl} title={project.title} />
-              </MotionWrapper>
+              </ScrollReveal>
             )}
           </div>
 
@@ -397,14 +389,14 @@ export default async function ProjectDetailPage({
         {/* ── Related projects ───────────────────────────────────────── */}
         {related.length > 0 && (
           <section aria-labelledby="related-heading" className="rel-section">
-            <MotionWrapper variant="sectionReveal">
+            <ScrollReveal variant="fade-up">
               <h2 id="related-heading" className="section-h2">
                 More projects
               </h2>
-            </MotionWrapper>
+            </ScrollReveal>
             <div className="rel-grid" style={{ marginTop: "2.5rem" }}>
               {related.map((rel) => (
-                <MotionWrapper key={rel.slug} variant="sectionReveal">
+                <ScrollReveal key={rel.slug} variant="fade-up">
                   <Link
                     href={`${ROUTES.PROJECTS}/${rel.slug}`}
                     aria-label={`View ${rel.title}`}
@@ -434,7 +426,7 @@ export default async function ProjectDetailPage({
                       <p className="rel-card-desc">{rel.description}</p>
                     </div>
                   </Link>
-                </MotionWrapper>
+                </ScrollReveal>
               ))}
             </div>
           </section>

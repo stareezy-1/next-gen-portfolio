@@ -10,7 +10,8 @@ import { NAV_LABELS, ROUTES } from "@/constants/routes";
 import { canonicalUrl } from "@/services/seo";
 import { breadcrumbListJsonLd } from "@/services/seo/structured-data";
 
-export const revalidate = 21_600;
+// Retry a failed refresh sooner; successful contribution data retains its six-hour cache.
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Open Source Contributions",
@@ -125,13 +126,25 @@ export default async function OpenSourcePage() {
             </div>
             {snapshot.generatedAt && (
               <p className="oss-refreshed">
-                GitHub snapshot · {DATE_FORMATTER.format(new Date(snapshot.generatedAt))}
+                {snapshot.status === "stale"
+                  ? "Last verified on GitHub"
+                  : "GitHub snapshot"}{" "}
+                · {DATE_FORMATTER.format(new Date(snapshot.generatedAt))}
               </p>
             )}
           </div>
         </ScrollReveal>
 
-        {snapshot.status === "ready" && snapshot.contributions.length > 0 ? (
+        {snapshot.status === "stale" && (
+          <p className="oss-snapshot-note">
+            Live refresh is temporarily unavailable. Showing the verified public
+            record from {DATE_FORMATTER.format(new Date(snapshot.generatedAt!))}
+            .
+          </p>
+        )}
+
+        {snapshot.status !== "unavailable" &&
+        snapshot.contributions.length > 0 ? (
           <ContributionLedger contributions={snapshot.contributions} />
         ) : (
           <div className="oss-unavailable">

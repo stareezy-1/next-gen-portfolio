@@ -38,4 +38,8 @@ next-env.d.ts.timestamp
 # local npm cache (used to avoid shared-cache permission conflicts)
 /.npm-cache
 
-.kiro
+# Keep local Kiro settings private; version the active redesign specification.
+.kiro/*
+!.kiro/specs/
+.kiro/specs/*
+!.kiro/specs/artcraft-portfolio-revamp/

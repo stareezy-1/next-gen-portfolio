@@ -1,11 +1,4 @@
-/**
- * About page — React Server Component, "The Logbook" direction.
- *
- * Portrait intro with a thin brand rule (echoing the home hero), a reading-width
- * editorial narrative with Space Grotesk subheads, capabilities grouped into
- * mono columns, and a small languages row. Eyebrow budget: 1 on the whole page.
- * Zero em-dashes. All layout/type/color lives in pages.styles.css.
- */
+/** Portfolio studio presentation; content and routes preserved. */
 
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -163,7 +156,7 @@ export default function AboutPage() {
   ]);
 
   return (
-    <ContentWidth as="main">
+    <ContentWidth as="div">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }}
